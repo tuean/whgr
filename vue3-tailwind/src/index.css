@@ -1,0 +1,23 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* tr td {
+    border-top-style: none !important;
+    border-bottom-style: none !important;
+    border-left-style: none !important;
+    border-right-style: none !important;
+} */
+
+.no-select {
+    user-select: none;
+}
+
+.can-click {
+    cursor: pointer;
+}
+
+.h-login {
+    height: 300px;
+}

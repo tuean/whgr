@@ -20,7 +20,7 @@ public class ListParamSetAspect {
     private static Logger logger = LoggerFactory.getLogger(ListParamSetAspect.class);
 
 
-    @Pointcut("execution(public * com.umsm.wxapis.web.*.*(..))")
+    @Pointcut("execution(public * com.tuean.whgr.func.*.*.*(..))")
     private void pointcut(){}
 
 

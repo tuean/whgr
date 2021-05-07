@@ -1,0 +1,26 @@
+{
+  "name": "vue3-tailwind",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "element-plus": "*",
+    "less": "^4.1.1",
+    "sass": "^1.32.11",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vue/compiler-sfc": "^3.0.5",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.10",
+    "tailwindcss": "^2.1.1",
+    "vite": "^2.1.5",
+    "vite-plugin-style-import": "^0.9.2"
+  }
+}
