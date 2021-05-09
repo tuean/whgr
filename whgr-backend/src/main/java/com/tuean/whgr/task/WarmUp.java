@@ -14,7 +14,7 @@ public class WarmUp {
 
     @PostConstruct
     public void init() {
-        esService.checkTypeExist("test");
+//        esService.checkTypeExist("test");
     }
 
 

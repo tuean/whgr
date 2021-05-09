@@ -51,5 +51,5 @@ create table `menus` (
     `menu_name` varchar(100) not null comment '菜单名称',
     `menu_type` int(6) not null comment '菜单类型',
     `menu_url` varchar(100) not null comment '菜单地址',
-    primary key(`id`),
+    primary key(`id`)
 ) Engine=InnoDB auto_increment=10000 default charset=utf8mb4 comment '菜单表';

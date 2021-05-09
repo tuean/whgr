@@ -1,10 +1,22 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import'
+import { resolve } from 'path'
 
+function pathResolve(dir) {
+  return resolve(__dirname, ".", dir)
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  publicDir: 'src',
+  resolve: {
+    alias: {
+      "/@": pathResolve("src"),
+      "/config": pathResolve("public/config"),
+      "/com": pathResolve("src/components")
+    }
+  },
   plugins: [
     vue(),
     styleImport({
@@ -20,5 +32,11 @@ export default defineConfig({
         },
       }]
     })
-  ]
+  ],
+  build: {
+    target: 'modules',
+    // outDir: 'dist', //指定输出路径
+    // assetsDir: 'assets', // 指定生成静态资源的存放路径
+    minify: 'terser' // 混淆器，terser构建后文件体积更小
+  },
 })
