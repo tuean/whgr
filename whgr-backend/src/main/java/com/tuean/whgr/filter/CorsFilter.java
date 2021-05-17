@@ -25,7 +25,15 @@ public class CorsFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String methodName = httpServletRequest.getMethod();
         String origin = httpServletRequest.getHeader("origin");
-        httpServletResponse.addHeader("Access-Control-Allow-Origin", StringUtils.isEmpty(origin) ? "*" : origin);
+        String referer = httpServletRequest.getHeader("Referer");
+        if (!StringUtils.isEmpty(origin)) {
+            httpServletResponse.addHeader("Access-Control-Allow-Origin",  origin);
+        } else if (!StringUtils.isEmpty(referer)) {
+            httpServletResponse.addHeader("Access-Control-Allow-Origin",  referer);
+        } else {
+            httpServletResponse.addHeader("Access-Control-Allow-Origin",  "*");
+        }
+
         httpServletResponse.addHeader("Access-Control-Allow-Methods","GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
         httpServletResponse.addHeader("Access-Control-Allow-Headers", allowHeaders);
         httpServletResponse.addHeader("Access-Control-Expose-Headers", "Content-Disposition");

@@ -5,12 +5,17 @@ const routes = {
     routes: [
         {
             path: '/',
-            redirect: '/login'
+            redirect: '/desktop'
         },
         {
             path: '/login',
             name: 'login',
-            component: () => import(/* webpackChunkName: "introduce" */ '../components/pages/Login.vue')
+            component: () => import(/* webpackChunkName: "Login" */ '../components/pages/Login.vue')
+        }, 
+        {
+            path: '/desktop',
+            name: 'desktop',
+            component: () => import(/* webpackChunkName: "desktop" */ '../components/pages/Desktop.vue')
         }
     ]
 }

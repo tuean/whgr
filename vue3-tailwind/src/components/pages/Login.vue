@@ -12,26 +12,24 @@
 
             label-width="auto"
             :rules="rules"
-            :model="form"
+            :model="ruleForm"
             ref="loginForm"
             class="login-form my-6"
         >
-          <el-form-item label="账号"  prop="username">
-<!--            <el-col :span="20">-->
+          <el-form-item prop="username">
               <el-input
                   placeholder="账号"
                   type="text"
-                  v-model.trim="form.username"
+                  v-model.trim="ruleForm.username"
                   autocomplete="off"
                   class="input"
               ></el-input>
-<!--            </el-col>-->
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item prop="password">
             <el-input
                 placeholder="密码"
                 type="password"
-                v-model.trim="form.password"
+                v-model.trim="ruleForm.password"
                 autocomplete="off"
                 class="input"
                 :show-password="true"
@@ -50,25 +48,32 @@
 </template>
 
 <script>
-import {reactive, ref, toRef} from "vue";
-import {post} from '../../util/axios'
+import {reactive, ref, toRefs} from "vue";
+import {get, post} from '../../util/axios'
+import md5 from 'js-md5'
+import { localSet } from '/@/util/index'
+import router from '/@/router/index'
+
+
 
 export default {
   setup() {
     const loginForm = ref(null);
-    const form = reactive({
-      username: "",
-      password: "",
-    });
-
-    const rules = {
-      username: [
-        {required: "true", message: "账户不能为空", trigger: "blur"},
-      ],
-      password: [
-        {required: "true", message: "密码不能为空", trigger: "blur"},
-      ],
-    };
+    const state = reactive({
+      ruleForm: {
+        username: '',
+        password: ''
+      },
+      checked: true,
+      rules: {
+        username: [
+          { required: 'true', message: '账户不能为空', trigger: 'blur' }
+        ],
+        password: [
+          { required: 'true', message: '密码不能为空', trigger: 'blur' }
+        ]
+      }
+    })
 
     const submitForm = async () => {
       loginForm.value.validate((valid) => {
@@ -78,7 +83,9 @@ export default {
             passwordMd5: md5(state.ruleForm.password)
           }).then(res => {
             localSet('token', res.token)
-            // window.location.href = '/'
+            router.push({path: '/'})
+          }).catch(err => {
+            console.log(err)
           })
         } else {
           console.log('login error!')
@@ -90,9 +97,8 @@ export default {
 
 
     return {
-      form,
-      ...toRef(loginForm),
-      rules,
+      ...toRefs(state),
+      loginForm,
       submitForm
     };
   },

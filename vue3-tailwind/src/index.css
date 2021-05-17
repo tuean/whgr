@@ -21,3 +21,31 @@
 .h-login {
     height: 300px;
 }
+
+.h-full {
+    height: 100vh;
+}
+
+.scroll-snap-type {
+    scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-align-start {
+    scroll-snap-align: start;
+}
+
+.bg-fxz {
+    background-color: #c8adc4;
+}
+
+.bg-bq {
+    background-color: #5cb3cc;
+}
+
+.bg-yl {
+    background-color: #96c24e;
+}
+
+.bg-gqh {
+    background-color: #f17666;
+}
