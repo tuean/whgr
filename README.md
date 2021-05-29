@@ -5,15 +5,20 @@ work hard to get rich
 template for project of spring boot and vue
 
 
-#### whgr-frontend
+#### whgr-frontend (demo)
 fork from [vue3-admin](https://github.com/newbee-ltd/vue3-admin)
 
+#### vue3-tailwind
+project with vue3 and tailwind
+
 #### whgr-backend
-designed by tuean
+designed by [tuean](http://tuean.cn)
 
 #### features
-1. admin login
-2. common list table
+* homepage
+* admin login
+* common list table
+* sm.ms plugin from https://github.com/pupilcc/smms
 
 
 

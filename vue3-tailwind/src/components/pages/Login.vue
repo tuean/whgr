@@ -33,6 +33,7 @@
                 autocomplete="off"
                 class="input"
                 :show-password="true"
+                @keyup.enter="submitForm"
             ></el-input>
           </el-form-item>
           <el-form-item>
@@ -83,7 +84,7 @@ export default {
             passwordMd5: md5(state.ruleForm.password)
           }).then(res => {
             localSet('token', res.token)
-            router.push({path: '/'})
+            router.push({path: '/admin'})
           }).catch(err => {
             console.log(err)
           })
