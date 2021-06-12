@@ -7,32 +7,43 @@
         class="bg-fxz center bg-center w-80 mx-auto items-center justify-center"
       >
         <div
-          class="no-select can-click w-100 items-center h-14 font-bold text-6xl text-gray-300 text-center"
+          class="
+            no-select
+            w-100
+            items-center
+            h-14
+            font-bold
+            text-6xl text-gray-300 text-center
+          "
         >
+          <div>the site of our sweet life</div>
           <div>
-            <span>the site of our sweet life</span>
-
-            <div>
-              <span class="text-lg">谨以此站记录快乐的一生</span>
-            </div>
-            <div class="text-right pr-20" @click="blog">
-              <span class="text-lg">by 帅气阿天</span>
-            </div>
+            <span class="text-lg">此站献给夫人</span>
+          </div>
+          <div class="text-right pr-20" @click="blog">
+            <span class="text-lg can-click">by 帅气阿天</span>
           </div>
         </div>
       </el-container>
     </div>
 
     <div id="p2" class="h-full scroll-snap-align-start">
-      <el-container class="bg-gqh h-full text-center">
-        <el-main class="">
-            <div>我家夫人喜欢狗缺不喜欢养狗</div>
-            <div>我家夫人喜欢吃菜讨厌吃肉</div>
-            <div>我家夫人</div>
-        </el-main>
-        <el-footer>
-
-        </el-footer>
+      <el-container
+        class="bg-gqh h-full text-center justify-center items-center"
+      >
+        <div class="text-gray-300 text-2xl">
+          本站作为夫人和我一起学习web前后端知识的结果，将会集成一系列的功能或作品；
+          <br />
+          <br />
+          <span>希望能实现早日躺平的目标；</span>
+          <br />
+          <br />
+          <span>也希望我和夫人的感情能顺畅且长久；</span>
+          <br />
+          <br />
+          <span>余生就请你指教了o( =•ω•= )m</span>
+        </div>
+        <el-footer> </el-footer>
       </el-container>
     </div>
 
@@ -40,9 +51,21 @@
       <el-container class="w-full bg-bq h-full">
         <el-main class="w-full p-0 m-0">
           <div
-            class="no-select can-click w-100 h-5/6 items-center font-bold text-6xl text-gray-300 text-center flex justify-center flex-col"
+            class="
+              no-select
+              w-100
+              h-5/6
+              items-center
+              font-bold
+              text-6xl text-gray-300 text-center
+              flex
+              justify-center
+              flex-col
+            "
           >
-            余生就请你指教了
+            <span class="can-click">
+              移步作品列表 --->
+            </span>
           </div>
         </el-main>
         <el-footer class="h-1/6">
@@ -64,11 +87,19 @@ export default {
       window.location.href = "http://beian.miit.gov.cn";
     };
     const blog = () => {
-        window.location.href = "https://tuean.cn"
-    }
+      window.location.href = "https://tuean.cn";
+    };
+    const loveData = [
+      "我家夫人喜欢可爱的小狗狗",
+      "我家夫人喜欢吃耗油生菜+番茄蛋汤+红烧鸡翅",
+      "我家夫人喜欢舒服的回家躺下",
+      "我家夫人喜欢第一杯果汁的畅快",
+      "我家夫人喜欢臭烘烘的螺蛳粉",
+      "我家夫人喜欢",
+    ];
     return {
       beian,
-      blog
+      blog,
     };
   },
 };
@@ -77,5 +108,8 @@ export default {
 <style scoped>
 ::-webkit-scrollbar {
   display: none;
+}
+.middle {
+  height: 80px;
 }
 </style>
