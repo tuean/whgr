@@ -108,7 +108,8 @@ export default {
 
 <style scpoed lang="less">
 .bg {
-  background-image: url(https://i.loli.net/2019/10/23/rGVfgibcAOs49EM.jpg);
+  // background-image: url(https://i.loli.net/2019/10/23/rGVfgibcAOs49EM.jpg);
+  background-image: url(https://image-1256217908.cos.ap-shanghai.myqcloud.com/%E6%9C%88%E8%A7%81%20%20%E5%A5%B3%E5%AD%A9%E5%AD%90%20%E6%98%9F%E7%A9%BA%20%E6%B5%81%E6%98%9F%20%E9%A4%90%E6%A1%8C%20%E8%81%9A%E4%BC%9A%204k%E5%8A%A8%E6%BC%AB%E5%A3%81%E7%BA%B8_%E5%BD%BC%E5%B2%B8%E5%9B%BE%E7%BD%91.jpg);
 }
 
 .login-input__inner {

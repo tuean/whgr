@@ -12,7 +12,7 @@ const routes = {
             name: 'login',
             component: () => import(/* webpackChunkName: "Login" */ '../components/pages/Login.vue')
         }, 
-        {
+        { 
             path: '/desktop',
             name: 'desktop',
             component: () => import(/* webpackChunkName: "desktop" */ '../components/pages/Desktop.vue')
@@ -21,7 +21,17 @@ const routes = {
             path: '/admin',
             name: 'admin',
             component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue')
-        }
+        },
+        {
+            path: '/404',
+            name: '404',
+            component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue')
+        },
+        {
+            path: '/apps',
+            name: 'apps',
+            component: () => import(/* webpackChunkName: "apps" */ '../components/pages/Apps.vue')
+        },
     ]
 }
 

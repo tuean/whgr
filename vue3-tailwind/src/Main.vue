@@ -58,15 +58,20 @@ export default {
       currentPath: "/login",
     });
 
-    // router.beforeEach((to, from, next) => {
-    //   if (to.path == '/login') {
-    //     next()
-    //   } else {
-    //     next({ path: '/login' })
-    //   }
-    //   state.pageType = 1
-    //   document.title = pathMap[to.name]
-    // })
+    router.beforeEach((to, from, next) => {
+      // debugger
+      if (to.name !== '404' && to.matched.length == 0) {
+        next({path: '/404'})
+        return
+      }
+      if (to.path == '/login') {
+        next()
+      } else {
+        next()
+      }
+      state.pageType = 1
+      document.title = pathMap[to.name]
+    })
 
     const loginPage = ["/login"];
 

@@ -40,3 +40,8 @@ export const pathMap = {
   account: '修改账户',
   menu: '菜单',
 }
+
+export function firstLetter(text) {
+  if (text === null) text = "默"
+  return text.substring(0, 1)
+}

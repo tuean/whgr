@@ -9,12 +9,16 @@ function pathResolve(dir) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 4000
+  },
   publicDir: 'src',
   resolve: {
     alias: {
       "/@": pathResolve("src"),
       "/config": pathResolve("public/config"),
-      "/com": pathResolve("src/components")
+      "/com": pathResolve("src/components"),
+      "/util": pathResolve("src/util")
     }
   },
   plugins: [

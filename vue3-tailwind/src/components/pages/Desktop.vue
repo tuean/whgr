@@ -3,7 +3,7 @@
     <!-- <div class="fixed">fixed</div> -->
 
     <div id="p1" class="h-full scroll-snap-align-start flex">
-      <el-container
+      <!-- <el-container
         class="bg-fxz center bg-center w-80 mx-auto items-center justify-center"
       >
         <div
@@ -24,6 +24,21 @@
             <span class="text-lg can-click">by 帅气阿天</span>
           </div>
         </div>
+      </el-container> -->
+      <el-container
+        class="bg-fxz h-full text-center justify-center items-center text-gray-300 w-40"
+      >
+        <div >
+          <span class="text-6xl">the site of our sweet life</span>
+          <div class="pt-2">
+            <span class="text-lg">此站献给夫人</span>
+          </div>
+          <div class="text-right pr-20" @click="blog">
+            <span class="text-lg can-click">by 帅气阿天</span>         
+          </div>
+        </div>
+        
+        <el-footer> </el-footer>
       </el-container>
     </div>
 
@@ -63,7 +78,7 @@
               flex-col
             "
           >
-            <span class="can-click">
+            <span class="can-click" @click="apps">
               移步作品列表 --->
             </span>
           </div>
@@ -81,6 +96,8 @@
 </template>
 
 <script>
+import router from '../../router/index'
+
 export default {
   setup() {
     const beian = () => {
@@ -89,6 +106,9 @@ export default {
     const blog = () => {
       window.location.href = "https://tuean.cn";
     };
+    const apps = () => {
+     router.push('/apps')
+    }
     const loveData = [
       "我家夫人喜欢可爱的小狗狗",
       "我家夫人喜欢吃耗油生菜+番茄蛋汤+红烧鸡翅",
@@ -100,6 +120,7 @@ export default {
     return {
       beian,
       blog,
+      apps
     };
   },
 };
