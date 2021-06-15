@@ -1,6 +1,11 @@
 <template>
-    <div class="bg-default mx-auto h-full w-full">
-       
+    <div class="bg-default h-full w-full">
+       <!-- left menu -->
+
+       <!-- right -->
+       <!-- header -->
+
+       <!-- content -->
     </div>
 </template>
 
@@ -10,10 +15,14 @@ import { menus } from '/@/conf/menu.js'
 import '../../index.css'
 
 export default {
-  components: { Loading },
+    components: { 
+        Loading 
+    },
     setup() {
-        
-        return {}
+
+        return {
+            menus
+        }
     }
 }
 </script>
