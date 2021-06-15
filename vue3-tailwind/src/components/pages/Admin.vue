@@ -1,32 +1,50 @@
 <template>
-    <div class="bg-default h-full w-full">
-       <!-- left menu -->
+  <div class="h-full w-full">
+    <el-container class="h-full w-full">
+      <el-aside width="200px">
+        <!-- left menu -->
+        <left-menu :menus="menus" />
+      </el-aside>
 
-       <!-- right -->
-       <!-- header -->
-
-       <!-- content -->
-    </div>
+      <!-- right -->
+      <el-container>
+        <el-header class="">
+          <!-- header -->
+          <top-header></top-header>
+        </el-header>
+        <el-main style="padding: 0"> 
+            <!-- content --> 
+            <router-view />
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
-import Loading from '/@/components/Loading.vue'
-import { menus } from '/@/conf/menu.js' 
-import '../../index.css'
+import Loading from "/@/components/Loading.vue";
+import LeftMenu from "/@/components/common/LeftMenu.vue";
+import TopHeader from '/@/components/common/TopHeader.vue';
+
+import "../../index.css";
 
 export default {
-    components: { 
-        Loading 
-    },
-    setup() {
+  components: {
+    Loading,
+    LeftMenu,
+    TopHeader
+  },
 
-        return {
-            menus
-        }
-    }
-}
+  setup() {
+    return {
+
+    };
+  },
+};
 </script>
 
-<style>
-
+<style scoped>
+.el-header {
+    padding: 0;
+}
 </style>
