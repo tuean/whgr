@@ -20,7 +20,14 @@ const routes = {
         {
             path: '/admin',
             name: 'admin',
-            component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue')
+            component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue'),
+            children: [
+                {
+                    path: 'pageNotFund',
+                    name: 'admin404',
+                    component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue')
+                }
+            ]
         },
         {
             path: '/404',

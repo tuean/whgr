@@ -1,12 +1,13 @@
 <template>
   <div class="h-full w-full block">
     <!-- pure page -->
-    <div class="relative bg-no-repeat bg-cover lg:bg-center bg-top-right" v-if="state.pageType === 1">
+    <router-view />
+    <!-- <div class="relative bg-no-repeat bg-cover lg:bg-center bg-top-right" v-if="state.pageType === 1">
       <router-view />
-    </div>
+    </div> -->
 
     <!-- left menu -->
-    <el-container v-else-if="state.pageType === 2">
+    <!-- <el-container v-else-if="state.pageType === 2">
       <el-aside class="aside">
         <div class="head">
           <div>
@@ -33,11 +34,11 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-    </el-container>
+    </el-container> -->
 
-    <el-container v-else>
+    <!-- <el-container v-else>
         <span>404</span>
-    </el-container>
+    </el-container> -->
   </div>
 </template>
 
