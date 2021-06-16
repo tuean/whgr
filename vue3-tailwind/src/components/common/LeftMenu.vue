@@ -15,13 +15,13 @@
           <span>{{ menu.name }}</span>
         </template>
         <el-menu-item-group v-if="menu.isFolder">
-          <el-menu-item v-for="c in menu.child" :key="c.index" :index="c.index">
+          <el-menu-item v-for="c in menu.child" :key="c.index" :index="c.index" :route="{path: menu.path}">
             <template #title class="pl-8" style="padding: 0">
               <span>{{ c.name }}</span>
             </template>
           </el-menu-item>
         </el-menu-item-group>
-        <el-menu-item :index="menu.index" class="pl-0 pr-0" @click="menuClick">
+        <el-menu-item :index="menu.index" class="pl-0 pr-0" @click="menuClick" :route="{path: menu.path}"> 
           <template #title class="pl-8" style="padding: 0">
             <span>{{ menu.name }}</span>
           </template>
@@ -46,10 +46,29 @@ export default {
       return menu.child != null && menu.child.length > 0;
     };
     let isCollapse = false;
-    const menuClick = (menu, index) => {
-      console.log(menu, index);
-      router.push('/admin/pageNotFund')
-    };
+    const menuClick = (i, menu) => {
+      console.log(i.index);
+      console.log(menu)
+      let path = getUrl(i.index, menus)
+      console.log("route to >>>>>>", path)
+      // router.push('/admin/pageNotFund')
+      router.push(path)
+    }
+
+    const getUrl = (index, menus) => {
+      debugger
+        if (menus == null) return null
+        for (let x = 0; menus.length > x; x++) {
+          let menu = menus[x]
+          debugger
+          if (menu.index === index) return menu.path
+          if (!menu.isFolder) continue
+          let url = getUrl(index, menu.child)
+          if (url != null) return url
+        }
+        return null
+    }
+
     return {
       menus,
       hasChild,

@@ -1,5 +1,18 @@
 import {createRouter, createWebHashHistory} from "vue-router"
 
+const admins = [
+    {
+        path: 'pageNotFund',
+        name: 'pageNotFund',
+        component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue')
+    },
+    {
+        path: 'vuexDemo',
+        name: 'vuexDemo',
+        component: () => import(/* webpackChunkName: "vuexDemo" */ '../components/pages/VuexDemo.vue')
+    },
+]
+
 const routes = {
     history: createWebHashHistory(),
     routes: [
@@ -21,13 +34,7 @@ const routes = {
             path: '/admin',
             name: 'admin',
             component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue'),
-            children: [
-                {
-                    path: 'pageNotFund',
-                    name: 'admin404',
-                    component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue')
-                }
-            ]
+            children: admins
         },
         {
             path: '/404',

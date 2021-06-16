@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="bg-yhh w-full h-12 p-0">
+    <div class="bg-yhh w-full h-full p-0">
         
     </div>
 </template>

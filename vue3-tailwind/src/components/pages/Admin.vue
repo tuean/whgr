@@ -14,7 +14,10 @@
         </el-header>
         <el-main style="padding: 0"> 
             <!-- content --> 
-            <router-view />
+            
+            <div class="bg-black h-full">
+              <router-view />
+            </div>
         </el-main>
       </el-container>
     </el-container>

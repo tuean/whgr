@@ -9,14 +9,14 @@ const menus = [
     {
         index: "2",
         name: "404",
-        path: "/404",
+        path: "/admin/pageNotFund",
         keepAlive: true,
         isFolder: false,
     },
     {
         index: "3",
         name: "table",
-        path: "/tableDemo",
+        path: "/admin/tableDemo",
         keepAlive: false,
         isFolder: false,
     },
@@ -35,7 +35,14 @@ const menus = [
                 isFolder: false,
             },
         ]
-    }
+    },
+    {
+        index: "5",
+        name: "vuexDemo",
+        path: "/admin/vuexDemo",
+        keepAlive: false,
+        isFolder: false,
+    },
 ]
 
 export default menus
