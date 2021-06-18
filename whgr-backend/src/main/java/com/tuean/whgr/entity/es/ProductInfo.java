@@ -24,4 +24,7 @@ public class ProductInfo {
 
 //    @Field(type = FieldType.Date)
     private Date data;
+
+    private Integer type;
+
 }

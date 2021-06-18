@@ -7,15 +7,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-public class WarmUp {
+public class EsDataBuilder {
 
     @Autowired
     private IEsService esService;
 
     @PostConstruct
-    public void init() {
-//        esService.mockData("test");
+    public void run() {
+        esService.mockData("test");
     }
-
 
 }
