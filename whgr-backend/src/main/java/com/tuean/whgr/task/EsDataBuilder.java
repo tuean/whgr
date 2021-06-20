@@ -14,7 +14,8 @@ public class EsDataBuilder {
 
     @PostConstruct
     public void run() {
-        esService.mockData("test");
+//        esService.mockData("test");
+        esService.getData();
     }
 
 }
