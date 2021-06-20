@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full h-full scroll-snap-type overflow-y-scroll">
+  <div class="w-full h-screen scroll-snap-type overflow-y-scroll">
     <!-- <div class="fixed">fixed</div> -->
 
-    <div id="p1" class="h-full scroll-snap-align-start flex">
+    <div id="p1" class="h-screen scroll-snap-align-start flex">
       <!-- <el-container
         class="bg-fxz center bg-center w-80 mx-auto items-center justify-center"
       >
@@ -26,7 +26,7 @@
         </div>
       </el-container> -->
       <el-container
-        class="bg-fxz h-full text-center justify-center items-center text-gray-300 w-40"
+        class="bg-fxz h-screen text-center justify-center items-center text-gray-300 w-40"
       >
         <div >
           <span class="text-6xl">the site of our sweet life</span>
@@ -42,9 +42,9 @@
       </el-container>
     </div>
 
-    <div id="p2" class="h-full scroll-snap-align-start">
+    <div id="p2" class="h-screen scroll-snap-align-start">
       <el-container
-        class="bg-gqh h-full text-center justify-center items-center"
+        class="bg-gqh h-screen text-center justify-center items-center"
       >
         <div class="text-gray-300 text-2xl">
           本站作为夫人和我一起学习web前后端知识的结果，将会集成一系列的功能或作品；
@@ -62,8 +62,8 @@
       </el-container>
     </div>
 
-    <div id="p3" class="h-full scroll-snap-align-start">
-      <el-container class="w-full bg-bq h-full">
+    <div id="p3" class="h-screen scroll-snap-align-start">
+      <el-container class="w-full bg-bq h-screen">
         <el-main class="w-full p-0 m-0">
           <div
             class="

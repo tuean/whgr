@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-tlz mx-auto w-full h-full">
+    <div class="bg-tlz mx-auto w-full h-screen">
         <el-container>
             <el-header class="text-gray-300 pt-4 text-3xl flex items-center">
                 项目列表

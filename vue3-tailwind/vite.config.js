@@ -18,7 +18,7 @@ export default defineConfig({
       "/@": pathResolve("src"),
       "/config": pathResolve("public/config"),
       "/com": pathResolve("src/components"),
-      "/util": pathResolve("src/util")
+      // "/util": pathResolve("src/util")
     }
   },
   plugins: [
@@ -43,4 +43,11 @@ export default defineConfig({
     // assetsDir: 'assets', // 指定生成静态资源的存放路径
     minify: 'terser' // 混淆器，terser构建后文件体积更小
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/index.scss";`
+      }
+    }
+  }
 })

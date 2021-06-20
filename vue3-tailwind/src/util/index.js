@@ -45,3 +45,17 @@ export function firstLetter(text) {
   if (text === null) text = "默"
   return text.substring(0, 1)
 }
+
+export function tabIdEqual(tab, index) {
+  return tab.index === index
+}
+
+export function tabEqual(tabs, index) {
+  if (tabs == null || tabs.length < 1) return -1
+  for (let x = 0; tabs.length > x; x++) {
+    if (tabIdEqual(tabs[x], index)) return x
+  }
+  return -1
+}
+
+

@@ -43,14 +43,14 @@
 </template>
 
 <script>
-import Header from "./components/layout/Header.vue";
+// import Header from "./components/layout/Header.vue";
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 import './index.css'
 
 
 export default {
-  components: { Header },
+  components: {  },
   setup() {
     const router = useRouter();
     const state = reactive({
