@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="bg-yhh w-full h-14 p-0">
+    <div class="bg w-full h-14 p-0">
         <div class="flex justify-end h-full items-center pr-2">
             <HeaderInfo/>
         </div>
@@ -19,6 +19,8 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style lang="scss">
+    .bg{
+        background-color: $header-bg;
+    }
 </style>
