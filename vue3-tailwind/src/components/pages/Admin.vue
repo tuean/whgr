@@ -21,7 +21,13 @@
         <el-main style="padding: 0"> 
             <!-- content --> 
             <div class="bg-white h-full">
-              <router-view />
+              <router-view v-slot="{ Component }">
+                <transition name="router-fade" mode="out-in">
+                  <keep-alive>
+                    <component :is="Component" />
+                  </keep-alive>
+                </transition>
+              </router-view>
             </div>
         </el-main>
       </el-container>

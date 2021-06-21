@@ -6,6 +6,7 @@
 <script>
 import Tab from '/@/components/tabs/Tab.vue'
 import { useStore } from 'vuex'
+import { toRefs, ref, reactive } from 'vue'
 
 export default {
     components: {
@@ -14,6 +15,8 @@ export default {
     setup(props) {
         const store = useStore()
         const tabList = store.state.tabList
+        // console.log(store.state.tabList)
+        // console.log(tabList)
         return {
             tabList
         }
