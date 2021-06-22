@@ -46,16 +46,26 @@ export function firstLetter(text) {
   return text.substring(0, 1)
 }
 
-export function tabIdEqual(tab, index) {
-  return tab.index === index
+export function tabIdEqual(tab, id) {
+  return tab.id === id
 }
 
-export function tabEqual(tabs, index) {
+export function tabEqual(tabs, id) {
   if (tabs == null || tabs.length < 1) return -1
   for (let x = 0; tabs.length > x; x++) {
-    if (tabIdEqual(tabs[x], index)) return x
+    if (tabIdEqual(tabs[x], id)) return x
   }
   return -1
+}
+
+export function getNextShow(tabs, toRemoveId) {
+  if (tabs == null || tabs.length < 1) return
+  for (let x = 0; tabs.length > x; x++) {
+    if (tabIdEqual(tabs[x], toRemoveId)) {
+      return tabs[x - 1]
+    }
+  }
+  return null
 }
 
 

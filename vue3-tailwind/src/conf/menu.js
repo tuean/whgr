@@ -1,47 +1,53 @@
 const menus = [
     {
-        index: "1",
+        id: "1",
         name: "首页",
         path: "/admin",
         keepAlive: true,
         isFolder: false,
+        removeable: true,
     }, 
     {
-        index: "2",
+        id: "2",
         name: "404",
         path: "/admin/pageNotFund",
         keepAlive: true,
         isFolder: false,
+        removeable: false,
     },
     {
-        index: "3",
+        id: "3",
         name: "table",
         path: "/admin/tableDemo",
         keepAlive: false,
         isFolder: false,
+        removeable: false,
     },
     {
-        index: "4",
+        id: "4",
         name: "demo",
         path: "/demo",
         keepAlive: false,
         isFolder: true,
+        removeable: false,
         child: [
             {
-                index: "41",
+                id: "41",
                 name: "demoChild",
                 path: "/demoChild",
                 keepAlive: false,
                 isFolder: false,
+                removeable: false,
             },
         ]
     },
     {
-        index: "5",
+        id: "5",
         name: "vuexDemo",
         path: "/admin/vuexDemo",
         keepAlive: false,
         isFolder: false,
+        removeable: false,
     },
 ]
 

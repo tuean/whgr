@@ -18,7 +18,7 @@ export default {
     },
     setup(props) {
         store.commit('pushTab', menus[0])
-        store.commit('activeTab', menus[0].index)
+        store.commit('activeTab', menus[0])
 
         return {
             menus

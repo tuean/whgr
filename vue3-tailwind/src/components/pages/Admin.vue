@@ -13,14 +13,14 @@
         <el-header class="" style="height: 88px">
           <!-- header -->
           <top-header></top-header>
-          <div class="bg-tabs w-full p-0">
+          <div class="bg-tabs w-full p-0 h-14">
             <tabs />
           </div>
         </el-header>
 
         <el-main style="padding: 0"> 
             <!-- content --> 
-            <div class="bg-white h-full">
+            <div class="bg-main h-full">
               <router-view v-slot="{ Component }">
                 <transition name="router-fade" mode="out-in">
                   <keep-alive>
@@ -68,5 +68,9 @@ export default {
 
 .bg-tabs {
   background-color: $tabs-bg;
+}
+
+.bg-main {
+  background-color: $end-bg;
 }
 </style>

@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <span>tuean: {{$store.state.count}}</span>
+        <span class="text-gray-300">tuean: {{$store.state.count}}</span>
     </div>
 </template>
 <script>
