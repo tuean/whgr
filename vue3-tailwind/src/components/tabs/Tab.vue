@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="pl-1 mr-1 bg-cell inline-block">
+    <div class="pl-1 mr-2 bg-cell inline-block">
         <span class="text-gray-300 ">
             <!-- <span v-if="tabInfo.icon" /> -->
             <span class="can-click" @click="activeTab">{{ tabInfo.name }}</span>

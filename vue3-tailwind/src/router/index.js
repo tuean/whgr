@@ -2,9 +2,9 @@ import {createRouter, createWebHashHistory} from "vue-router"
 
 const admins = [
     {
-        path: 'pageNotFund',
-        name: 'pageNotFund',
-        component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue')
+        path: 'pageNotFound',
+        name: 'pageNotFound',
+        component: () => import(/* webpackChunkName: "404" */ '../components/pages/pageNotFound.vue')
     },
     {
         path: 'vuexDemo',

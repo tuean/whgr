@@ -6,22 +6,37 @@ const menus = [
         keepAlive: true,
         isFolder: false,
         removeable: true,
+        child: [],
+        icon: "el-icon-s-home",
     }, 
     {
         id: "2",
-        name: "404",
-        path: "/admin/pageNotFund",
+        name: "状态页面",
+        path: "/admin/status",
         keepAlive: true,
         isFolder: false,
         removeable: false,
+        icon: "el-icon-warning",
+        child: [
+            {
+                id: "21",
+                name: "404",
+                path: "/admin/pageNotFound",
+                keepAlive: false,
+                isFolder: false,
+                removeable: false,
+                icon: ""
+            },
+        ]
     },
     {
         id: "3",
-        name: "table",
+        name: "tableDemo",
         path: "/admin/tableDemo",
         keepAlive: false,
         isFolder: false,
         removeable: false,
+        child: []
     },
     {
         id: "4",
@@ -48,6 +63,7 @@ const menus = [
         keepAlive: false,
         isFolder: false,
         removeable: false,
+        child: []
     },
 ]
 
