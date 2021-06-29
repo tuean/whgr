@@ -1,6 +1,6 @@
 <template lang="">
     <div class="inline-block">
-        <Tab v-for="tabInfo in tabList" :tabInfo="tabInfo"></Tab>
+        <Tab v-for="tabInfo in tabList" :tabInfo="tabInfo" :key="tabInfo.id"></Tab>
     </div>
 </template>
 <script>
