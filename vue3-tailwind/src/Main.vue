@@ -2,43 +2,6 @@
   <div class="h-full w-full block">
     <!-- pure page -->
     <router-view />
-    <!-- <div class="relative bg-no-repeat bg-cover lg:bg-center bg-top-right" v-if="state.pageType === 1">
-      <router-view />
-    </div> -->
-
-    <!-- left menu -->
-    <!-- <el-container v-else-if="state.pageType === 2">
-      <el-aside class="aside">
-        <div class="head">
-          <div>
-            <span>tailwind</span>
-          </div>
-        </div>
-        <div class="line" />
-        <el-menu
-            :default-openeds="state.defaultOpen"
-          background-color="#222832"
-          text-color="#fff"
-          :router="true"
-          :default-active='state.currentPath'
-        >
-            <el-submenu index="1">
-            <template #title>
-              <span>Dashboard</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/introduce"><i class="el-icon-data-line" />系统介绍</el-menu-item>
-              <el-menu-item index="/dashboard"><i class="el-icon-odometer" />Dashboard</el-menu-item>
-              <el-menu-item index="/add"><i class="el-icon-plus" />添加商品</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
-      </el-aside>
-    </el-container> -->
-
-    <!-- <el-container v-else>
-        <span>404</span>
-    </el-container> -->
   </div>
 </template>
 

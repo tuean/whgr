@@ -7,6 +7,8 @@ import 'element-plus/lib/theme-chalk/index.css';
 import 'element-plus/packages/theme-chalk/src/base.scss'
 // import vuex from 'vuex'
 import store from '/@/store'
+import '/@/assets/lib/tagcanvas.js';
+
 
 
 const app = createApp(Main)
