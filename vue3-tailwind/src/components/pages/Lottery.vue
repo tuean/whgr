@@ -1,5 +1,7 @@
 <template>
   <div class="w-screen h-screen bg-gray-800">
+    <LotteryHeader />
+    <LotteryRight />
     <div id="main" :class="{ mask: showRes }"></div>
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
@@ -22,9 +24,16 @@
 import { reactive, ref, nextTick } from "vue";
 import guest from "/@/conf/guest.js";
 import { luckydrawHandler } from "/@/helper/algorithm";
+import LotteryHeader from '/@/components/lottery/LotteryHeader.vue'
+import LotteryRight from '/@/components/lottery/LotteryRight.vue'
 
 export default {
+  components: {
+    LotteryHeader, LotteryRight
+  },
   setup(props) {
+    
+
     const showRes = ref(false);
     let list = guest,
       photos = guest;
@@ -50,6 +59,11 @@ export default {
     const speed = () => {
       return [0.1 * Math.random() + 0.01, -(0.1 * Math.random() + 0.01)];
     };
+
+    const slow = () => {
+      window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
+    }
+
     const createCanvas = () => {
       const canvas = document.createElement("canvas");
       canvas.width = document.body.offsetWidth;
@@ -78,7 +92,25 @@ export default {
       console.log("init after dom updated");
       startTagCanvas();
     };
+
+    const reportWindowSize = () => {
+      let exist = document.querySelector('#rootcanvas')
+      if (exist.parentElement) {
+        exist.parentElement.removeChild(exist)
+      }
+      start()
+    }
+
+    const reload = () => {
+      window.TagCanvas.Reload('rootcanvas');
+    }
+
+
+
+    window.addEventListener('resize', reportWindowSize);
+
     start();
+
     return {
       showRes,
       speed,
