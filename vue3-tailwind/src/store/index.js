@@ -10,7 +10,9 @@ const store = createStore({
         return {
             count: 0,
             tabList: [],
-            userInfo: {}
+            userInfo: {},
+            win: {},
+            lotteryResultShow: false,
         }
     },
     mutations: {
@@ -40,13 +42,6 @@ const store = createStore({
             console.log("tabs:", state.tabList)
         },
         removeTab(state, id) {
-            // let i = tabEqual(state.tabList, id)
-            // if (i < 0) {
-            //     console.log('id not exist', id)
-            //     return
-            // }
-            // state.tabList.splice(i, 1)
-            // console.log('tabList:', state.tabList)
             let newList = reactive([])
             for (let x = 0; state.tabList.length > x; x++) {
                 if (state.tabList[x].id != id) newList.push(state.tabList[x])
@@ -54,6 +49,22 @@ const store = createStore({
             state.tabList = newList
             console.log('tabList:', state.tabList)
         },
+
+        setResult(key, list) {
+            win[key] = list
+        },
+
+        getWins() {
+            return win
+        },
+
+        showResult() {
+            state.lotteryResultShow = true
+        },
+
+        hiddenResult() {
+            state.lotteryResultShow = false
+        }
     }
 })
 
