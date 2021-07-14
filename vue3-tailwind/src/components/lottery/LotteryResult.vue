@@ -13,7 +13,7 @@
           (点击号码可以删除)
         </span>
       </div>
-      <div
+      <!-- <div
         v-for="(item, index) in list"
         :key="index"
         class="listrow"
@@ -37,7 +37,7 @@
             {{ data }}
           </span>
         </span>
-      </div>
+      </div> -->
     </el-dialog>
   </div>
 </template>
@@ -54,8 +54,9 @@ export default {
   },
   setup(props) {
     const result = reactive(props.result);
-    const visible = reactive(props.visible);
+    const visible = ref(props.visible);
     console.log("visible:", visible);
+    console.log("result", result)
     watch(visible, (oldVal, newVal) => {
       console.log(oldVal);
       console.log(newVal);
