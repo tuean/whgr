@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen bg-gray-800">
+  <div class="w-full h-full bg-gray-800">
     <LotteryHeader />
     <LotteryRight />
     <div id="main" :class="{ mask: showRes }"></div>

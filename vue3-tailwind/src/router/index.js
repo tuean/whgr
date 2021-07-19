@@ -11,6 +11,16 @@ const admins = [
         name: 'vuexDemo',
         component: () => import(/* webpackChunkName: "vuexDemo" */ '../components/pages/VuexDemo.vue')
     },
+    {
+        path: 'lotteryDemo',
+        name: 'lotteryDemo',
+        component: () => import(/* webpackChunkName: "Lottery" */ '../components/pages/Lottery.vue')
+    }, 
+    {
+        path: 'tableDemo',
+        name: 'tableDemo',
+        component: () => import(/* webpackChunkName: "Lottery" */ '../components/pages/admin/TableDemo.vue')
+    }, 
 ]
 
 const routes = {

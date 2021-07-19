@@ -31,8 +31,9 @@ const menus = [
     },
     {
         id: "3",
-        name: "tableDemo",
-        path: "/admin/tableDemo",
+        name: "抽奖",
+        icon: "el-icon-warning",
+        path: "/admin/lotteryDemo",
         keepAlive: false,
         isFolder: false,
         removeable: false,
@@ -48,8 +49,8 @@ const menus = [
         child: [
             {
                 id: "41",
-                name: "demoChild",
-                path: "/demoChild",
+                name: "tableDemo",
+                path: "/admin/tableDemo",
                 keepAlive: false,
                 isFolder: false,
                 removeable: false,

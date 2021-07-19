@@ -15,8 +15,6 @@ public class BaseListRequest {
 
     private Integer endRow;
 
-    private Long storeId;
-
     private String searchKey;
 
 
@@ -59,14 +57,6 @@ public class BaseListRequest {
 
     public void setEndRow(Integer endRow) {
         this.endRow = endRow;
-    }
-
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 
     public String getSearchKey() {
