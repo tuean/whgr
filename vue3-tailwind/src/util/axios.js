@@ -18,7 +18,7 @@ instant.defaults.headers.post['Content-Type'] = 'application/json'
 
 // 请求拦截器，内部根据返回值，重新组装，统一管理。
 instant.interceptors.response.use(res => {
-	debugger
+	// debugger
   if (typeof res.data !== 'object') {
     ElMessage.error('服务端异常！')
     return Promise.reject(res)

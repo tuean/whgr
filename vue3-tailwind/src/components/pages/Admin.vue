@@ -8,7 +8,7 @@
       </el-aside>
 
       <!-- right -->
-      <el-container>
+      <el-container class="h-screen">
         
         <el-header class="" style="height: 88px">
           <!-- header -->
@@ -20,7 +20,7 @@
 
         <el-main style="padding: 0"> 
             <!-- content --> 
-            <div class="bg-main h-full">
+            <div class="bg-main">
               <router-view v-slot="{ Component }">
                 <transition name="router-fade" mode="out-in">
                   <keep-alive>
@@ -72,5 +72,8 @@ export default {
 
 .bg-main {
   background-color: $end-bg;
+  // height: 100% - 56px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 </style>
