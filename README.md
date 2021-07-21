@@ -16,9 +16,14 @@ designed by [tuean](http://tuean.cn)
 
 #### features
 * homepage
-* admin login
-* common list table
-* sm.ms plugin from https://github.com/pupilcc/smms
+* admin system by vue3
+* a simple lottery
+
+
+### admin
+* product
+* shop
+
 
 
 

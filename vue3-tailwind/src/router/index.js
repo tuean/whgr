@@ -19,7 +19,12 @@ const admins = [
     {
         path: 'tableDemo',
         name: 'tableDemo',
-        component: () => import(/* webpackChunkName: "Lottery" */ '../components/pages/admin/TableDemo.vue')
+        component: () => import(/* webpackChunkName: "TableDemo" */ '../components/pages/admin/TableDemo.vue')
+    }, 
+    {
+        path: 'goods',
+        name: 'goods',
+        component: () => import(/* webpackChunkName: "Goods" */ '../components/pages/admin/Goods.vue')
     }, 
 ]
 

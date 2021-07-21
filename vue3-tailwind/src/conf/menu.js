@@ -66,6 +66,24 @@ const menus = [
         removeable: false,
         child: []
     },
+    {
+        id: "6",
+        name: "商品管理",
+        path: "",
+        keepAlive: false,
+        isFolder: false,
+        removeable: false,
+        child: [
+            {
+                id: "61",
+                name: "商品列表",
+                path: "/admin/goods",
+                keepAlive: false,
+                isFolder: false,
+                removeable: false,
+            },
+        ]
+    }
 ]
 
 export default menus

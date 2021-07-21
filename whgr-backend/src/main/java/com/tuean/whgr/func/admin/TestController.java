@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @Slf4j
@@ -22,12 +23,14 @@ public class TestController {
     @NoAccess
     @RequestMapping(value = "test/list", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse mockList(@RequestBody MockListReq req) {
+        Random random = new Random();
         List<JSONObject> result = new ArrayList<>();
         for (int x = 0; x < req.getEndRow() - req.getStartRow(); x++) {
             JSONObject o = new JSONObject();
-            o.put("id", req.getStartRow());
+            o.put("id", x);
             o.put("name", "name" + req.getStartRow());
             o.put("time", new Date());
+            o.put("random", random.nextInt());
             result.add(o);
         }
         return BaseResponse.okWithList(result, true, 9999);

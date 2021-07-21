@@ -10,10 +10,10 @@
       <!-- right -->
       <el-container class="h-screen">
         
-        <el-header class="" style="height: 88px">
+        <el-header class="" style="height: auto">
           <!-- header -->
           <top-header></top-header>
-          <div class="bg-tabs w-full p-0 h-14">
+          <div class="bg-tabs w-full p-0 h-13">
             <tabs />
           </div>
         </el-header>
@@ -23,7 +23,7 @@
             <div class="bg-main">
               <router-view v-slot="{ Component }">
                 <transition name="router-fade" mode="out-in">
-                  <keep-alive>
+                  <keep-alive v-if="isRouterAlive">
                     <component :is="Component" />
                   </keep-alive>
                 </transition>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { ref, nextTick, provide } from 'vue'
 import Loading from "/@/components/Loading.vue";
 // import LeftMenu from "/@/components/common/LeftMenu.vue";
 import LeftMenuSpec from "/@/components/layout/LeftMenuSpec.vue";
@@ -53,9 +54,18 @@ export default {
   },
 
   setup() {
-    
+    const isRouterAlive = ref(true)
+    const reload = () => {
+      console.log("reload admin")
+      isRouterAlive.value = false;
+      nextTick(() => {
+        isRouterAlive.value = true;
+      });
+    };
+    provide("reload", reload);
     return {
-
+        isRouterAlive,
+        reload
     };
   },
 };

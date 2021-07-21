@@ -1,9 +1,8 @@
 import { createStore } from 'vuex'
 import { tabEqual } from '/@/util/index'
-import { toRefs, toRef, reactive, ref } from 'vue'
+import { toRefs, toRef, reactive, ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
-
-
+// import { reload } from '/@/components/pages/Admin.vue'
 
 const store = createStore({
     state() {
@@ -48,6 +47,17 @@ const store = createStore({
             }
             state.tabList = newList
             console.log('tabList:', state.tabList)
+        },
+        refreshTab(state) {
+            for (let x = 0; state.tabList.length > x; x++) {
+                if (state.tabList[x].active) {
+                    // window.location.reload()
+                    inject('reload')
+                    // reload()
+                    console.log("reload")
+                    return
+                }
+            }
         },
 
         setResult(key, list) {
