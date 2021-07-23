@@ -13,6 +13,13 @@ const apps = [
         "name": "爬虫项目",
         "des": "单机版爬取亚马逊或百度搜索结果，保存至数据库或提取为excel",
         "url": "https://github.com/tuean/spider-amazon"
+    },
+    {
+        "id": 10002,
+        "abbr": "L",
+        "name": "抽奖",
+        "des": "抽奖小程序",
+        "url": "https://oursweetlife.site/#/lottery"
     }
 ]
 

@@ -32,17 +32,20 @@
         </el-main>
       </el-container>
     </el-container>
+
+    <GlobalSetting :draw="draw" @updateVisible="updateVisible"/>
   </div>
 </template>
 
 <script>
-import { ref, nextTick, provide } from 'vue'
+import { ref, nextTick, provide, reactive } from 'vue'
 import Loading from "/@/components/Loading.vue";
 // import LeftMenu from "/@/components/common/LeftMenu.vue";
 import LeftMenuSpec from "/@/components/layout/LeftMenuSpec.vue";
 import TopHeader from '/@/components/layout/TopHeader.vue';
 import Tabs from '/@/components/tabs/Tabs.vue';
 import "../../index.css";
+import GlobalSetting from '/@/components/layout/GlobalSetting.vue'
 
 export default {
   components: {
@@ -50,11 +53,13 @@ export default {
     // LeftMenu,
     TopHeader,
     LeftMenuSpec,
-    Tabs
+    Tabs,
+    GlobalSetting
   },
 
   setup() {
     const isRouterAlive = ref(true)
+    const draw = ref(false)
     const reload = () => {
       console.log("reload admin")
       isRouterAlive.value = false;
@@ -62,10 +67,21 @@ export default {
         isRouterAlive.value = true;
       });
     };
+    const openGlobalSetting = () => {
+      draw.value = true
+      console.log('open global setting')
+      console.log(draw)
+    }
+    const updateVisible = () => {
+      draw.value = false
+    }
     provide("reload", reload);
+    provide("openGlobalSetting", openGlobalSetting)
     return {
         isRouterAlive,
-        reload
+        reload,
+        draw,
+        updateVisible
     };
   },
 };
