@@ -48,20 +48,12 @@ const store = createStore({
             state.tabList = newList
             console.log('tabList:', state.tabList)
         },
-        refreshTab(state) {
-            for (let x = 0; state.tabList.length > x; x++) {
-                if (state.tabList[x].active) {
-                    // window.location.reload()
-                    inject('reload')
-                    // reload()
-                    console.log("reload")
-                    return
-                }
-            }
-        },
-
         setResult(key, list) {
             win[key] = list
+        },
+
+        setTheme(state, theme) {
+            
         },
 
         getWins() {

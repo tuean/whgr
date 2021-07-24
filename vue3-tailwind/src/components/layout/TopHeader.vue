@@ -27,7 +27,6 @@ export default {
         const refresh = () => {
             if (!state.rotate) return
             state.rotate = !state.rotate
-            // store.commit('refreshTab')
             reload()
             setTimeout(() => {
                 state.rotate = !state.rotate
