@@ -12,6 +12,7 @@ const store = createStore({
             userInfo: {},
             win: {},
             lotteryResultShow: false,
+            theme: "",
         }
     },
     mutations: {
@@ -51,9 +52,16 @@ const store = createStore({
         setResult(key, list) {
             win[key] = list
         },
-
+        
+        initTheme(state) {
+            let theme = localStorage.getItem("theme")
+            if (theme !== null && theme !== '') {
+                state.theme = theme
+            }
+        },
         setTheme(state, theme) {
-            
+            localStorage.setItem("theme", theme)
+            state.theme = theme
         },
 
         getWins() {

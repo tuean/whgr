@@ -46,6 +46,8 @@ import TopHeader from '/@/components/layout/TopHeader.vue';
 import Tabs from '/@/components/tabs/Tabs.vue';
 import "../../index.css";
 import GlobalSetting from '/@/components/layout/GlobalSetting.vue'
+import { useStore } from 'vuex'
+
 
 export default {
   components: {
@@ -58,6 +60,8 @@ export default {
   },
 
   setup() {
+    const store = useStore()
+    store.commit('initTheme')
     const isRouterAlive = ref(true)
     const draw = ref(false)
     const reload = () => {
@@ -77,6 +81,8 @@ export default {
     }
     provide("reload", reload);
     provide("openGlobalSetting", openGlobalSetting)
+           
+
     return {
         isRouterAlive,
         reload,

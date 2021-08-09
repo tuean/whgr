@@ -1,0 +1,98 @@
+@import "../index.scss";
+
+$light: (
+    base-color: #ffffff,
+    text-color: $bg-white,
+);
+
+$dark: (
+    base-color: $bg-black,
+    text-color: #ffffff,
+);
+
+
+$themes: (
+    light: $light,
+    dark: $dark
+);
+
+
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --font-color: $bg-white
+}
+
+[data-theme="dark"] {
+    --bg-color: $bg-black;
+    --font-color: #ffffff
+}
+
+.globalSetting {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
+
+// @mixin base-background(){
+//     @each $themename , $theme in $themes {
+//         [data-theme = '#{$themename}'] & {
+//             background: map-get($map: $theme, $key: base-color )
+//         }
+//     }
+// }
+
+// @mixin themify($themes: $themes) {
+//     @each $theme-name, $map in $themes {
+//         // & 表示父级元素
+//         // !global 表示覆盖原来的
+//         .theme-#{$theme-name} & {
+//             $theme-map: () !global;
+//             // 循环合并键值对
+//             @each $key, $value in $map {
+//                 $theme-map: map-merge(
+//                     $theme-map,
+//                     (
+//                         $key: $value,
+//                     )
+//                 ) !global;
+//             }
+//             // 表示包含 下面函数 themed()
+//             @content;
+
+//             $theme-map: null !global;
+//         }
+//     }
+// }
+
+// @function themed($key) {
+//     @return map-get($theme-map, $key);
+// }
+
+// @mixin themeify {
+//     @each $theme-name, $theme-map in $themes {
+//         //!global 把局部变量强升为全局变量
+//         $theme-map: $theme-map !global;
+//         //判断html的data-theme的属性值  #{}是sass的插值表达式
+//         //& sass嵌套里的父容器标识   @content是混合器插槽，像vue的slot
+//         [data-theme="#{$theme-name}"] & {
+//             @content;
+//         }
+//     }
+// }
+
+// //声明一个根据Key获取颜色的function
+// @function themed($key) {
+//     @return map-get($theme-map, $key);
+// }
+
+// //获取背景颜色
+// @mixin background_color($color) {
+//     @include themeify {
+//         background: themed($color) !important;
+//     }
+// }
+// //获取字体颜色
+// @mixin font_color($color) {
+//     @include themeify {
+//         color: themed($color) !important;
+//     }
+// }
