@@ -71,7 +71,6 @@ export function getWithParam(url, data) {
 	let config = {
 		headers: {
 			'Content-Type' : 'application/json',
-			'token-pc': sessionStorage.getItem('token')
 		}
 	}
 	return new Promise((resolve, reject) => {
@@ -99,11 +98,6 @@ export function post(url, params) {
 				resolve(res);
 			})
 			.catch(err =>{
-				// if (err.response.data.code != null) {
-				// 	_this.$message.error(err.response.data.message)
-				// } else {
-				// 	_this.$message.error('请求出错：'+res)
-				// }
 				reject(err)
 			})
 	});

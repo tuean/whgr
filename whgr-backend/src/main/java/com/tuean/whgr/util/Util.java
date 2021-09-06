@@ -1,5 +1,8 @@
 package com.tuean.whgr.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.Random;
 
 public class Util {
@@ -26,6 +29,10 @@ public class Util {
         }
 
         return sb.toString();
+    }
+
+    public static JSONArray string2array(String source) {
+        return JSONObject.parseArray(source);
     }
 
 

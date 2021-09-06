@@ -185,11 +185,9 @@
             <artifactId>hutool-all</artifactId>
             <version>5.7.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.tuean</groupId>
-            <artifactId>whgr-backend</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
+
+
 
     </dependencies>
 
@@ -209,6 +207,22 @@
                     <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
                     <overwrite>true</overwrite>
                     <verbose>true</verbose>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.tuean</groupId>
+                <artifactId>tuean-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>dependency-counter</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scope>test</scope>
                 </configuration>
             </plugin>
 
