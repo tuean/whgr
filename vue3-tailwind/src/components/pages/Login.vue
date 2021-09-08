@@ -43,6 +43,7 @@
             >
           </el-form-item>
         </el-form>
+
       </div>
     </el-container>
   </div>
@@ -54,11 +55,14 @@ import {get, post} from '../../util/axios'
 import md5 from 'js-md5'
 import { localSet } from '/@/util/index'
 import router from '/@/router/index'
-
-
+import VConsole from 'vconsole';
 
 export default {
   setup() {
+    window.onresize = () => {
+      console.log('height: ', window.innerHeight)
+    }
+    const vConsole = new VConsole();
     const loginForm = ref(null);
     const state = reactive({
       ruleForm: {
