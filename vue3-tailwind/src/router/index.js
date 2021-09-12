@@ -66,6 +66,11 @@ const routes = {
             name: 'lottery',
             component: () => import(/* webpackChunkName: "Lottery" */ '../components/pages/Lottery.vue')
         }, 
+        {
+            path: '/shot',
+            name: 'shot',
+            component: () => import(/* webpackChunkName: "Lottery" */ '../components/screenshot/shot.vue')
+        }, 
 
     ]
 }

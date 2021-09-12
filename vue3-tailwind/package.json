@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "echarts": "^5.2.0",
     "element-plus": "latest",
+    "html2canvas": "^1.3.2",
     "js-md5": "^0.7.3",
     "less": "^4.1.1",
     "sass": "^1.35.1",

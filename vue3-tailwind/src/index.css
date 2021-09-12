@@ -73,3 +73,40 @@
 .bg-yhh {
     background-color: #b598a1;
 }
+
+
+.hidden {
+    display: none;
+}
+
+.appPrint {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.place {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.screenshot-bg {
+    background: black;
+}
+
+.small {
+    transform: scale(0.9)
+}
+
+.btn-close {
+    color: red;
+    display: flex;
+    bottom: 0;
+    width: 100vw;
+    padding-right: 10vw;
+    position: fixed;
+    padding-top: 2vh;
+    font-size: 39px;
+}

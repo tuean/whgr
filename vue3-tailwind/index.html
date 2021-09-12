@@ -9,9 +9,25 @@
     <!-- 引入组件库 -->
     <!-- <script src="https://unpkg.com/element-plus/lib/index.full.js"></script>     -->
     <title>tailwild demo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(function() {
+        window.onresize = resizeCanvas()
+        resizeCanvas()
+      })
+      function resizeCanvas() {
+        $('#template').attr('width', window.innerWidth)
+        $('#template').attr('height', window.innerHeight)
+      }
+    </script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="screenshot" class="screenshot-bg">
+      <div id="app" class="bg-white"></div>
+    </div>
+    <div id="screen" class="hidden appPrint">
+      <canvas id="template"></canvas>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
