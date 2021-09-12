@@ -8,8 +8,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.tuean.util.Util;
+import org.tuean.util.YamlUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 @Mojo(name = "codeGenerator", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 public class CodeGeneratorMojo extends AbstractMojo {
@@ -23,7 +25,6 @@ public class CodeGeneratorMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         getLog().info("work dir is : " + Util.getWorkPath(project));
-
 
     }
 
