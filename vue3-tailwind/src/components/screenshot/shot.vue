@@ -1,6 +1,6 @@
 <template>
-  <div class="w-screen">
-    <div @click="shot" class="mt-10 h-11 w-full text-center">截图</div>
+  <div class="w-screen h-screen max-h-screen">
+    <div @click="shot" class="pt-10 h-32 w-full text-center">截图</div>
     <span>水水水水水水水水水水水水水水水水水水水</span>
     <span>水水水水水水水水水水水水水水水水水水水</span>
     <span>水水水水水水水水水水水水水水水水水水水</span>
