@@ -1,16 +1,12 @@
 package org.tuean.util;
 
-import com.google.gson.JsonObject;
 import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.apache.maven.project.MavenProject;
 import org.tuean.entity.CodeGenerateConfig;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 
 import static org.tuean.consts.Consts.SETTING_DIR;
