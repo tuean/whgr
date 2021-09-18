@@ -223,6 +223,7 @@
                     <execution>
                         <goals>
                             <goal>dependency-counter</goal>
+                            <goal>codeGenerator</goal>
                         </goals>
                     </execution>
                 </executions>

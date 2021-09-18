@@ -2,8 +2,11 @@ package org.tuean.util;
 
 import org.apache.maven.model.Resource;
 import org.apache.maven.project.MavenProject;
+import org.tuean.consts.Consts;
+import org.tuean.consts.Env;
 import org.tuean.entity.CodeGenerateConfig;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,21 +17,18 @@ import static org.tuean.consts.Consts.SETTING_FILE_NAME;
 
 public class YamlUtil {
 
-    public static CodeGenerateConfig codeGenerateConfig;
-
     public static void parseSetting(MavenProject project) {
         try {
             Log.getLog().info(project.toString());
-            List<Resource> resources = project.getResources();
-            Resource configResource = resources.stream().filter(n -> SETTING_DIR.equals(n.getDirectory())).findFirst().get();
-            String configFilePath = configResource.getDirectory() + File.separator + SETTING_FILE_NAME;
-            Yaml yaml = new Yaml();
-            CodeGenerateConfig config = yaml.loadAs(new FileInputStream(configFilePath), CodeGenerateConfig.class);
+            String configDirPath = Util.getResourcePath(project, Consts.SETTING_DIR);
+            String configFilePath = configDirPath + File.separator + SETTING_FILE_NAME;
+            Yaml yaml = new Yaml(new Constructor(CodeGenerateConfig.class));
+            CodeGenerateConfig config = yaml.load(new FileInputStream(configFilePath));
             Log.getLog().info(config.toString());
-//        CodeGenerateConfig config = new CodeGenerateConfig();
-            codeGenerateConfig = config;
+            Env.codeGenerateConfig = config;
         } catch (Exception var) {
-            Log.getLog().info(SETTING_FILE_NAME + " load error");
+            Log.getLog().error(SETTING_FILE_NAME + " load error");
+            Log.getLog().error(var);
         }
     }
 

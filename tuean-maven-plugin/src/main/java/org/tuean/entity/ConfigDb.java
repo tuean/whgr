@@ -8,19 +8,28 @@ public class ConfigDb {
 
     private String user;
 
-    private String password;
+    private String pwd;
 
     private String database;
 
-    @Override
-    public String toString() {
-        return "ConfigDb{" +
-                "jar_path='" + jar_path + '\'' +
-                ", driver_class='" + driver_class + '\'' +
-                ", user='" + user + '\'' +
-                ", password='" + password + '\'' +
-                ", database='" + database + '\'' +
-                '}';
+    private String url;
+
+
+    public ConfigDb(String jar_path, String driver_class, String user, String pwd, String database, String url) {
+        this.jar_path = jar_path;
+        this.driver_class = driver_class;
+        this.user = user;
+        this.pwd = pwd;
+        this.database = database;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getJar_path() {
@@ -47,12 +56,12 @@ public class ConfigDb {
         this.user = user;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public String getDatabase() {

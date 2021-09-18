@@ -4,6 +4,7 @@ db:
   user: root
   pwd: tuean330
   database: whgr
+  url: jdbc:mysql://127.0.0.1/whgr?serverTimezone=Asia/Shanghai
 
 mapper:
   workdir: src/main/java
@@ -12,7 +13,7 @@ mapper:
   xml: mapper
 
 generator:
-  - menus:
+  menus:
       entity: Menus
       dao: MenusMapper
       xml: MenusMapper
