@@ -71,7 +71,11 @@ const routes = {
             name: 'shot',
             component: () => import(/* webpackChunkName: "Lottery" */ '../components/screenshot/shot.vue')
         }, 
-
+        {
+            path: '/gojs',
+            name: 'gojs',
+            component: () => import(/* webpackChunkName: "gojsDemo" */ '../components/go-js/gojsDemo.vue')
+        }, 
     ]
 }
 
