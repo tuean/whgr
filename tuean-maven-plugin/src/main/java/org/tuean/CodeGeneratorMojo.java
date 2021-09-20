@@ -7,8 +7,16 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.tuean.consts.Env;
+import org.tuean.database.DatabaseGot;
+import org.tuean.entity.CodeGenerateConfig;
+import org.tuean.entity.ConfigGenerator;
+import org.tuean.util.Log;
+import org.tuean.util.PathUtil;
 import org.tuean.util.Util;
 import org.tuean.util.YamlUtil;
+
+import java.util.Map;
 
 
 @Mojo(name = "codeGenerator", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
@@ -22,8 +30,22 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("work dir is : " + Util.getWorkPath(project));
-        YamlUtil.parseSetting(project);
+        Log.getLog().info("work dir is : " + PathUtil.getWorkPath(project));
+        Env.codeGenerateConfig = YamlUtil.parseSetting(project);
+        Env.mavenProject = project;
+
+        Map<String, ConfigGenerator> map = Env.codeGenerateConfig.getGenerator();
+        if (map == null || map.size() < 1) {
+            Log.getLog().warn("no table to generate exit");
+            return;
+        }
+
+        for (String tableName : map.keySet()) {
+            ConfigGenerator configGenerator = map.get(tableName);
+            Map<String, String> dbColumnMap = DatabaseGot.getTableColumnInfo(tableName);
+
+        }
+
     }
 
 

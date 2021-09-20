@@ -94,5 +94,6 @@
     <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-inject-bean:1.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-guice:noaop:2.1.7" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-velocity:1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup:javapoet:1.13.0" level="project" />
   </component>
 </module>

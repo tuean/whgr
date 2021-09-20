@@ -69,5 +69,12 @@
       <version>3.6.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.squareup</groupId>
+      <artifactId>javapoet</artifactId>
+      <version>1.13.0</version>
+    </dependency>
+
+
   </dependencies>
 </project>

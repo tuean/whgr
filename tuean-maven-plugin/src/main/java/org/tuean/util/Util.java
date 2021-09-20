@@ -6,18 +6,27 @@ import org.apache.maven.model.Resource;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 public class Util {
 
-    public static String getWorkPath(MavenProject project) {
-        return project.getFile().getAbsolutePath();
+    public static void initDir(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
     }
 
-    public static String getResourcePath(MavenProject project, String dictionaryName) {
-        List<Resource> resources = project.getResources();
-        if (CollectionUtils.isEmpty(resources)) return null;
-        String path = resources.get(0).getDirectory();
-        return path + File.separator + dictionaryName;
+    public static String uppercaseFirst(String key) {
+        String k1 = key.substring(0, 1);
+        return k1.toUpperCase(Locale.ROOT) + k1.substring(1);
     }
 
+    public static String getMethodName(String key) {
+        return "get" + uppercaseFirst(key);
+    }
+
+    public static String setMethodName(String key) {
+        return "set" + uppercaseFirst(key);
+    }
 }

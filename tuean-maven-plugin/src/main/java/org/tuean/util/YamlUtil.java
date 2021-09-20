@@ -10,26 +10,26 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.List;
 
-import static org.tuean.consts.Consts.SETTING_DIR;
 import static org.tuean.consts.Consts.SETTING_FILE_NAME;
 
 public class YamlUtil {
 
-    public static void parseSetting(MavenProject project) {
+    public static CodeGenerateConfig parseSetting(MavenProject project) {
         try {
             Log.getLog().info(project.toString());
-            String configDirPath = Util.getResourcePath(project, Consts.SETTING_DIR);
+            String configDirPath = PathUtil.getResourcePath(project, Consts.SETTING_DIR);
             String configFilePath = configDirPath + File.separator + SETTING_FILE_NAME;
             Yaml yaml = new Yaml(new Constructor(CodeGenerateConfig.class));
             CodeGenerateConfig config = yaml.load(new FileInputStream(configFilePath));
             Log.getLog().info(config.toString());
-            Env.codeGenerateConfig = config;
+            return config;
         } catch (Exception var) {
             Log.getLog().error(SETTING_FILE_NAME + " load error");
             Log.getLog().error(var);
+            throw new RuntimeException(SETTING_FILE_NAME + " load error");
         }
+
     }
 
 }

@@ -1,11 +1,26 @@
 package org.tuean.consts;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Consts {
 
     public static final String SETTING_DIR = "tuean";
 
     public static final String SETTING_FILE_NAME = "codeGenerator.yaml";
 
-    public static final String DB_INFO_SQL = "select column_name, data_type from information_schema.COLUMNS where table_name=";
+    public static final String DB_COLUMN_NAME = "column_name";
+
+    public static final String DB_COLUMN_DATA_TYPE = "data_type";
+
+    public static final List<String> DB_COLUMNS = Arrays.asList(DB_COLUMN_NAME, DB_COLUMN_DATA_TYPE);
+
+    public static final String COMMA = ",";
+
+    public static final String DB_INFO_SQL = "select " + String.join(COMMA, DB_COLUMNS) + " from information_schema.COLUMNS where table_name=";
+
+    public static final String POINT = ".";
 
 }
