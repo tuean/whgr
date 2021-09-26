@@ -76,6 +76,11 @@ const routes = {
             name: 'gojs',
             component: () => import(/* webpackChunkName: "gojsDemo" */ '../components/go-js/gojsDemo.vue')
         }, 
+        {
+            path: '/lineTwo',
+            name: 'lineTwo',
+            component: () => import(/* webpackChunkName: "lineTwo" */ '../components/demo/lineTwo.vue')
+        }, 
     ]
 }
 

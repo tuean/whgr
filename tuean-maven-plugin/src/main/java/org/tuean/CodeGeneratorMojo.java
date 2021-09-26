@@ -11,6 +11,8 @@ import org.tuean.consts.Env;
 import org.tuean.database.DatabaseGot;
 import org.tuean.entity.CodeGenerateConfig;
 import org.tuean.entity.ConfigGenerator;
+import org.tuean.generator.JavaGeneratorEntity;
+import org.tuean.runner.MineRunner;
 import org.tuean.util.Log;
 import org.tuean.util.PathUtil;
 import org.tuean.util.Util;
@@ -42,8 +44,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
         for (String tableName : map.keySet()) {
             ConfigGenerator configGenerator = map.get(tableName);
-            Map<String, String> dbColumnMap = DatabaseGot.getTableColumnInfo(tableName);
-
+            MineRunner.run(configGenerator, tableName);
         }
 
     }

@@ -20,12 +20,20 @@ import java.util.Map;
 
 public class JavaGeneratorEntity {
 
-
-    public static void createJavaFile(ConfigGenerator configGenerator, Map<String, String> dbColumnMap) throws IOException {
+    public static String getFileName(ConfigGenerator configGenerator) {
         String entityPath = PathUtil.getEntityPath();
         Util.initDir(entityPath);
-        String javaFileName = entityPath + File.separator + configGenerator.getEntity() + ".java";
+        return entityPath + File.separator + configGenerator.getEntity() + ".java";
+    }
 
+    public static boolean checkFileExist(ConfigGenerator configGenerator, String tableName) {
+        String javaFileName = getFileName(configGenerator);
+        File file = new File(javaFileName);
+        return file.exists();
+    }
+
+    public static void createJavaFile(ConfigGenerator configGenerator, Map<String, String> dbColumnMap) throws IOException {
+        String javaFileName = getFileName(configGenerator);
         String packageName = Env.codeGenerateConfig.getMapper().getEntity()
                 + Consts.POINT
                 + configGenerator.getEntity();

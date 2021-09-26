@@ -32,7 +32,7 @@ export default {
           "RoundedRectangle",
           { strokeWidth: 0, fill: "white" }, // default fill is white
           // Shape.fill is bound to Node.data.color
-          new go.Binding("fill", "color")
+          new go.Binding("fill", "color"),          
         ),
         $(
           go.TextBlock,
@@ -44,14 +44,16 @@ export default {
 
        myDiagram.linkTemplate =
         $(go.Link,  // the whole link panel
-          { routing: go.Link.Normal },
+       new go.Binding('routing', 'routing'),
           $(go.Shape,  // the link shape
             // the first element is assumed to be main element: as if isPanelMain were true
             { stroke: "gray", strokeWidth: 2 }),
           $(go.Shape,  // the "from" arrowhead
             { fromArrow:'BackwardOpenTriangle', fill: null }),
           $(go.Shape,  // the "to" arrowhead
-             { toArrow: 'OpenTriangle', fill: null })
+             { toArrow: 'OpenTriangle', fill: null }) ,
+             
+           new go.Binding("strokeDashArray", "dash")
         );
 
 
@@ -60,17 +62,17 @@ export default {
       // create the model data that will be represented by Nodes and Links
       myDiagram.model = new go.GraphLinksModel(
         [
-          { key: "Alpha", color: "lightblue", fromArrow: "BackwardOpenTriangle", toArrow: "BackwardOpenTriangle" },
-          { key: "Beta", color: "orange", fromArrow: "BackwardOpenTriangle", toArrow: "BackwardOpenTriangle" },
-          { key: "Gamma", color: "lightgreen", fromArrow: "BackwardOpenTriangle", toArrow: "BackwardOpenTriangle" },
-          { key: "Delta", color: "pink", fromArrow: "BackwardOpenTriangle", toArrow: "BackwardOpenTriangle" },
+          { key: "Alpha", color: "lightblue",},
+          { key: "Beta", color: "orange"},
+          { key: "Gamma", color: "lightgreen"},
+          { key: "Delta", color: "pink"},
         ],
         [
-          { from: "Alpha", to: "Beta" },
-          { from: "Alpha", to: "Gamma" },
-          { from: "Beta", to: "Beta" },
-          { from: "Gamma", to: "Delta" },
-          { from: "Delta", to: "Alpha" },
+          { from: "Alpha", to: "Beta", fromArrow:'BackwardOpenTriangle', toArrow: 'OpenTriangle', fill: null },
+          { from: "Alpha", to: "Gamma" , fromArrow:'BackwardOpenTriangle', toArrow: 'OpenTriangle', fill: null },
+          { from: "Beta", to: "Beta", fromArrow:'BackwardOpenTriangle', toArrow: 'OpenTriangle', fill: null },
+          { from: "Gamma", to: "Delta", fromArrow:'BackwardOpenTriangle', toArrow: 'OpenTriangle', fill: null },
+          { from: "Delta", to: "Alpha" , fromArrow:'BackwardOpenTriangle', toArrow: 'OpenTriangle', fill: null },
         ]
       );
     };
