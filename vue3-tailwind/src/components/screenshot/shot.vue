@@ -60,7 +60,7 @@ export default {
         let source = document.querySelector('#screenshot')
         if (template.getContext) {
             console.log("start")
-            let config = {
+            let serverConfig = {
                 // windowWidth: window.innerWidth,
                 // windowHeight: window.innerHeight,
                 // width: window.innerWidth,
@@ -68,7 +68,7 @@ export default {
                 scale: 1,
                 canvas: template
             }
-            html2canvas(source, config).then((canvas) => {
+            html2canvas(source, serverConfig).then((canvas) => {
                 // document.body.appendChild(canvas) // 把canvas放置于body下
                 document.querySelector('#screen').className = 'appPrint'
                 let imgBase64 = document.querySelector('#template').toDataURL('image/jpeg', 0.92)

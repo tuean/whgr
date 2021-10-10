@@ -8,14 +8,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.tuean.consts.Env;
-import org.tuean.database.DatabaseGot;
-import org.tuean.entity.CodeGenerateConfig;
 import org.tuean.entity.ConfigGenerator;
-import org.tuean.generator.JavaGeneratorEntity;
 import org.tuean.runner.MineRunner;
 import org.tuean.util.Log;
 import org.tuean.util.PathUtil;
-import org.tuean.util.Util;
 import org.tuean.util.YamlUtil;
 
 import java.util.Map;
@@ -32,10 +28,12 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        // system init
         Log.getLog().info("work dir is : " + PathUtil.getWorkPath(project));
         Env.codeGenerateConfig = YamlUtil.parseSetting(project);
         Env.mavenProject = project;
 
+        // get database and table config
         Map<String, ConfigGenerator> map = Env.codeGenerateConfig.getGenerator();
         if (map == null || map.size() < 1) {
             Log.getLog().warn("no table to generate exit");
@@ -44,7 +42,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
         for (String tableName : map.keySet()) {
             ConfigGenerator configGenerator = map.get(tableName);
-            MineRunner.run(configGenerator, tableName);
+            MineRunner.javaRun(configGenerator, tableName);
         }
 
     }

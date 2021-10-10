@@ -129,16 +129,16 @@ export default {
     let instance
     onMounted(() => {
       instance = new WangEditor(editor.value)
-      instance.config.showLinkImg = false
-      instance.config.showLinkImgAlt = false
-      instance.config.showLinkImgHref = false
-      instance.config.uploadImgMaxSize = 2 * 1024 * 1024 // 2M
-      instance.config.uploadFileName = 'file'
-      instance.config.uploadImgHeaders = {
+      instance.serverConfig.showLinkImg = false
+      instance.serverConfig.showLinkImgAlt = false
+      instance.serverConfig.showLinkImgHref = false
+      instance.serverConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 2M
+      instance.serverConfig.uploadFileName = 'file'
+      instance.serverConfig.uploadImgHeaders = {
         token: state.token
       }
       // 图片返回格式不同，需要自定义返回格式
-      instance.config.uploadImgHooks = {
+      instance.serverConfig.uploadImgHooks = {
         // 图片上传并返回了结果，想要自己把图片插入到编辑器中
         // 例如服务器端返回的不是 { errno: 0, data: [...] } 这种格式，可使用 customInsert
         customInsert: function(insertImgFn, result) {
@@ -150,8 +150,8 @@ export default {
           }
         }
       }
-      instance.config.uploadImgServer = uploadImgsServer
-      Object.assign(instance.config, {
+      instance.serverConfig.uploadImgServer = uploadImgsServer
+      Object.assign(instance.serverConfig, {
         onchange() {
           console.log('change')
         },

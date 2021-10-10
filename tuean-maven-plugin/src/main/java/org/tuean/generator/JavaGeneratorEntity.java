@@ -6,6 +6,7 @@ import com.squareup.javapoet.TypeSpec;
 import org.tuean.consts.Consts;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigGenerator;
+import org.tuean.entity.DaoMethodConfig;
 import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.util.Log;
 import org.tuean.util.PathUtil;
@@ -32,7 +33,8 @@ public class JavaGeneratorEntity {
         return file.exists();
     }
 
-    public static void createJavaFile(ConfigGenerator configGenerator, Map<String, String> dbColumnMap) throws IOException {
+    public static void createJavaFile(ConfigGenerator configGenerator,
+                                      Map<String, String> dbColumnMap) throws IOException {
         String javaFileName = getFileName(configGenerator);
         String packageName = Env.codeGenerateConfig.getMapper().getEntity()
                 + Consts.POINT
@@ -70,6 +72,14 @@ public class JavaGeneratorEntity {
 
         File file = new File(javaFileName);
         javaFile.writeTo(file);
+    }
+
+
+
+    public static void updateJavaFile(ConfigGenerator configGenerator,
+                                      Map<String, String> dbColumnMap,
+                                      DaoMethodConfig daoMethodConfig) {
+
     }
 
 

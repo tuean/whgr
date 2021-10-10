@@ -1,5 +1,5 @@
-### vite config
-https://cn.vitejs.dev/config/
+### vite serverConfig
+https://cn.vitejs.dev/serverConfig/
 
 
 ### vue3 loop display error
