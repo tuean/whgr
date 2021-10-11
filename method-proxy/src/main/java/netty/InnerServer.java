@@ -1,6 +1,7 @@
 package netty;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFactory;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
@@ -20,16 +21,22 @@ public class InnerServer {
 
     public static void run(ServerConfig serverConfig) {
         serverConfig.check();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBossThreadNum(), new DefaultThreadFactory(serverConfig.getBossThreadName(), Thread.MAX_PRIORITY));
+        EventLoopGroup workerGroup = new NioEventLoopGroup(serverConfig.getWorkerThreadNum(), new DefaultThreadFactory(serverConfig.getWorkerThreadName(), Thread.MAX_PRIORITY));
         try {
-            EventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBossThreadNum(), new DefaultThreadFactory(serverConfig.getBossThreadName(), Thread.MAX_PRIORITY));
-            EventLoopGroup workerGroup = new NioEventLoopGroup(serverConfig.getWorkerThreadNum(), new DefaultThreadFactory(serverConfig.getWorkerThreadName(), Thread.MAX_PRIORITY));
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
-                    .channelFactory((ChannelFactory) () -> {
-                        return new NioServerSocketChannel(SelectorProvider.provider());
-            })
+                    .channelFactory((ChannelFactory) () -> new NioServerSocketChannel(SelectorProvider.provider()))
                     .handler(new LoggingHandler(LogLevel.DEBUG))
-                    .childHandler()
+                    .childHandler(new MineServerInitializer());
+            Integer port = serverConfig.getPort();
+            Channel ch = b.bind(port).sync().channel();
+            ch.closeFuture().sync();
+        } catch (Exception var) {
+            logger.error("", var);
+        } finally {
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
     }
 
