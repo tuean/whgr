@@ -19,6 +19,7 @@ public class BaseListRequest {
 
 
 
+
     public Integer getPageSize() {
         return pageSize;
     }

@@ -26,14 +26,18 @@ public class BaseResponse<T> {
         return BaseResponse.builder().code(0).message(info).build();
     }
 
+    public static BaseResponse success(Object data) {
+        return BaseResponse.ok().okWithBody(data);
+    }
+
     public BaseResponse<T> okWithBody(T data) {
         BaseResponse<T> res = ok();
         res.setData(data);
         return res;
     }
 
-    public static BaseResponse okWithList(List list, boolean finished, Integer total) {
-        BaseResponse<ListResponse> response = new BaseResponse();
+    public static BaseResponse<ListResponse> okWithList(List list, boolean finished, Integer total) {
+        BaseResponse<ListResponse> response = new BaseResponse<>();
         response.setCode(0);
         response.setMessage("ok");
 
@@ -46,8 +50,8 @@ public class BaseResponse<T> {
         return response;
     }
 
-    public static BaseResponse okWithEmptyList() {
-        BaseResponse<ListResponse> response = new BaseResponse();
+    public static BaseResponse<ListResponse> okWithEmptyList() {
+        BaseResponse<ListResponse> response = new BaseResponse<>();
         response.setCode(0);
         response.setMessage("ok");
 
