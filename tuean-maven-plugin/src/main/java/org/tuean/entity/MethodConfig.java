@@ -1,5 +1,7 @@
 package org.tuean.entity;
 
+import org.tuean.entity.define.JavaClass;
+
 import java.util.Map;
 
 public class MethodConfig {
@@ -8,7 +10,7 @@ public class MethodConfig {
 
     private String tableName;
 
-    private Map<DaoMethodConfig, MapperMethodConfig> config;
+    private Map<JavaClass, MapperMethodConfig> config;
 
 
 
@@ -28,11 +30,11 @@ public class MethodConfig {
         this.tableName = tableName;
     }
 
-    public Map<DaoMethodConfig, MapperMethodConfig> getConfig() {
+    public Map<JavaClass, MapperMethodConfig> getConfig() {
         return config;
     }
 
-    public void setConfig(Map<DaoMethodConfig, MapperMethodConfig> config) {
+    public void setConfig(Map<JavaClass, MapperMethodConfig> config) {
         this.config = config;
     }
 }

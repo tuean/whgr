@@ -1,4 +1,4 @@
-package org.tuean.parser;
+package org.tuean.parser.xml;
 
 public class XmlFileParser {
 

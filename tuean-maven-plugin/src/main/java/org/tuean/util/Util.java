@@ -5,8 +5,13 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.model.Resource;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
+
+import static org.tuean.consts.Consts.CONFIG_LINE_SEPARATOR;
 
 public class Util {
 
@@ -28,5 +33,10 @@ public class Util {
 
     public static String setMethodName(String key) {
         return "set" + uppercaseFirst(key);
+    }
+
+    public static void nextLine(OutputStream out) throws IOException {
+        String newLine = System.getProperty(CONFIG_LINE_SEPARATOR);
+        out.write(newLine.getBytes(StandardCharsets.UTF_8));
     }
 }

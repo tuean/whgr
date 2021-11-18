@@ -23,4 +23,15 @@ public class Consts {
 
     public static final String POINT = ".";
 
+    public static final String JAVA_END = ";";
+
+    public static final String CONFIG_LINE_SEPARATOR = "line.separator";
+
+    public static final String EMPTY_STR = "";
+
+    public static final String BLANK_SPACE = " ";
+
+    public static final String FINAL = "final ";
+
+    public static final String STATIC = "static ";
 }
