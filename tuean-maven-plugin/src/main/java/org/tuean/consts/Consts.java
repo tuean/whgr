@@ -19,7 +19,7 @@ public class Consts {
 
     public static final String COMMA = ",";
 
-    public static final String DB_INFO_SQL = "select " + String.join(COMMA, DB_COLUMNS) + " from information_schema.COLUMNS where table_name=";
+    public static final String DB_INFO_SQL = "select " + String.join(COMMA, DB_COLUMNS) + " from information_schema.COLUMNS where table_name='%s'";
 
     public static final String POINT = ".";
 

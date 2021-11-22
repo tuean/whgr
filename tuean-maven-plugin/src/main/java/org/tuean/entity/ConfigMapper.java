@@ -10,6 +10,9 @@ public class ConfigMapper {
 
     private String xml;
 
+    public ConfigMapper() {
+    }
+
     @Override
     public String toString() {
         return "ConfigMapper{" +

@@ -1,6 +1,7 @@
 db:
   jar_path: C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar
-  driver_class: com.mysql.jdbc.Driver
+#  driver_class: com.mysql.jdbc.Driver
+  driver_class: com.mysql.cj.jdbc.Driver
   user: root
   pwd: tuean330
   database: whgr

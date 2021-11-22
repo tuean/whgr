@@ -16,19 +16,19 @@ public class DatabaseGot {
         Map<String, String> map = new HashMap<>();
         try {
             Connection con = DatabaseRegister.getConnection(Env.codeGenerateConfig.getDb());
-            String sql = Consts.DB_INFO_SQL + table;
+            String sql = String.format(Consts.DB_INFO_SQL, table);
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()){
-                String columnName = rs.getString(0);
-                String columnType = rs.getString(1);
+                String columnName = rs.getString(1);
+                String columnType = rs.getString(2);
                 map.put(columnName, columnType);
             }
             return map;
         } catch (Exception var) {
-            Log.getLog().error("get " + table + "column info error");
+            Log.getLog().error("get " + table + " column info error");
             Log.getLog().error(var);
-            throw new RuntimeException("get " + table + "column info error");
+            throw new RuntimeException("get " + table + " column info error");
         }
 
 

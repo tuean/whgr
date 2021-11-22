@@ -14,6 +14,8 @@ public class ConfigDb {
 
     private String url;
 
+    public ConfigDb() {
+    }
 
     public ConfigDb(String jar_path, String driver_class, String user, String pwd, String database, String url) {
         this.jar_path = jar_path;
