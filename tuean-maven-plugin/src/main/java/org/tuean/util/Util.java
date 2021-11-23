@@ -28,8 +28,16 @@ public class Util {
         for (int x = 0; column.length() > x; x++) {
             char t = column.charAt(x);
             boolean flag = t == '_';
-            if (flag) _flag = true; continue;
-
+            if (flag) {
+                _flag = true;
+                continue;
+            }
+            if (_flag) {
+                sb.append(String.valueOf(column.charAt(x)).toUpperCase());
+            } else {
+                sb.append(column.charAt(x));
+            }
+            _flag = false;
         }
     }
 
