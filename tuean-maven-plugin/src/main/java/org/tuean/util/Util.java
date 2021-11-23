@@ -22,6 +22,17 @@ public class Util {
         }
     }
 
+    public static String dbColumn2JavaField(String column) {
+        StringBuffer sb = new StringBuffer();
+        boolean _flag = false;
+        for (int x = 0; column.length() > x; x++) {
+            char t = column.charAt(x);
+            boolean flag = t == '_';
+            if (flag) _flag = true; continue;
+
+        }
+    }
+
     public static String uppercaseFirst(String key) {
         String k1 = key.substring(0, 1);
         return k1.toUpperCase(Locale.ROOT) + k1.substring(1);

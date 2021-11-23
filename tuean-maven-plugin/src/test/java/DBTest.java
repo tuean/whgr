@@ -8,11 +8,12 @@ public class DBTest {
 
 
     @Test
-    public void testDBMap() {
+    public static Map<String, String> testDBMap() {
         Prepare.init();
         String tableName = "menus";
         Map<String, String> map = DatabaseGot.getTableColumnInfo(tableName);
         Log.getLog().info(map.toString());
+        return map;
     }
 
 }
