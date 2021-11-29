@@ -12,6 +12,27 @@ public class JavaField {
 
     private String fieldName;
 
+    public JavaField() {
+    }
+
+    public JavaField(JavaVisible javaVisible, boolean isStatic, boolean isFinal, Class fieldClazz, String fieldName) {
+        this.javaVisible = javaVisible;
+        this.isStatic = isStatic;
+        this.isFinal = isFinal;
+        this.fieldClazz = fieldClazz;
+        this.fieldName = fieldName;
+    }
+
+    @Override
+    public String toString() {
+        return "JavaField{" +
+                "javaVisible=" + javaVisible +
+                ", isStatic=" + isStatic +
+                ", isFinal=" + isFinal +
+                ", fieldClazz=" + fieldClazz +
+                ", fieldName='" + fieldName + '\'' +
+                '}';
+    }
 
     public JavaVisible getJavaVisible() {
         return javaVisible;

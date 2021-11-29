@@ -16,8 +16,16 @@ public class JavaClass {
     private List<JavaField> fieldList;
 
 
-
-
+    @Override
+    public String toString() {
+        return "JavaClass{" +
+                "packageInfo='" + packageInfo + '\'' +
+                ", importList=" + importList +
+                ", className='" + className + '\'' +
+                ", methodList=" + methodList +
+                ", fieldList=" + fieldList +
+                '}';
+    }
 
     public String getPackageInfo() {
         return packageInfo;

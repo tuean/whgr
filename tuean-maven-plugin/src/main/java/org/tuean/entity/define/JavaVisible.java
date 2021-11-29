@@ -19,4 +19,34 @@ public class JavaVisible {
         return visible + Consts.BLANK_SPACE;
     }
 
+    @Override
+    public String toString() {
+        return "JavaVisible{" +
+                "visibleRange='" + visibleRange + '\'' +
+                '}';
+    }
+
+    public JavaVisible(String visibleRange) {
+        this.visibleRange = visibleRange;
+    }
+
+    public JavaVisible() {
+    }
+
+    public static JavaVisible visiblePrivate() {
+        return new JavaVisible("private");
+    }
+
+    public static JavaVisible visiblePublic() {
+        return new JavaVisible("public");
+    }
+
+    public static JavaVisible visibleProtected() {
+        return new JavaVisible("protected");
+    }
+
+    public static JavaVisible visibleEmpty() {
+        return new JavaVisible("");
+    }
+
 }

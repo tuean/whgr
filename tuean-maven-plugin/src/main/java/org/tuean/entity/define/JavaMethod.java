@@ -1,8 +1,11 @@
 package org.tuean.entity.define;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class JavaMethod {
+
+    private String methodName;
 
     private boolean isStatic;
 
@@ -16,6 +19,27 @@ public class JavaMethod {
 
     private List<String> methodBody;
 
+
+    @Override
+    public String toString() {
+        return "JavaMethod{" +
+                "methodName='" + methodName + '\'' +
+                ", isStatic=" + isStatic +
+                ", isFinal=" + isFinal +
+                ", javaVisible=" + javaVisible +
+                ", argNames=" + Arrays.toString(argNames) +
+                ", argClazzs=" + Arrays.toString(argClazzs) +
+                ", methodBody=" + methodBody +
+                '}';
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
 
     public boolean isStatic() {
         return isStatic;

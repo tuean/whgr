@@ -3,6 +3,7 @@ package org.tuean.generator;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.tuean.consts.Consts;
 import org.tuean.consts.Env;
@@ -103,7 +104,22 @@ public class JavaGenerator {
         if (methods == null) return;
         StringBuffer sb;
         for (JavaMethod method : methods) {
-
+            sb = new StringBuffer();
+            sb.append(JavaVisible.getVisibleString(method.getJavaVisible()));
+            if (method.isFinal()) sb.append(Consts.FINAL);
+            if (method.isStatic()) sb.append(Consts.STATIC);
+            sb.append(method.getMethodName());
+            sb.append("() {");
+            if (!CollectionUtils.isEmpty(method.getMethodBody())) {
+                method.getMethodBody().forEach(n -> {
+                    try {
+                        out.write(n.getBytes(StandardCharsets.UTF_8));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            sb.append("}");
         }
     }
 

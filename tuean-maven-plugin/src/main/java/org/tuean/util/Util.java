@@ -1,8 +1,12 @@
 package org.tuean.util;
 
+import com.google.inject.internal.util.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.model.Resource;
+import org.tuean.entity.define.JavaField;
+import org.tuean.entity.define.JavaMethod;
+import org.tuean.entity.define.JavaVisible;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,13 +36,14 @@ public class Util {
                 _flag = true;
                 continue;
             }
-            if (_flag) {
+            if (_flag && x != 1) {
                 sb.append(String.valueOf(column.charAt(x)).toUpperCase());
             } else {
                 sb.append(column.charAt(x));
             }
             _flag = false;
         }
+        return sb.toString();
     }
 
     public static String uppercaseFirst(String key) {
@@ -57,5 +62,31 @@ public class Util {
     public static void nextLine(OutputStream out) throws IOException {
         String newLine = System.getProperty(CONFIG_LINE_SEPARATOR);
         out.write(newLine.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static JavaMethod getMethod(JavaField field) {
+        JavaMethod method = new JavaMethod();
+        method.setArgClazzs(null);
+        method.setArgNames(null);
+        method.setJavaVisible(JavaVisible.visiblePublic());
+        method.setStatic(false);
+        method.setMethodName("get" + uppercaseFirst(field.getFieldName()));
+        method.setMethodBody(Lists.newArrayList("return this." + field.getFieldName()));
+        return method;
+    }
+
+    public static JavaMethod setMethod(JavaField field) {
+        JavaMethod method = new JavaMethod();
+        method.setArgClazzs(new Class[]{field.getFieldClazz()});
+        method.setArgNames(new String[]{field.getFieldName()});
+        method.setJavaVisible(JavaVisible.visiblePublic());
+        method.setStatic(false);
+        method.setMethodName("set" + uppercaseFirst(field.getFieldName()));
+        method.setMethodBody(Lists.newArrayList("this." + field.getFieldName() + " = " + field.getFieldName()));
+        return method;
+    }
+
+    public static void main(String[] args) {
+//        System.out.println(dbColumn2JavaField("_plan_status"));
     }
 }
