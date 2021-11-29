@@ -16,7 +16,7 @@ public class JavaVisible {
 
     public static String getVisibleString(JavaVisible visible) {
         if (visible == null) return Consts.EMPTY_STR;
-        return visible + Consts.BLANK_SPACE;
+        return visible.getVisibleRange() + Consts.BLANK_SPACE;
     }
 
     @Override

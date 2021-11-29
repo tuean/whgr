@@ -23,8 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-import static org.tuean.consts.Consts.EMPTY_STR;
-import static org.tuean.consts.Consts.JAVA_END;
+import static org.tuean.consts.Consts.*;
 
 public class JavaGenerator {
 
@@ -55,7 +54,8 @@ public class JavaGenerator {
 
 
     public static void createJavaFile(String filePath, JavaClass javaClass) throws IOException {
-        FileOutputStream out = new FileOutputStream(filePath, false);
+        String outFile = filePath + javaClass.getClassName() + ".java";
+        FileOutputStream out = new FileOutputStream(outFile, false);
 
         // package info
         writePackage(out, javaClass.getPackageInfo());
@@ -63,63 +63,72 @@ public class JavaGenerator {
         // imports
         writeImport(out, javaClass.getImportList());
 
+        // class
+        out.write(Util.string2bytes("public class " + javaClass.getClassName() + " {"));
+        Util.nextLine(out);
+
         // fields
-        writeFields(out, javaClass.getFieldList());
+        writeFields(out, javaClass.getFieldList(), 4);
 
         // methods
+        writeMethods(out, javaClass.getMethodList(), 4);
 
+        out.write(Util.string2bytes("}"));
     }
 
     private static void writePackage(OutputStream out, String packageInfo) throws IOException {
         if (StringUtils.isBlank(packageInfo)) return;
-        out.write((packageInfo + JAVA_END).getBytes(StandardCharsets.UTF_8));
+        out.write(Util.string2bytes("package " + packageInfo + JAVA_END));
         Util.nextLine(out);
     }
 
     private static void writeImport(OutputStream out, List<String> importList) throws IOException {
         if (importList == null) return;
         for (String line : importList) {
-            out.write(line.getBytes(StandardCharsets.UTF_8));
+            out.write(Util.string2bytes(line));
             Util.nextLine(out);
         }
     }
 
-    private static void writeFields(OutputStream out, List<JavaField> fields) throws IOException {
+    private static void writeFields(OutputStream out, List<JavaField> fields, int blanks) throws IOException {
         if (fields == null) return;
         StringBuffer sb;
         for (JavaField field : fields) {
             sb = new StringBuffer();
+            sb.append(Util.blank(blanks));
             sb.append(JavaVisible.getVisibleString(field.getJavaVisible()));
             if (field.isFinal()) sb.append(Consts.FINAL);
             if (field.isStatic()) sb.append(Consts.STATIC);
-            sb.append(field.getFieldClazz().toString()); sb.append(EMPTY_STR);
+            sb.append(field.getFieldClazz().getSimpleName()); sb.append(BLANK_SPACE);
             sb.append(field.getFieldName());
             sb.append(JAVA_END);
-            out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+            out.write(Util.string2bytes(sb.toString()));
             Util.nextLine(out);
         }
     }
 
-    private static void writeMethods(OutputStream out, List<JavaMethod> methods) {
+    private static void writeMethods(OutputStream out, List<JavaMethod> methods, int blanks) throws IOException {
         if (methods == null) return;
         StringBuffer sb;
         for (JavaMethod method : methods) {
             sb = new StringBuffer();
+            sb.append(Util.blank(blanks));
             sb.append(JavaVisible.getVisibleString(method.getJavaVisible()));
             if (method.isFinal()) sb.append(Consts.FINAL);
             if (method.isStatic()) sb.append(Consts.STATIC);
             sb.append(method.getMethodName());
             sb.append("() {");
-            if (!CollectionUtils.isEmpty(method.getMethodBody())) {
-                method.getMethodBody().forEach(n -> {
-                    try {
-                        out.write(n.getBytes(StandardCharsets.UTF_8));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+            nextLine(sb);
+            int innerBlanks = blanks + 2;
+            for (String s : method.getMethodBody()) {
+                sb.append(Util.blank(innerBlanks));
+                sb.append(s);
+                nextLine(sb);
             }
+            sb.append(Util.blank(blanks));
             sb.append("}");
+            nextLine(sb);
+            out.write(Util.string2bytes(sb.toString()));
         }
     }
 
@@ -173,6 +182,10 @@ public class JavaGenerator {
 
     }
 
+
+    private static void nextLine(StringBuffer sb) {
+        sb.append("\r\n");
+    }
 
 
 }

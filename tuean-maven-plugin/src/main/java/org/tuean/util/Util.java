@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.tuean.consts.Consts.CONFIG_LINE_SEPARATOR;
+import static org.tuean.consts.Consts.JAVA_END;
 
 public class Util {
 
@@ -48,7 +49,7 @@ public class Util {
 
     public static String uppercaseFirst(String key) {
         String k1 = key.substring(0, 1);
-        return k1.toUpperCase(Locale.ROOT) + k1.substring(1);
+        return k1.toUpperCase(Locale.ROOT) + key.substring(1);
     }
 
     public static String getMethodName(String key) {
@@ -71,7 +72,7 @@ public class Util {
         method.setJavaVisible(JavaVisible.visiblePublic());
         method.setStatic(false);
         method.setMethodName("get" + uppercaseFirst(field.getFieldName()));
-        method.setMethodBody(Lists.newArrayList("return this." + field.getFieldName()));
+        method.setMethodBody(Lists.newArrayList("return this." + field.getFieldName() + JAVA_END));
         return method;
     }
 
@@ -82,8 +83,24 @@ public class Util {
         method.setJavaVisible(JavaVisible.visiblePublic());
         method.setStatic(false);
         method.setMethodName("set" + uppercaseFirst(field.getFieldName()));
-        method.setMethodBody(Lists.newArrayList("this." + field.getFieldName() + " = " + field.getFieldName()));
+        method.setMethodBody(Lists.newArrayList("this." + field.getFieldName() + " = " + field.getFieldName() + JAVA_END));
         return method;
+    }
+
+    public static String blank(int length) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+    public static byte[] string2bytes(String str) {
+        return str == null ? new byte[0] : str.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public static String className(Class clazz) {
+        return null;
     }
 
     public static void main(String[] args) {

@@ -4,8 +4,10 @@ import org.tuean.entity.define.JavaField;
 import org.tuean.entity.define.JavaMethod;
 import org.tuean.entity.define.JavaVisible;
 import org.tuean.enums.JdbcTypeEnum;
+import org.tuean.generator.JavaGenerator;
 import org.tuean.util.Util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class JavaFileTest {
 
     @Test
-    public void testMakeJavaFile() {
+    public void testMakeJavaFile() throws IOException {
         Map<String, String> dbParamMap = DBTest.testDBMap();
         String tableName = "menus";
         String packageInfo = "com.tuean";
@@ -34,10 +36,13 @@ public class JavaFileTest {
 
         JavaClass javaClazz = new JavaClass();
         javaClazz.setFieldList(fieldList);
-        javaClazz.setClassName(tableName);
+        javaClazz.setClassName(Util.uppercaseFirst(tableName));
         javaClazz.setMethodList(methodList);
         javaClazz.setPackageInfo(packageInfo);
         javaClazz.setImportList(null);
         System.out.println(javaClazz);
+
+        String outPath = "D:\\IdeaProjects\\whgr\\";
+        JavaGenerator.createJavaFile(outPath, javaClazz);
     }
 }
