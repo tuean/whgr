@@ -64,7 +64,7 @@ public class JavaGenerator {
         writeImport(out, javaClass.getImportList());
 
         // class
-        out.write(Util.string2bytes("public class " + javaClass.getClassName() + " {"));
+        out.write(Util.string2bytes("public" + BLANK_SPACE + javaClass.getClassType() + BLANK_SPACE + javaClass.getClassName() + BLANK_SPACE + "{"));
         Util.nextLine(out);
 
         // fields

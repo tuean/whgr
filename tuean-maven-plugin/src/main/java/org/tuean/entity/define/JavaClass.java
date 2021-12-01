@@ -9,6 +9,8 @@ public class JavaClass {
 
     private List<String> importList;
 
+    private String classType;
+
     private String className;
 
     private List<JavaMethod> methodList;
@@ -21,10 +23,19 @@ public class JavaClass {
         return "JavaClass{" +
                 "packageInfo='" + packageInfo + '\'' +
                 ", importList=" + importList +
+                ", classType='" + classType + '\'' +
                 ", className='" + className + '\'' +
                 ", methodList=" + methodList +
                 ", fieldList=" + fieldList +
                 '}';
+    }
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
     }
 
     public String getPackageInfo() {

@@ -27,6 +27,11 @@ public class MineRunner {
 
     public static void javaRun(ConfigGenerator configGenerator, String tableName) {
         Map<String, String> dbParamMap = DatabaseGot.getTableColumnInfo(tableName);
+        generateEntity(dbParamMap, tableName);
+
+    }
+
+    private static void generateEntity(Map<String, String> dbParamMap, String tableName) {
         String packageInfo = Env.codeGenerateConfig.getMapper().getEntity();
         List<JavaField> fieldList = new ArrayList<>();
         List<JavaMethod> methodList = new ArrayList<>();
@@ -49,6 +54,7 @@ public class MineRunner {
         javaClazz.setMethodList(methodList);
         javaClazz.setPackageInfo(packageInfo);
         javaClazz.setImportList(null);
+        javaClazz.setClassType("class");
         Log.getLog().info(javaClazz.toString());
         String outPath = Util.findEntityLocation(Env.codeGenerateConfig.getMapper(), Env.mavenProject);
 
@@ -57,6 +63,10 @@ public class MineRunner {
         } catch (Exception var) {
             Log.getLog().error(var);
         }
+    }
+
+    private static void generateDao(Map<String, String> dbParamMap, String tableName) {
+
     }
 
 }
