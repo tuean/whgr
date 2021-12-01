@@ -11,6 +11,10 @@ public class JavaMethod {
 
     private boolean isFinal;
 
+    private boolean voidFlag;
+
+    private Class returnClass;
+
     private JavaVisible javaVisible;
 
     private String[] argNames;
@@ -26,11 +30,29 @@ public class JavaMethod {
                 "methodName='" + methodName + '\'' +
                 ", isStatic=" + isStatic +
                 ", isFinal=" + isFinal +
+                ", voidFlag=" + voidFlag +
+                ", returnClass=" + returnClass +
                 ", javaVisible=" + javaVisible +
                 ", argNames=" + Arrays.toString(argNames) +
                 ", argClazzs=" + Arrays.toString(argClazzs) +
                 ", methodBody=" + methodBody +
                 '}';
+    }
+
+    public boolean isVoidFlag() {
+        return voidFlag;
+    }
+
+    public void setVoidFlag(boolean voidFlag) {
+        this.voidFlag = voidFlag;
+    }
+
+    public Class getReturnClass() {
+        return returnClass;
+    }
+
+    public void setReturnClass(Class returnClass) {
+        this.returnClass = returnClass;
     }
 
     public String getMethodName() {

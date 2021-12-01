@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class JavaFileTest {
 
-    @Test
+//    @Test
     public void testMakeJavaFile() throws IOException {
         Map<String, String> dbParamMap = DBTest.testDBMap();
         String tableName = "menus";

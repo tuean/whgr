@@ -7,7 +7,7 @@ import java.util.Map;
 public class DBTest {
 
 
-    @Test
+//    @Test
     public static Map<String, String> testDBMap() {
         Prepare.init();
         String tableName = "menus";

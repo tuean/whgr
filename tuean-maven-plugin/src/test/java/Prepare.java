@@ -16,7 +16,6 @@ import static org.tuean.consts.Consts.SETTING_FILE_NAME;
 public class Prepare {
 
     public static void init() {
-
         InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(SETTING_FILE_NAME);
         Yaml yaml = new Yaml(new Constructor(CodeGenerateConfig.class));
         CodeGenerateConfig config = yaml.load(in);

@@ -1,9 +1,13 @@
 package org.tuean.util;
 
 import com.google.inject.internal.util.Lists;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.http.util.Asserts;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.model.Resource;
+import org.tuean.consts.Env;
+import org.tuean.entity.ConfigMapper;
 import org.tuean.entity.define.JavaField;
 import org.tuean.entity.define.JavaMethod;
 import org.tuean.entity.define.JavaVisible;
@@ -73,6 +77,8 @@ public class Util {
         method.setStatic(false);
         method.setMethodName("get" + uppercaseFirst(field.getFieldName()));
         method.setMethodBody(Lists.newArrayList("return this." + field.getFieldName() + JAVA_END));
+        method.setReturnClass(field.getFieldClazz());
+        method.setVoidFlag(false);
         return method;
     }
 
@@ -84,6 +90,7 @@ public class Util {
         method.setStatic(false);
         method.setMethodName("set" + uppercaseFirst(field.getFieldName()));
         method.setMethodBody(Lists.newArrayList("this." + field.getFieldName() + " = " + field.getFieldName() + JAVA_END));
+        method.setVoidFlag(true);
         return method;
     }
 
@@ -100,7 +107,35 @@ public class Util {
     }
 
     public static String className(Class clazz) {
-        return null;
+        return clazz.getSimpleName();
+    }
+
+    public static String findEntityLocation(ConfigMapper configMapper, MavenProject mavenProject) {
+        StringBuffer sb = new StringBuffer();
+        String basePath = mavenProject.getBasedir().getPath();
+        sb.append(basePath);
+        String workdir = configMapper.getWorkdir();
+        Asserts.notBlank(workdir, "workdir must not be null");
+        List<String> workdirs = Arrays.asList(workdir.split("\\/"));
+        workdirs.forEach(n -> {
+            sb.append(File.separator);
+            sb.append(n);
+        });
+        String entity = Env.codeGenerateConfig.getMapper().getEntity();
+        Asserts.notBlank(entity, "entity must not be null");
+        List<String> entitys = Arrays.asList(entity.split("\\."));
+        entitys.forEach(n -> {
+            sb.append(File.separator);
+            sb.append(n);
+        });
+        String outPath = sb.toString();
+        File file = new File(outPath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+//
+//        return "D:\\IdeaProjects\\whgr\\";
+        return outPath;
     }
 
     public static void main(String[] args) {

@@ -54,7 +54,7 @@ public class JavaGenerator {
 
 
     public static void createJavaFile(String filePath, JavaClass javaClass) throws IOException {
-        String outFile = filePath + javaClass.getClassName() + ".java";
+        String outFile = filePath + File.separator + javaClass.getClassName() + ".java";
         FileOutputStream out = new FileOutputStream(outFile, false);
 
         // package info
@@ -116,8 +116,24 @@ public class JavaGenerator {
             sb.append(JavaVisible.getVisibleString(method.getJavaVisible()));
             if (method.isFinal()) sb.append(Consts.FINAL);
             if (method.isStatic()) sb.append(Consts.STATIC);
+            if (method.isVoidFlag()) {
+                sb.append(" void ");
+            } else {
+                sb.append(BLANK_SPACE + method.getReturnClass().getSimpleName() + BLANK_SPACE);
+            }
             sb.append(method.getMethodName());
-            sb.append("() {");
+            sb.append("(");
+            if (method.getArgNames() != null) {
+                for (int i = 0; i < method.getArgNames().length; i++) {
+                    sb.append(method.getArgClazzs()[i].getSimpleName());
+                    sb.append(BLANK_SPACE);
+                    sb.append(method.getArgNames()[i]);
+                    if (i != method.getArgNames().length - 1) {
+                        sb.append(",");
+                    }
+                }
+            }
+            sb.append(") {");
             nextLine(sb);
             int innerBlanks = blanks + 2;
             for (String s : method.getMethodBody()) {
