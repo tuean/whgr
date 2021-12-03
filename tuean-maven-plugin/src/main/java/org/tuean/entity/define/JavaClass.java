@@ -17,6 +17,8 @@ public class JavaClass {
 
     private List<JavaField> fieldList;
 
+    private String locationPath;
+
 
     @Override
     public String toString() {
@@ -27,7 +29,16 @@ public class JavaClass {
                 ", className='" + className + '\'' +
                 ", methodList=" + methodList +
                 ", fieldList=" + fieldList +
+                ", locationPath='" + locationPath + '\'' +
                 '}';
+    }
+
+    public String getLocationPath() {
+        return locationPath;
+    }
+
+    public void setLocationPath(String locationPath) {
+        this.locationPath = locationPath;
     }
 
     public String getClassType() {

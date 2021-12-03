@@ -2,12 +2,11 @@ package org.tuean.util;
 
 import com.google.inject.internal.util.Lists;
 import edu.emory.mathcs.backport.java.util.Arrays;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.util.Asserts;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.model.Resource;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigMapper;
+import org.tuean.entity.define.JavaClass;
 import org.tuean.entity.define.JavaField;
 import org.tuean.entity.define.JavaMethod;
 import org.tuean.entity.define.JavaVisible;
@@ -49,6 +48,12 @@ public class Util {
             _flag = false;
         }
         return sb.toString();
+    }
+
+
+    public static String lowercaseFirst(String key) {
+        String k1 = key.substring(0, 1);
+        return k1.toLowerCase(Locale.ROOT) + key.substring(1);
     }
 
     public static String uppercaseFirst(String key) {
@@ -130,12 +135,67 @@ public class Util {
         });
         String outPath = sb.toString();
         File file = new File(outPath);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+        if (!file.exists()) { file.mkdirs(); }
 //
 //        return "D:\\IdeaProjects\\whgr\\";
         return outPath;
+    }
+
+    public static String findDaoLocation(ConfigMapper configMapper, MavenProject mavenProject) {
+        StringBuffer sb = new StringBuffer();
+        String basePath = mavenProject.getBasedir().getPath();
+        sb.append(basePath);
+        String workdir = configMapper.getWorkdir();
+        Asserts.notBlank(workdir, "workdir must not be null");
+        List<String> workdirs = Arrays.asList(workdir.split("\\/"));
+        workdirs.forEach(n -> {
+            sb.append(File.separator);
+            sb.append(n);
+        });
+        String dao = Env.codeGenerateConfig.getMapper().getDao();
+        Asserts.notBlank(dao, "entity must not be null");
+        List<String> daos = Arrays.asList(dao.split("\\."));
+        daos.forEach(n -> {
+            sb.append(File.separator);
+            sb.append(n);
+        });
+        String outPath = sb.toString();
+        File file = new File(outPath);
+        if (!file.exists()) { file.mkdirs(); }
+//
+//        return "D:\\IdeaProjects\\whgr\\";
+        return outPath;
+    }
+
+
+    public static JavaMethod insertMethod(JavaClass clazz) {
+        JavaMethod method = new JavaMethod();
+        method.setJavaVisible(JavaVisible.visibleEmpty());
+        method.setFinal(false);
+        method.setVoidFlag(false);
+        method.setStatic(false);
+        method.setReturnClass(Integer.class);
+        method.setMethodName("insert");
+        method.setArgClazzs(null);
+        method.setArgClassStrs(new String[]{clazz.getClassName()});
+        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+        method.setInterfaceMethod(true);
+        return method;
+    }
+
+    public static JavaMethod updateMethod(JavaClass clazz) {
+        JavaMethod method = new JavaMethod();
+        method.setJavaVisible(JavaVisible.visibleEmpty());
+        method.setFinal(false);
+        method.setVoidFlag(false);
+        method.setStatic(false);
+        method.setReturnClass(Integer.class);
+        method.setMethodName("update");
+        method.setArgClazzs(null);
+        method.setArgClassStrs(new String[]{clazz.getClassName()});
+        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+        method.setInterfaceMethod(true);
+        return method;
     }
 
     public static void main(String[] args) {

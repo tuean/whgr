@@ -53,9 +53,9 @@ public class JavaGenerator {
 
 
 
-    public static void createJavaFile(String filePath, JavaClass javaClass) throws IOException {
-        String outFile = filePath + File.separator + javaClass.getClassName() + ".java";
-        FileOutputStream out = new FileOutputStream(outFile, false);
+    public static void createJavaFile(JavaClass javaClass) throws IOException {
+
+        FileOutputStream out = new FileOutputStream(javaClass.getLocationPath(), false);
 
         // package info
         writePackage(out, javaClass.getPackageInfo());
@@ -85,9 +85,12 @@ public class JavaGenerator {
     private static void writeImport(OutputStream out, List<String> importList) throws IOException {
         if (importList == null) return;
         for (String line : importList) {
-            out.write(Util.string2bytes(line));
-            Util.nextLine(out);
+            if (!StringUtils.isBlank(line)) {
+                out.write(Util.string2bytes("import " + line));
+                Util.nextLine(out);
+            }
         }
+        Util.nextLine(out);
     }
 
     private static void writeFields(OutputStream out, List<JavaField> fields, int blanks) throws IOException {
@@ -122,10 +125,19 @@ public class JavaGenerator {
                 sb.append(BLANK_SPACE + method.getReturnClass().getSimpleName() + BLANK_SPACE);
             }
             sb.append(method.getMethodName());
+            if (method.isInterfaceMethod()) {
+                sb.append(method.getArgClazzs() == null ? method.getArgClassStrs()[0] : method.getArgClazzs()[0].getSimpleName());
+                sb.append(BLANK_SPACE);
+                sb.append(method.getArgNames()[0]);
+                sb.append(JAVA_END);
+                nextLine(sb);
+                out.write(Util.string2bytes(sb.toString()));
+                continue;
+            }
             sb.append("(");
             if (method.getArgNames() != null) {
                 for (int i = 0; i < method.getArgNames().length; i++) {
-                    sb.append(method.getArgClazzs()[i].getSimpleName());
+                    sb.append(method.getArgClazzs() == null ? method.getArgClassStrs()[i] : method.getArgClazzs()[i].getSimpleName());
                     sb.append(BLANK_SPACE);
                     sb.append(method.getArgNames()[i]);
                     if (i != method.getArgNames().length - 1) {
@@ -136,10 +148,12 @@ public class JavaGenerator {
             sb.append(") {");
             nextLine(sb);
             int innerBlanks = blanks + 2;
-            for (String s : method.getMethodBody()) {
-                sb.append(Util.blank(innerBlanks));
-                sb.append(s);
-                nextLine(sb);
+            if (method.getMethodBody() != null) {
+                for (String s : method.getMethodBody()) {
+                    sb.append(Util.blank(innerBlanks));
+                    sb.append(s);
+                    nextLine(sb);
+                }
             }
             sb.append(Util.blank(blanks));
             sb.append("}");

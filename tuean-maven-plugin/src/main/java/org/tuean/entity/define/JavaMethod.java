@@ -13,12 +13,15 @@ public class JavaMethod {
 
     private boolean voidFlag;
 
+    private boolean interfaceMethod;
+
     private Class returnClass;
 
     private JavaVisible javaVisible;
 
     private String[] argNames;
 
+    private String[] argClassStrs;
     private Class[] argClazzs;
 
     private List<String> methodBody;
@@ -31,12 +34,30 @@ public class JavaMethod {
                 ", isStatic=" + isStatic +
                 ", isFinal=" + isFinal +
                 ", voidFlag=" + voidFlag +
+                ", interfaceMethod=" + interfaceMethod +
                 ", returnClass=" + returnClass +
                 ", javaVisible=" + javaVisible +
                 ", argNames=" + Arrays.toString(argNames) +
+                ", argClassStrs=" + Arrays.toString(argClassStrs) +
                 ", argClazzs=" + Arrays.toString(argClazzs) +
                 ", methodBody=" + methodBody +
                 '}';
+    }
+
+    public boolean isInterfaceMethod() {
+        return interfaceMethod;
+    }
+
+    public void setInterfaceMethod(boolean interfaceMethod) {
+        this.interfaceMethod = interfaceMethod;
+    }
+
+    public String[] getArgClassStrs() {
+        return argClassStrs;
+    }
+
+    public void setArgClassStrs(String[] argClassStrs) {
+        this.argClassStrs = argClassStrs;
     }
 
     public boolean isVoidFlag() {

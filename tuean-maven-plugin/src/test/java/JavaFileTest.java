@@ -43,6 +43,7 @@ public class JavaFileTest {
         System.out.println(javaClazz);
 
         String outPath = "D:\\IdeaProjects\\whgr\\";
-        JavaGenerator.createJavaFile(outPath, javaClazz);
+        javaClazz.setLocationPath(outPath);
+        JavaGenerator.createJavaFile(javaClazz);
     }
 }
