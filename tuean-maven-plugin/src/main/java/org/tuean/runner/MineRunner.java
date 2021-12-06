@@ -1,8 +1,6 @@
 package org.tuean.runner;
 
 import com.google.inject.internal.util.Lists;
-import edu.emory.mathcs.backport.java.util.Arrays;
-import org.apache.http.util.Asserts;
 import org.tuean.consts.Env;
 import org.tuean.database.DatabaseGot;
 import org.tuean.entity.ConfigGenerator;
@@ -12,14 +10,12 @@ import org.tuean.entity.define.JavaMethod;
 import org.tuean.entity.define.JavaVisible;
 import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.generator.JavaGenerator;
-import org.tuean.init.Init;
-import org.tuean.parser.java.JavaFileParser;
+import org.tuean.parser.java.JavaInterfaceFileParser;
 import org.tuean.util.Log;
 import org.tuean.util.Util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +27,9 @@ public class MineRunner {
 
     public static void javaRun(ConfigGenerator configGenerator, String tableName) {
         Map<String, String> dbParamMap = DatabaseGot.getTableColumnInfo(tableName);
+        // java entity file will always make a fresh start
         JavaClass entityClass = generateEntity(dbParamMap, tableName);
+        // check dao mapper exist
         generateDao(tableName, entityClass);
         generateXml(dbParamMap, tableName);
     }
@@ -79,6 +77,16 @@ public class MineRunner {
         String outPath = Util.findDaoLocation(Env.codeGenerateConfig.getMapper(), Env.mavenProject);
         String className = Util.uppercaseFirst(tableName) + "Mapper";
         String outFile = outPath + File.separator + className + ".java";
+        File oldFile = new File(outFile);
+        if (oldFile.exists()) {
+            try {
+                JavaInterfaceFileParser parser = new JavaInterfaceFileParser();
+                JavaClass javaClass = parser.parser(new FileInputStream(oldFile));
+
+            } catch (Exception var) {
+                Log.getLog().info("parser old ");
+            }
+        }
 
         JavaClass mapperClass = new JavaClass();
         mapperClass.setClassName(className);

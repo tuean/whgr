@@ -5,8 +5,11 @@ import org.tuean.entity.define.JavaMethod;
 import org.tuean.entity.define.JavaVisible;
 import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.generator.JavaGenerator;
+import org.tuean.parser.java.JavaInterfaceFileParser;
 import org.tuean.util.Util;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +48,12 @@ public class JavaFileTest {
         String outPath = "D:\\IdeaProjects\\whgr\\";
         javaClazz.setLocationPath(outPath);
         JavaGenerator.createJavaFile(javaClazz);
+    }
+
+
+    @Test
+    public void testParserInterface() throws FileNotFoundException {
+        JavaInterfaceFileParser parser = new JavaInterfaceFileParser();
+        JavaClass javaClass = parser.parser(new FileInputStream("C:\\Users\\user\\Documents\\GitHub\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
     }
 }

@@ -126,9 +126,11 @@ public class JavaGenerator {
             }
             sb.append(method.getMethodName());
             if (method.isInterfaceMethod()) {
+                sb.append("(");
                 sb.append(method.getArgClazzs() == null ? method.getArgClassStrs()[0] : method.getArgClazzs()[0].getSimpleName());
                 sb.append(BLANK_SPACE);
                 sb.append(method.getArgNames()[0]);
+                sb.append(")");
                 sb.append(JAVA_END);
                 nextLine(sb);
                 out.write(Util.string2bytes(sb.toString()));

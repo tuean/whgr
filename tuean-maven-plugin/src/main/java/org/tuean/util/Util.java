@@ -174,7 +174,7 @@ public class Util {
         method.setFinal(false);
         method.setVoidFlag(false);
         method.setStatic(false);
-        method.setReturnClass(Integer.class);
+        method.setReturnClass(int.class);
         method.setMethodName("insert");
         method.setArgClazzs(null);
         method.setArgClassStrs(new String[]{clazz.getClassName()});
@@ -189,7 +189,7 @@ public class Util {
         method.setFinal(false);
         method.setVoidFlag(false);
         method.setStatic(false);
-        method.setReturnClass(Integer.class);
+        method.setReturnClass(int.class);
         method.setMethodName("update");
         method.setArgClazzs(null);
         method.setArgClassStrs(new String[]{clazz.getClassName()});
