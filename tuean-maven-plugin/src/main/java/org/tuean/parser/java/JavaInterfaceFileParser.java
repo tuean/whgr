@@ -41,6 +41,7 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
                 break;
             }
         }
+        if (!packageFlag) throw new RuntimeException("no package info");
 
         // import list
         List<String> importList = new ArrayList<>();
@@ -49,11 +50,21 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
             if (StringUtils.isAllBlank(line)) continue;
             if (line.trim().startsWith("package ")) throw new RuntimeException("multi package error");
             if (line.trim().startsWith("import ")) {
-                importList.add()
+                importList.add(line.trim().replaceFirst("import ", ""));
             }
         }
+        javaClass.setImportList(importList);
 
-        return null;
+        // class
+        for (; size > startIndex; startIndex++) {
+            String line = textLines.get(startIndex);
+            if (StringUtils.isAllBlank(line)) continue;
+
+            String[] ss = line.trim().split(" ");
+            if (ss[0] )
+        }
+
+        return javaClass;
     }
 
 
