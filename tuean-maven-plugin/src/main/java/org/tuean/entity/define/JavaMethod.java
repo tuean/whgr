@@ -17,6 +17,8 @@ public class JavaMethod {
 
     private Class returnClass;
 
+    private String returnClassStr;
+
     private JavaVisible javaVisible;
 
     private String[] argNames;
@@ -36,12 +38,21 @@ public class JavaMethod {
                 ", voidFlag=" + voidFlag +
                 ", interfaceMethod=" + interfaceMethod +
                 ", returnClass=" + returnClass +
+                ", returnClassStr='" + returnClassStr + '\'' +
                 ", javaVisible=" + javaVisible +
                 ", argNames=" + Arrays.toString(argNames) +
                 ", argClassStrs=" + Arrays.toString(argClassStrs) +
                 ", argClazzs=" + Arrays.toString(argClazzs) +
                 ", methodBody=" + methodBody +
                 '}';
+    }
+
+    public String getReturnClassStr() {
+        return returnClassStr;
+    }
+
+    public void setReturnClassStr(String returnClassStr) {
+        this.returnClassStr = returnClassStr;
     }
 
     public boolean isInterfaceMethod() {

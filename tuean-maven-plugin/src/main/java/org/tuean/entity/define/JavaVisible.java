@@ -1,5 +1,6 @@
 package org.tuean.entity.define;
 
+import org.apache.commons.lang.StringUtils;
 import org.tuean.consts.Consts;
 
 public class JavaVisible {
@@ -24,6 +25,10 @@ public class JavaVisible {
         return "JavaVisible{" +
                 "visibleRange='" + visibleRange + '\'' +
                 '}';
+    }
+
+    public static boolean isJavaVisible(String visible) {
+        return StringUtils.isBlank(visible) || "public".equals(visible) || "private".equals(visible) || "protected".equals(visible);
     }
 
     public JavaVisible(String visibleRange) {

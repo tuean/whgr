@@ -1,6 +1,7 @@
 package org.tuean.entity.define;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JavaClass {
@@ -32,6 +33,13 @@ public class JavaClass {
                 ", locationPath='" + locationPath + '\'' +
                 '}';
     }
+
+    public void addMethod(JavaMethod method) {
+        List<JavaMethod> methods = this.getMethodList();
+        methods = methods == null ? new ArrayList<>() : methods;
+        methods.add(method);
+    }
+
 
     public String getLocationPath() {
         return locationPath;
