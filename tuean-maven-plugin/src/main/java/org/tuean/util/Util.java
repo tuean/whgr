@@ -198,6 +198,22 @@ public class Util {
         return method;
     }
 
+
+    public static String removeByFirst(String str, String first) {
+        if (str.startsWith(first)) {
+            return str.substring(first.length(), str.length() - 1);
+        }
+        return str;
+    }
+
+    public static String removeByEnd(String str, String end) {
+        if (str.endsWith(end)) {
+            return str.substring(0, str.length() - end.length() - 1);
+        }
+        return str;
+    }
+
+
     public static void main(String[] args) {
 //        System.out.println(dbColumn2JavaField("_plan_status"));
     }

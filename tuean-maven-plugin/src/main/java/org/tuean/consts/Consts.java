@@ -34,4 +34,6 @@ public class Consts {
     public static final String FINAL = "final ";
 
     public static final String STATIC = "static ";
+
+    public static final String ARG_DEFAULT = "default";
 }

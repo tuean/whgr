@@ -122,7 +122,11 @@ public class JavaGenerator {
             if (method.isVoidFlag()) {
                 sb.append(" void ");
             } else {
-                sb.append(BLANK_SPACE + method.getReturnClass().getSimpleName() + BLANK_SPACE);
+                if (method.getReturnClass() != null) {
+                    sb.append(BLANK_SPACE + method.getReturnClass().getSimpleName() + BLANK_SPACE);
+                } else {
+                    sb.append(BLANK_SPACE + method.getReturnClassStr() + BLANK_SPACE);
+                }
             }
             sb.append(method.getMethodName());
             if (method.isInterfaceMethod()) {

@@ -25,9 +25,9 @@ public class JavaMethod {
 
     private String[] argClassStrs;
     private Class[] argClazzs;
+    private List<JavaMethodArgs> args;
 
     private List<String> methodBody;
-
 
     @Override
     public String toString() {
@@ -43,6 +43,7 @@ public class JavaMethod {
                 ", argNames=" + Arrays.toString(argNames) +
                 ", argClassStrs=" + Arrays.toString(argClassStrs) +
                 ", argClazzs=" + Arrays.toString(argClazzs) +
+                ", args=" + args +
                 ", methodBody=" + methodBody +
                 '}';
     }
@@ -141,5 +142,13 @@ public class JavaMethod {
 
     public void setMethodBody(List<String> methodBody) {
         this.methodBody = methodBody;
+    }
+
+    public List<JavaMethodArgs> getArgs() {
+        return args;
+    }
+
+    public void setArgs(List<JavaMethodArgs> args) {
+        this.args = args;
     }
 }

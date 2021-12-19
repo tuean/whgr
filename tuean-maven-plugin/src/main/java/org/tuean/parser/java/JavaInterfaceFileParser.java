@@ -42,6 +42,7 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
                 String packageInfo = line.trim().replaceFirst("package ", "");
                 javaClass.setPackageInfo(packageInfo);
                 packageFlag = true;
+                startIndex++;
                 break;
             }
         }
@@ -58,6 +59,9 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
             if (line.trim().startsWith("import ")) {
                 importList.add(line.trim().replaceFirst("import ", ""));
             }
+            if (line.trim().startsWith("public ")) {
+                break;
+            }
         }
         javaClass.setImportList(importList);
 
@@ -71,6 +75,8 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
             if ("public".equals(ss[0]) && "interface".equals(ss[1])) {
                 String className = ss[2];
                 javaClass.setClassName(className);
+                startIndex++;
+                break;
             } else {
                 throw new RuntimeException("illegal class name");
             }

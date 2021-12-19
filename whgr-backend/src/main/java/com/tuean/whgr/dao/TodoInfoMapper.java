@@ -2,11 +2,12 @@ package com.tuean.whgr.dao;
 
 import com.tuean.whgr.entity.db.TodoInfo;
 import com.tuean.whgr.func.todo.TodoListRequest;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface TodoInfoMapper {
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(@Param("id") Long id);
 
     int insert(TodoInfo record);
 

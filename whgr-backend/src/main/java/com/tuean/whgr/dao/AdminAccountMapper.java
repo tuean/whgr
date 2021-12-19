@@ -4,7 +4,7 @@ import com.tuean.whgr.entity.db.AdminAccount;
 import org.apache.ibatis.annotations.Param;
 
 public interface AdminAccountMapper {
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(@Param("id") Long id);
 
     int insert(AdminAccount record);
 
