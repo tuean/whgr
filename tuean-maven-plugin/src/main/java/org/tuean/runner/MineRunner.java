@@ -78,26 +78,18 @@ public class MineRunner {
         String className = Util.uppercaseFirst(tableName) + "Mapper";
         String outFile = outPath + File.separator + className + ".java";
         File oldFile = new File(outFile);
+        JavaClass initClass = Util.initDaoClass(className, packageInfo, outFile, entityClass);
+        JavaClass mapperClass = initClass;
         if (oldFile.exists()) {
             try {
                 JavaInterfaceFileParser parser = new JavaInterfaceFileParser();
                 JavaClass javaClass = parser.parser(new FileInputStream(oldFile));
-
+                mapperClass = Util.unionDaoJavaClass(initClass, javaClass);
             } catch (Exception var) {
-                Log.getLog().info("parser old ");
+                Log.getLog().info("parser old error");
+                throw new RuntimeException("parser old error");
             }
         }
-
-        JavaClass mapperClass = new JavaClass();
-        mapperClass.setClassName(className);
-        mapperClass.setClassType("interface");
-        mapperClass.setPackageInfo(packageInfo);
-        mapperClass.setLocationPath(outFile);
-        mapperClass.setImportList(Lists.newArrayList(entityClass.getPackageInfo() + "." + entityClass.getClassName() + JAVA_END));
-        List<JavaMethod> methods = new ArrayList<>();
-        methods.add(Util.insertMethod(entityClass));
-        methods.add(Util.updateMethod(entityClass));
-        mapperClass.setMethodList(methods);
 
         try {
             JavaGenerator.createJavaFile(mapperClass);

@@ -2,6 +2,7 @@ package org.tuean.util;
 
 import com.google.inject.internal.util.Lists;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.util.Asserts;
 import org.apache.maven.project.MavenProject;
 import org.tuean.consts.Env;
@@ -15,8 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static org.tuean.consts.Consts.CONFIG_LINE_SEPARATOR;
 import static org.tuean.consts.Consts.JAVA_END;
@@ -211,6 +214,35 @@ public class Util {
             return str.substring(0, str.length() - end.length() - 1);
         }
         return str;
+    }
+
+    public static JavaClass initDaoClass(String className, String packageInfo, String outFile, JavaClass entityClass) {
+        JavaClass mapperClass = new JavaClass();
+        mapperClass.setClassName(className);
+        mapperClass.setClassType("interface");
+        mapperClass.setPackageInfo(packageInfo);
+        mapperClass.setLocationPath(outFile);
+        mapperClass.setImportList(Lists.newArrayList(entityClass.getPackageInfo() + "." + entityClass.getClassName() + JAVA_END));
+        List<JavaMethod> methods = new ArrayList<>();
+        methods.add(Util.insertMethod(entityClass));
+        methods.add(Util.updateMethod(entityClass));
+        mapperClass.setMethodList(methods);
+        return mapperClass;
+    }
+
+    public static JavaClass unionDaoJavaClass(JavaClass initClass, JavaClass oldClass) {
+        List<JavaMethod> oldMethods = oldClass.getMethodList();
+        if (CollectionUtils.isEmpty(oldMethods)) return initClass;
+
+        List<JavaMethod> initMethods = initClass.getMethodList();
+        List<String> mNames = oldMethods.stream().map(JavaMethod::getMethodName).collect(Collectors.toList());
+        for (JavaMethod m : initMethods) {
+            if (mNames.contains(m)) continue;
+            oldMethods.add(m);
+        }
+
+        initClass.setMethodList(oldMethods);
+        return initClass;
     }
 
 

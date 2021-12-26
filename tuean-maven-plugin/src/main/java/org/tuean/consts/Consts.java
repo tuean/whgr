@@ -36,4 +36,13 @@ public class Consts {
     public static final String STATIC = "static ";
 
     public static final String ARG_DEFAULT = "default";
+
+    public static final int NEXT_BLANK = 4;
+
+    public static final String JAVA_ANNOTATION = "@";
+
+    public static final String LEFT = "(";
+    public static final String RIGHT = ")";
+
+
 }

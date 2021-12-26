@@ -9,6 +9,7 @@
 // import Header from "./components/layout/Header.vue";
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
+import bus from '@/bus'
 import './index.css'
 
 
@@ -38,10 +39,12 @@ export default {
     })
 
     const loginPage = ["/login"];
-
     return {
         state
     }
+  },
+  mounted() {
+    bus.on("log", t => console.log(t));
   },
 };
 </script>

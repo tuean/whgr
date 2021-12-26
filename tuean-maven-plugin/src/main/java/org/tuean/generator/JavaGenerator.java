@@ -8,10 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.tuean.consts.Consts;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigGenerator;
-import org.tuean.entity.define.JavaClass;
-import org.tuean.entity.define.JavaField;
-import org.tuean.entity.define.JavaMethod;
-import org.tuean.entity.define.JavaVisible;
+import org.tuean.entity.define.*;
 import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.util.Log;
 import org.tuean.util.PathUtil;
@@ -120,17 +117,26 @@ public class JavaGenerator {
             if (method.isFinal()) sb.append(Consts.FINAL);
             if (method.isStatic()) sb.append(Consts.STATIC);
             if (method.isVoidFlag()) {
-                sb.append(" void ");
+                sb.append("void ");
             } else {
                 if (method.getReturnClass() != null) {
-                    sb.append(BLANK_SPACE + method.getReturnClass().getSimpleName() + BLANK_SPACE);
+                    sb.append(method.getReturnClass().getSimpleName() + BLANK_SPACE);
                 } else {
-                    sb.append(BLANK_SPACE + method.getReturnClassStr() + BLANK_SPACE);
+                    sb.append(method.getReturnClassStr() + BLANK_SPACE);
                 }
             }
             sb.append(method.getMethodName());
             if (method.isInterfaceMethod()) {
                 sb.append("(");
+                if (!CollectionUtils.isEmpty(method.getArgs())) {
+                    for (JavaMethodArgs arg : method.getArgs()) {
+                        if (arg == null) continue;
+                        String annotationStr = arg.getAnnotation() == null ? "" : arg.getAnnotation().toCodeStr();
+                        sb.append(annotationStr).append(BLANK_SPACE);
+                        sb.append(arg.getArgClassStr()).append(BLANK_SPACE);
+                        sb.append(arg.getArgName());
+                    }
+                }
                 sb.append(method.getArgClazzs() == null ? method.getArgClassStrs()[0] : method.getArgClazzs()[0].getSimpleName());
                 sb.append(BLANK_SPACE);
                 sb.append(method.getArgNames()[0]);
@@ -153,7 +159,7 @@ public class JavaGenerator {
             }
             sb.append(") {");
             nextLine(sb);
-            int innerBlanks = blanks + 2;
+            int innerBlanks = blanks + Consts.NEXT_BLANK;
             if (method.getMethodBody() != null) {
                 for (String s : method.getMethodBody()) {
                     sb.append(Util.blank(innerBlanks));

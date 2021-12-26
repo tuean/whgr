@@ -96,7 +96,7 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
                     String methodLine = sb.toString();
                     sb = new StringBuffer();
                     Log.getLog().info(methodLine);
-                    JavaMethod method = ParserJavaUtil.parseInterfaceMethodStr(methodLine);
+                    JavaMethod method = ParserJavaUtil.parseInterfaceMethodStr(methodLine.trim());
                     javaClass.addMethod(method);
                 }
             }
