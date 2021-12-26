@@ -7,10 +7,7 @@ import org.apache.http.util.Asserts;
 import org.apache.maven.project.MavenProject;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigMapper;
-import org.tuean.entity.define.JavaClass;
-import org.tuean.entity.define.JavaField;
-import org.tuean.entity.define.JavaMethod;
-import org.tuean.entity.define.JavaVisible;
+import org.tuean.entity.define.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,8 +76,7 @@ public class Util {
 
     public static JavaMethod getMethod(JavaField field) {
         JavaMethod method = new JavaMethod();
-        method.setArgClazzs(null);
-        method.setArgNames(null);
+        method.setArgs(null);
         method.setJavaVisible(JavaVisible.visiblePublic());
         method.setStatic(false);
         method.setMethodName("get" + uppercaseFirst(field.getFieldName()));
@@ -92,8 +88,10 @@ public class Util {
 
     public static JavaMethod setMethod(JavaField field) {
         JavaMethod method = new JavaMethod();
-        method.setArgClazzs(new Class[]{field.getFieldClazz()});
-        method.setArgNames(new String[]{field.getFieldName()});
+//        method.setArgClazzs(new Class[]{field.getFieldClazz()});
+//        method.setArgNames(new String[]{field.getFieldName()});
+        JavaMethodArgs methodArg = new JavaMethodArgs(0, field.getFieldName(), field.getFieldClazz(), null, null);
+        method.setArgs(Lists.newArrayList(methodArg));
         method.setJavaVisible(JavaVisible.visiblePublic());
         method.setStatic(false);
         method.setMethodName("set" + uppercaseFirst(field.getFieldName()));
@@ -179,9 +177,11 @@ public class Util {
         method.setStatic(false);
         method.setReturnClass(int.class);
         method.setMethodName("insert");
-        method.setArgClazzs(null);
-        method.setArgClassStrs(new String[]{clazz.getClassName()});
-        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+//        method.setArgClazzs(null);
+//        method.setArgClassStrs(new String[]{clazz.getClassName()});
+//        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+        JavaMethodArgs arg = new JavaMethodArgs(0, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
+        method.setArgs(Lists.newArrayList(arg));
         method.setInterfaceMethod(true);
         return method;
     }
@@ -194,9 +194,11 @@ public class Util {
         method.setStatic(false);
         method.setReturnClass(int.class);
         method.setMethodName("update");
-        method.setArgClazzs(null);
-        method.setArgClassStrs(new String[]{clazz.getClassName()});
-        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+//        method.setArgClazzs(null);
+//        method.setArgClassStrs(new String[]{clazz.getClassName()});
+//        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+        JavaMethodArgs arg = new JavaMethodArgs(0, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
+        method.setArgs(Lists.newArrayList(arg));
         method.setInterfaceMethod(true);
         return method;
     }

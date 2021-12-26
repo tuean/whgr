@@ -54,6 +54,7 @@ public class JavaFileTest {
     @Test
     public void testParserInterface() throws FileNotFoundException {
         JavaInterfaceFileParser parser = new JavaInterfaceFileParser();
-        JavaClass javaClass = parser.parser(new FileInputStream("C:\\Users\\user\\Documents\\GitHub\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
+//        JavaClass javaClass = parser.parser(new FileInputStream("C:\\Users\\user\\Documents\\GitHub\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
+        JavaClass javaClass = parser.parser(new FileInputStream("D:\\IdeaProjects\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
     }
 }

@@ -126,37 +126,28 @@ public class JavaGenerator {
                 }
             }
             sb.append(method.getMethodName());
-            if (method.isInterfaceMethod()) {
-                sb.append("(");
-                if (!CollectionUtils.isEmpty(method.getArgs())) {
-                    for (JavaMethodArgs arg : method.getArgs()) {
-                        if (arg == null) continue;
-                        String annotationStr = arg.getAnnotation() == null ? "" : arg.getAnnotation().toCodeStr();
-                        sb.append(annotationStr).append(BLANK_SPACE);
-                        sb.append(arg.getArgClassStr()).append(BLANK_SPACE);
-                        sb.append(arg.getArgName());
-                    }
+            sb.append("(");
+            boolean firstFlag = true;
+            if (!CollectionUtils.isEmpty(method.getArgs())) {
+                for (JavaMethodArgs arg : method.getArgs()) {
+                    if (arg == null) continue;
+                    String annotationStr = arg.getAnnotation() == null ? "" : arg.getAnnotation().toCodeStr();
+                    if (!firstFlag) sb.append(COMMA).append(BLANK_SPACE);
+                    if (!StringUtils.isBlank(annotationStr)) sb.append(annotationStr).append(BLANK_SPACE);
+                    sb.append(arg.getArgClassStr()).append(BLANK_SPACE);
+                    sb.append(arg.getArgName());
+                    firstFlag = false;
                 }
-                sb.append(method.getArgClazzs() == null ? method.getArgClassStrs()[0] : method.getArgClazzs()[0].getSimpleName());
-                sb.append(BLANK_SPACE);
-                sb.append(method.getArgNames()[0]);
+            }
+
+            if (method.isInterfaceMethod()) { // interface condition
                 sb.append(")");
                 sb.append(JAVA_END);
                 nextLine(sb);
                 out.write(Util.string2bytes(sb.toString()));
                 continue;
             }
-            sb.append("(");
-            if (method.getArgNames() != null) {
-                for (int i = 0; i < method.getArgNames().length; i++) {
-                    sb.append(method.getArgClazzs() == null ? method.getArgClassStrs()[i] : method.getArgClazzs()[i].getSimpleName());
-                    sb.append(BLANK_SPACE);
-                    sb.append(method.getArgNames()[i]);
-                    if (i != method.getArgNames().length - 1) {
-                        sb.append(",");
-                    }
-                }
-            }
+
             sb.append(") {");
             nextLine(sb);
             int innerBlanks = blanks + Consts.NEXT_BLANK;

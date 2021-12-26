@@ -15,6 +15,16 @@ public class JavaMethodArgs {
 
     private JavaAnnotation annotation;
 
+    public JavaMethodArgs() {
+    }
+
+    public JavaMethodArgs(int index, String argName, Class argClass, String argClassStr, JavaAnnotation annotation) {
+        this.index = index;
+        this.argName = argName;
+        this.argClass = argClass;
+        this.argClassStr = argClassStr;
+        this.annotation = annotation;
+    }
 
     @Override
     public String toString() {
