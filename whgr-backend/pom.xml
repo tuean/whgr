@@ -193,6 +193,19 @@
             <version>1.29</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.dhatim</groupId>
+            <artifactId>fastexcel-reader</artifactId>
+            <version>0.12.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dhatim</groupId>
+            <artifactId>fastexcel</artifactId>
+            <version>0.12.12</version>
+        </dependency>
+
+
 
     </dependencies>
 
