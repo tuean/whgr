@@ -35,6 +35,8 @@ public class ExcelController {
     public BaseResponse importExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
+        Runtime r = Runtime.getRuntime();
+        long startMem = r.freeMemory();
 
         try (ReadableWorkbook wb = new ReadableWorkbook(file.getInputStream())) {
 
@@ -55,6 +57,8 @@ public class ExcelController {
         } finally {
             stopWatch.stop();
             logger.info("cost: {} ms", stopWatch.getTotalTimeMillis());
+            long endMem = r.freeMemory();
+            logger.info("memory use: {} b", endMem - startMem);
         }
 
         return BaseResponse.ok();
@@ -68,6 +72,8 @@ public class ExcelController {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
         HttpServletResponse response = servletRequestAttributes.getResponse();
+        Runtime r = Runtime.getRuntime();
+        long startMem = r.freeMemory();
         try (OutputStream out = response.getOutputStream()){
             Workbook wb = new Workbook(out, "demo", "1.0");
             Worksheet ws = wb.newWorksheet("Sheet 1");
@@ -90,6 +96,8 @@ public class ExcelController {
         } finally {
             stopWatch.stop();
             logger.info("cost: {} ms", stopWatch.getTotalTimeMillis());
+            long endMem = r.freeMemory();
+            logger.info("memory use: {} b", startMem - endMem);
         }
 
     }
