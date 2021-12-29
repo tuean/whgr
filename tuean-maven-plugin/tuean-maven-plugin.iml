@@ -102,5 +102,6 @@
     <orderEntry type="library" name="Maven: com.github.javaparser:javaparser-core-serialization:3.23.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.javaparser:javaparser-core:3.23.0" level="project" />
     <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.1.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.14.3" level="project" />
   </component>
 </module>

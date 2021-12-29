@@ -16,6 +16,7 @@ import org.tuean.util.Util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +102,13 @@ public class MineRunner {
     }
 
     private static void generateXml(Map<String, String> columns, String tableName) {
+        String xmlPath = Env.codeGenerateConfig.getMapper().getXml();
+        String xmlFileName = Util.uppercaseFirst(tableName) + "Mapper.xml";
+        InputStream in = Util.loadResource(xmlPath + xmlFileName, Env.mavenProject);
 
+        if (in == null) {
+
+        }
     }
 
 }

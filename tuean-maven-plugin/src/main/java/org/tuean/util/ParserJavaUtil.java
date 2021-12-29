@@ -13,6 +13,10 @@ import static org.tuean.consts.Consts.ARG_DEFAULT;
 
 public class ParserJavaUtil {
 
+    /**
+     * @param line
+     * @return
+     */
     public static int ignore(String line) {
         if (StringUtils.isBlank(line)) {
             return 1;
@@ -22,6 +26,8 @@ public class ParserJavaUtil {
             return 3;
         } else if (line.trim().startsWith("**/")) {
             return 4;
+        } else if (line.trim().startsWith("*")) {
+            return 5;
         }
 
         return 0;

@@ -4,6 +4,7 @@ import com.google.inject.internal.util.Lists;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.util.Asserts;
+import org.apache.maven.model.Resource;
 import org.apache.maven.project.MavenProject;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigMapper;
@@ -11,17 +12,17 @@ import org.tuean.entity.define.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.tuean.consts.Consts.CONFIG_LINE_SEPARATOR;
 import static org.tuean.consts.Consts.JAVA_END;
 
 public class Util {
+
 
     public static void initDir(String path) {
         File file = new File(path);
@@ -236,6 +237,10 @@ public class Util {
         List<JavaMethod> oldMethods = oldClass.getMethodList();
         if (CollectionUtils.isEmpty(oldMethods)) return initClass;
 
+        List<String> importList = initClass.getImportList();
+        List<String> oldImportList = oldClass.getImportList();
+        List<String> list = unionList(importList, oldImportList);
+
         List<JavaMethod> initMethods = initClass.getMethodList();
         List<String> mNames = oldMethods.stream().map(JavaMethod::getMethodName).map(String::trim).collect(Collectors.toList());
         for (JavaMethod m : initMethods) {
@@ -244,7 +249,26 @@ public class Util {
         }
 
         initClass.setMethodList(oldMethods);
+        initClass.setImportList(list);
         return initClass;
+    }
+
+    public static List<String> unionList(List<String> l1, List<String> l2) {
+        Set<String> r = new HashSet<>();
+        if (l1 != null) r.addAll(l1);
+        if (l2 != null) r.addAll(l2);
+        return new ArrayList<>(r);
+    }
+
+    public static InputStream loadResource(String resourceFile, MavenProject mavenProject) {
+        try {
+            List<Resource> resources = mavenProject.getResources();
+
+            return null;
+        } catch (Exception var) {
+            Log.getLog().error("load error: " + resourceFile, var);
+            return null;
+        }
     }
 
 
