@@ -1,5 +1,7 @@
 package org.tuean.entity.define;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +30,19 @@ public class JavaMethod {
     private List<JavaMethodArgs> args;
 
     private List<String> methodBody;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj instanceof JavaMethod) {
+            JavaMethod o = (JavaMethod) obj;
+            boolean nameFlag = StringUtils.equals(o.getMethodName(), this.getMethodName());
+            boolean returnClassFlag = StringUtils.equals(o.getReturnClassStr(), this.getReturnClassStr());
+            // todo check return class and args if equals
+            return nameFlag;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {

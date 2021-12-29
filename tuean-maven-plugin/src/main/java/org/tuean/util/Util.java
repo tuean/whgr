@@ -237,9 +237,9 @@ public class Util {
         if (CollectionUtils.isEmpty(oldMethods)) return initClass;
 
         List<JavaMethod> initMethods = initClass.getMethodList();
-        List<String> mNames = oldMethods.stream().map(JavaMethod::getMethodName).collect(Collectors.toList());
+        List<String> mNames = oldMethods.stream().map(JavaMethod::getMethodName).map(String::trim).collect(Collectors.toList());
         for (JavaMethod m : initMethods) {
-            if (mNames.contains(m)) continue;
+            if (mNames.contains(m.getMethodName())) continue;
             oldMethods.add(m);
         }
 

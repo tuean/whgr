@@ -15,7 +15,7 @@ public class JavaAnnotation {
         if (this == null) return "";
         StringBuffer sb = new StringBuffer();
         sb.append(Consts.JAVA_ANNOTATION).append(this.getAnnotationName()).append(Consts.LEFT);
-        if (attributes == null) {
+        if (attributes != null) {
             for (String key : this.attributes.keySet()) {
                 Object val = this.attributes.get(key);
                 if (Consts.ARG_DEFAULT.equals(key)) {

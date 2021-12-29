@@ -83,7 +83,25 @@ const menus = [
                 removeable: false,
             },
         ]
-    }
+    },
+    {
+        id: "7",
+        name: "gojs1",
+        path: "/admin/go1",
+        keepAlive: false,
+        isFolder: false,
+        removeable: false,
+        child: []
+    },
+    {
+        id: "8",
+        name: "gojs2",
+        path: "/admin/go2",
+        keepAlive: false,
+        isFolder: false,
+        removeable: false,
+        child: []
+    },
 ]
 
 export default menus

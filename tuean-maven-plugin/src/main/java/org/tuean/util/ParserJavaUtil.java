@@ -14,12 +14,14 @@ import static org.tuean.consts.Consts.ARG_DEFAULT;
 public class ParserJavaUtil {
 
     public static int ignore(String line) {
-        if (StringUtils.isBlank(line) || line.trim().startsWith("//") ) {
+        if (StringUtils.isBlank(line)) {
             return 1;
-        } else if (line.trim().startsWith("/**")) {
+        } else if (line.trim().startsWith("//")) {
             return 2;
-        } else if (line.trim().startsWith("**/")) {
+        }else if (line.trim().startsWith("/**")) {
             return 3;
+        } else if (line.trim().startsWith("**/")) {
+            return 4;
         }
 
         return 0;
@@ -61,7 +63,7 @@ public class ParserJavaUtil {
             if ('(' != s.charAt(i)) {
                 sb.append(s.charAt(i));
             } else {
-                method.setMethodName(sb.toString());
+                method.setMethodName(sb.toString().trim());
                 index = i;
                 break;
             }

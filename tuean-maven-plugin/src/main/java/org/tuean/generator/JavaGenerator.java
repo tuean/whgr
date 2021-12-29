@@ -134,7 +134,11 @@ public class JavaGenerator {
                     String annotationStr = arg.getAnnotation() == null ? "" : arg.getAnnotation().toCodeStr();
                     if (!firstFlag) sb.append(COMMA).append(BLANK_SPACE);
                     if (!StringUtils.isBlank(annotationStr)) sb.append(annotationStr).append(BLANK_SPACE);
-                    sb.append(arg.getArgClassStr()).append(BLANK_SPACE);
+                    if (StringUtils.isBlank(arg.getArgClassStr())) {
+                        sb.append(arg.getArgClass().getSimpleName()).append(BLANK_SPACE);
+                    } else {
+                        sb.append(arg.getArgClassStr().trim()).append(BLANK_SPACE);
+                    }
                     sb.append(arg.getArgName());
                     firstFlag = false;
                 }

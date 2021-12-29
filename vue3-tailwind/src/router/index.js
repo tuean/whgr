@@ -26,6 +26,16 @@ const admins = [
         name: 'goods',
         component: () => import(/* webpackChunkName: "Goods" */ '@/com/pages/admin/Goods.vue')
     }, 
+    {
+        path: 'go1',
+        name: 'go1',
+        component: () => import(/* webpackChunkName: "go1" */ '@/com/pages/admin/go.vue')
+    }, 
+    {
+        path: 'go2',
+        name: 'go2',
+        component: () => import(/* webpackChunkName: "go2" */ '@/com/pages/admin/go.vue')
+    }, 
 ]
 
 const routes = {

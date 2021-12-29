@@ -21,7 +21,7 @@
         <el-main style="padding: 0"> 
             <!-- content --> 
             <div class="bg-main">
-              <router-view v-slot="{ Component }">
+              <router-view v-slot="{ Component }" :key="$route.fullPath">
                 <transition name="router-fade" mode="out-in">
                   <keep-alive v-if="isRouterAlive">
                     <component :is="Component" />

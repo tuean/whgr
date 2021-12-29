@@ -58,6 +58,7 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
             if (line.trim().startsWith("package ")) throw new RuntimeException("multi package error");
             if (line.trim().startsWith("import ")) {
                 importList.add(line.trim().replaceFirst("import ", ""));
+                continue;
             }
             if (line.trim().startsWith("public ")) {
                 break;

@@ -1,10 +1,12 @@
 import { createStore } from 'vuex'
+import createPersistedState from "vuex-persistedstate";
 import { tabEqual } from '/@/util/index'
 import { toRefs, toRef, reactive, ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 // import { reload } from '/@/components/pages/Admin.vue'
 
 const store = createStore({
+    plugins: [createPersistedState({storage: window.sessionStorage})],
     state() {
         return {
             count: 0,
