@@ -1,19 +1,21 @@
 import org.junit.Test;
 import org.tuean.database.DatabaseGot;
+import org.tuean.entity.DBColumnInfo;
 import org.tuean.util.Log;
 
+import java.util.List;
 import java.util.Map;
 
 public class DBTest {
 
 
 //    @Test
-    public static Map<String, String> testDBMap() {
+    public static List<DBColumnInfo> testDBMap() {
         Prepare.init();
         String tableName = "menus";
-        Map<String, String> map = DatabaseGot.getTableColumnInfo(tableName);
-        Log.getLog().info(map.toString());
-        return map;
+        List<DBColumnInfo> infos = DatabaseGot.getTableColumnInfo(tableName);
+        Log.getLog().info(infos.toString());
+        return infos;
     }
 
 }

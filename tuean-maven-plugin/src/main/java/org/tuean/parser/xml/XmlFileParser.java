@@ -1,9 +1,7 @@
 package org.tuean.parser.xml;
 
-import com.sun.tools.javac.util.Assert;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,9 +12,7 @@ import org.tuean.util.ParserXmlUtil;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class XmlFileParser implements IParser<XmlNode> {
 
@@ -38,17 +34,19 @@ public class XmlFileParser implements IParser<XmlNode> {
         Document doc = Jsoup.parse(text);
         Elements mapperEls = doc.select("mapper");
 
-        // mapper
-        Assert.check(mapperEls.size() == 0);
+        if (mapperEls.size() < 1) {
+            return null;
+        }
+
+        // mapper element
+        if (mapperEls.size() > 1) {
+            throw new RuntimeException("multi mapper tag");
+        }
         Element mapperEl = mapperEls.first();
-        String mapperTag = mapperEl.tagName();
-        Map<String, Object> tagAttrs = ParserXmlUtil.attributes2Map(mapperEl.attributes());
 
-        // children
-        List<XmlNode> list = new ArrayList<>();
+        // we want only mapper info
+        XmlNode mapperNode = ParserXmlUtil.parse(mapperEl);
 
-
-        XmlNode entity = new XmlNode(mapperTag, tagAttrs, list, null);
-        return entity;
+        return mapperNode;
     }
 }

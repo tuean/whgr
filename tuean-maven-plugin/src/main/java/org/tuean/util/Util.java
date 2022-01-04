@@ -8,6 +8,7 @@ import org.apache.maven.model.Resource;
 import org.apache.maven.project.MavenProject;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigMapper;
+import org.tuean.entity.XmlNode;
 import org.tuean.entity.define.*;
 
 import java.io.File;
@@ -18,8 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.tuean.consts.Consts.CONFIG_LINE_SEPARATOR;
-import static org.tuean.consts.Consts.JAVA_END;
+import static org.tuean.consts.Consts.*;
 
 public class Util {
 
@@ -75,36 +75,22 @@ public class Util {
         out.write(newLine.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static JavaMethod getMethod(JavaField field) {
-        JavaMethod method = new JavaMethod();
-        method.setArgs(null);
-        method.setJavaVisible(JavaVisible.visiblePublic());
-        method.setStatic(false);
-        method.setMethodName("get" + uppercaseFirst(field.getFieldName()));
-        method.setMethodBody(Lists.newArrayList("return this." + field.getFieldName() + JAVA_END));
-        method.setReturnClass(field.getFieldClazz());
-        method.setVoidFlag(false);
-        return method;
+    public static void nextLine(StringBuffer sb) {
+        nextLine(sb, 1);
     }
 
-    public static JavaMethod setMethod(JavaField field) {
-        JavaMethod method = new JavaMethod();
-//        method.setArgClazzs(new Class[]{field.getFieldClazz()});
-//        method.setArgNames(new String[]{field.getFieldName()});
-        JavaMethodArgs methodArg = new JavaMethodArgs(0, field.getFieldName(), field.getFieldClazz(), null, null);
-        method.setArgs(Lists.newArrayList(methodArg));
-        method.setJavaVisible(JavaVisible.visiblePublic());
-        method.setStatic(false);
-        method.setMethodName("set" + uppercaseFirst(field.getFieldName()));
-        method.setMethodBody(Lists.newArrayList("this." + field.getFieldName() + " = " + field.getFieldName() + JAVA_END));
-        method.setVoidFlag(true);
-        return method;
+    public static void nextLine(StringBuffer sb, int lines) {
+        String newLine = System.getProperty(CONFIG_LINE_SEPARATOR);
+        for (int i = 0; i < lines; i++) {
+            sb.append(newLine);
+        }
     }
+
 
     public static String blank(int length) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < length; i++) {
-            sb.append(" ");
+            sb.append(BLANK_SPACE);
         }
         return sb.toString();
     }
@@ -170,39 +156,6 @@ public class Util {
     }
 
 
-    public static JavaMethod insertMethod(JavaClass clazz) {
-        JavaMethod method = new JavaMethod();
-        method.setJavaVisible(JavaVisible.visibleEmpty());
-        method.setFinal(false);
-        method.setVoidFlag(false);
-        method.setStatic(false);
-        method.setReturnClass(int.class);
-        method.setMethodName("insert");
-//        method.setArgClazzs(null);
-//        method.setArgClassStrs(new String[]{clazz.getClassName()});
-//        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
-        JavaMethodArgs arg = new JavaMethodArgs(0, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
-        method.setArgs(Lists.newArrayList(arg));
-        method.setInterfaceMethod(true);
-        return method;
-    }
-
-    public static JavaMethod updateMethod(JavaClass clazz) {
-        JavaMethod method = new JavaMethod();
-        method.setJavaVisible(JavaVisible.visibleEmpty());
-        method.setFinal(false);
-        method.setVoidFlag(false);
-        method.setStatic(false);
-        method.setReturnClass(int.class);
-        method.setMethodName("update");
-//        method.setArgClazzs(null);
-//        method.setArgClassStrs(new String[]{clazz.getClassName()});
-//        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
-        JavaMethodArgs arg = new JavaMethodArgs(0, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
-        method.setArgs(Lists.newArrayList(arg));
-        method.setInterfaceMethod(true);
-        return method;
-    }
 
 
     public static String removeByFirst(String str, String first) {
@@ -219,19 +172,7 @@ public class Util {
         return str;
     }
 
-    public static JavaClass initDaoClass(String className, String packageInfo, String outFile, JavaClass entityClass) {
-        JavaClass mapperClass = new JavaClass();
-        mapperClass.setClassName(className);
-        mapperClass.setClassType("interface");
-        mapperClass.setPackageInfo(packageInfo);
-        mapperClass.setLocationPath(outFile);
-        mapperClass.setImportList(Lists.newArrayList(entityClass.getPackageInfo() + "." + entityClass.getClassName() + JAVA_END));
-        List<JavaMethod> methods = new ArrayList<>();
-        methods.add(Util.insertMethod(entityClass));
-        methods.add(Util.updateMethod(entityClass));
-        mapperClass.setMethodList(methods);
-        return mapperClass;
-    }
+
 
     public static JavaClass unionDaoJavaClass(JavaClass initClass, JavaClass oldClass) {
         List<JavaMethod> oldMethods = oldClass.getMethodList();
@@ -260,7 +201,7 @@ public class Util {
         return new ArrayList<>(r);
     }
 
-    public static InputStream loadResource(String resourceFile, MavenProject mavenProject) {
+    public static String findResourceByName(String resourceFile, MavenProject mavenProject) {
         try {
             List<Resource> resources = mavenProject.getResources();
 
@@ -269,6 +210,19 @@ public class Util {
             Log.getLog().error("load error: " + resourceFile, var);
             return null;
         }
+    }
+
+
+    public static XmlNode unionXml(XmlNode initNode, XmlNode oldNode) {
+        if (oldNode == null) return initNode;
+//        List<String> oldIds = oldNode.getNodes().stream().map(XmlNode::getId).collect(Collectors.toList());
+        List<String> initIds = initNode.getNodes().stream().map(XmlNode::getId).collect(Collectors.toList());
+
+        for (XmlNode node : oldNode.getNodes()) {
+            if (initIds.contains(node.getId())) continue;
+            initNode.getNodes().add(node);
+        }
+        return initNode;
     }
 
 

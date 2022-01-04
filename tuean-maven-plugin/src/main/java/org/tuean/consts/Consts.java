@@ -15,7 +15,9 @@ public class Consts {
 
     public static final String DB_COLUMN_DATA_TYPE = "data_type";
 
-    public static final List<String> DB_COLUMNS = Arrays.asList(DB_COLUMN_NAME, DB_COLUMN_DATA_TYPE);
+    public static final String DB_COLUMN_KEY = "column_key";
+
+    public static final List<String> DB_COLUMNS = Arrays.asList(DB_COLUMN_NAME, DB_COLUMN_DATA_TYPE, DB_COLUMN_KEY);
 
     public static final String COMMA = ",";
 
@@ -43,6 +45,8 @@ public class Consts {
 
     public static final String LEFT = "(";
     public static final String RIGHT = ")";
+
+    public static final String EQUAL = "=";
 
 
 }

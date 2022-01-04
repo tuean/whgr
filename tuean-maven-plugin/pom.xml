@@ -88,10 +88,5 @@
       <version>1.14.3</version>
     </dependency>
 
-    <dependency>
-      <groupId></groupId>
-      <artifactId>slf4j</artifactId>
-    </dependency>
-
   </dependencies>
 </project>
