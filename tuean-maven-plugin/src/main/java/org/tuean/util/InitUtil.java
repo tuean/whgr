@@ -1,14 +1,19 @@
 package org.tuean.util;
 
 import com.google.inject.internal.util.Lists;
+import org.apache.commons.collections.CollectionUtils;
+import org.tuean.enums.InitMethod;
 import org.tuean.entity.DBColumnInfo;
 import org.tuean.entity.XmlNode;
 import org.tuean.entity.define.*;
+import org.tuean.enums.JdbcTypeEnum;
+import org.tuean.transfer.FixedXmlTransfer;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.tuean.consts.Consts.JAVA_END;
+import static org.tuean.consts.Consts.PRIMARY;
 import static org.tuean.util.Util.lowercaseFirst;
 import static org.tuean.util.Util.uppercaseFirst;
 
@@ -49,44 +54,92 @@ public class InitUtil {
         method.setVoidFlag(false);
         method.setStatic(false);
         method.setReturnClass(int.class);
-        method.setMethodName("insert");
-//        method.setArgClazzs(null);
-//        method.setArgClassStrs(new String[]{clazz.getClassName()});
-//        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
+        method.setMethodName(InitMethod.insert.name());
         JavaMethodArgs arg = new JavaMethodArgs(0, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
         method.setArgs(Lists.newArrayList(arg));
         method.setInterfaceMethod(true);
         return method;
     }
 
-    public static JavaMethod updateMethod(JavaClass clazz) {
+    public static JavaMethod selectByPrimaryKeyMethod(JavaClass clazz, String argClass, String argName) {
         JavaMethod method = new JavaMethod();
         method.setJavaVisible(JavaVisible.visibleEmpty());
         method.setFinal(false);
         method.setVoidFlag(false);
         method.setStatic(false);
         method.setReturnClass(int.class);
-        method.setMethodName("update");
-//        method.setArgClazzs(null);
-//        method.setArgClassStrs(new String[]{clazz.getClassName()});
-//        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
-        JavaMethodArgs arg = new JavaMethodArgs(0, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
+        method.setMethodName(InitMethod.selectByPrimaryKey.name());
+        JavaMethodArgs arg = new JavaMethodArgs(1, argName, null, argClass, null);
+        method.setArgs(Lists.newArrayList(arg));
+        method.setInterfaceMethod(true);
+        return method;
+    }
+
+    public static JavaMethod deleteByPrimaryKeyMethod(JavaClass clazz, String argClass, String className) {
+        JavaMethod method = new JavaMethod();
+        method.setJavaVisible(JavaVisible.visibleEmpty());
+        method.setFinal(false);
+        method.setVoidFlag(false);
+        method.setStatic(false);
+        method.setReturnClass(int.class);
+        method.setMethodName(InitMethod.deleteByPrimaryKey.name());
+        JavaMethodArgs arg = new JavaMethodArgs(2, className, null, argClass, null);
+        method.setArgs(Lists.newArrayList(arg));
+        method.setInterfaceMethod(true);
+        return method;
+    }
+
+    public static JavaMethod updateByPrimaryKeyMethod(JavaClass clazz) {
+        JavaMethod method = new JavaMethod();
+        method.setJavaVisible(JavaVisible.visibleEmpty());
+        method.setFinal(false);
+        method.setVoidFlag(false);
+        method.setStatic(false);
+        method.setReturnClass(int.class);
+        method.setMethodName(InitMethod.updateByPrimaryKey.name());
+        JavaMethodArgs arg = new JavaMethodArgs(3, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
+        method.setArgs(Lists.newArrayList(arg));
+        method.setInterfaceMethod(true);
+        return method;
+    }
+
+    public static JavaMethod updateByPrimaryKeySelectiveMethod(JavaClass clazz) {
+        JavaMethod method = new JavaMethod();
+        method.setJavaVisible(JavaVisible.visibleEmpty());
+        method.setFinal(false);
+        method.setVoidFlag(false);
+        method.setStatic(false);
+        method.setReturnClass(int.class);
+        method.setMethodName(InitMethod.updateByPrimaryKeySelective.name());
+        JavaMethodArgs arg = new JavaMethodArgs(4, lowercaseFirst(clazz.getClassName()), null, clazz.getClassName(), null);
         method.setArgs(Lists.newArrayList(arg));
         method.setInterfaceMethod(true);
         return method;
     }
 
 
-    public static JavaClass initDaoClass(String className, String packageInfo, String outFile, JavaClass entityClass) {
+    public static JavaClass initDaoClass(String className, String packageInfo, String outFile, JavaClass entityClass, List<DBColumnInfo> dbColumnInfos) {
         JavaClass mapperClass = new JavaClass();
         mapperClass.setClassName(className);
         mapperClass.setClassType("interface");
         mapperClass.setPackageInfo(packageInfo);
         mapperClass.setLocationPath(outFile);
         mapperClass.setImportList(Lists.newArrayList(entityClass.getPackageInfo() + "." + entityClass.getClassName() + JAVA_END));
+
+        DBColumnInfo dbColumnInfo = dbColumnInfos.stream().filter(n -> PRIMARY.equals(n.getKey())).findFirst().orElse(null);
+        String argClass = dbColumnInfo == null ? null : Util.className(Objects.requireNonNull(JdbcTypeEnum.getByDBType(dbColumnInfo.getType())));
+        String argName = dbColumnInfo == null ? null : dbColumnInfo.getName();
+
         List<JavaMethod> methods = new ArrayList<>();
         methods.add(insertMethod(entityClass));
-        methods.add(updateMethod(entityClass));
+        if (argClass != null && argName != null) {
+            methods.add(selectByPrimaryKeyMethod(entityClass, argClass, argName));
+        }
+        methods.add(updateByPrimaryKeyMethod(entityClass));
+        methods.add(updateByPrimaryKeySelectiveMethod(entityClass));
+        if (argClass != null && argName != null) {
+            methods.add(deleteByPrimaryKeyMethod(entityClass, argClass, argName));
+        }
         mapperClass.setMethodList(methods);
         return mapperClass;
     }
@@ -96,7 +149,7 @@ public class InitUtil {
         XmlNode node = new XmlNode();
         node.setTag("mapper");
         Map<String, Object> tagAttrs = new HashMap<>();
-        tagAttrs.put("namespace", mapperClass.getPackageInfo());
+        tagAttrs.put("namespace", mapperClass.getPackageInfo() + "." + Util.tableName2ClassName(tableName));
         node.setTagAttrs(tagAttrs);
 
         List<XmlNode> nodes = new LinkedList<>();
@@ -108,6 +161,16 @@ public class InitUtil {
         // sql
         XmlNode sql = initSql(dbColumnInfos);
         nodes.add(sql);
+
+        // java interface methods defined in InitMethod.class
+        List<JavaMethod> daoMethods = mapperClass.getMethodList();
+        if (CollectionUtils.isNotEmpty(daoMethods)) {
+            mapperClass.getMethodList().forEach(n -> {
+                XmlNode ms = FixedXmlTransfer.transferRouter(n, dbColumnInfos, tableName, entityClass);
+                if (ms != null) nodes.add(ms);
+            });
+        }
+
 
         node.setNodes(nodes);
         return node;

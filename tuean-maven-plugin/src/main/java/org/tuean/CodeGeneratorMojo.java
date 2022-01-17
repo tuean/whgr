@@ -20,12 +20,6 @@ import java.util.Map;
 @Mojo(name = "codeGenerator", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 public class CodeGeneratorMojo extends AbstractMojo {
 
-
-
-
-
-
-
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 

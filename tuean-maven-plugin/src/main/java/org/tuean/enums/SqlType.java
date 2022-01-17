@@ -1,4 +1,4 @@
-package org.tuean.consts;
+package org.tuean.enums;
 
 public enum SqlType {
 

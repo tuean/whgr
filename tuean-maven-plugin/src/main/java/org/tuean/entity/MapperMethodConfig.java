@@ -1,6 +1,6 @@
 package org.tuean.entity;
 
-import org.tuean.consts.SqlType;
+import org.tuean.enums.SqlType;
 
 import java.util.Map;
 

@@ -205,6 +205,18 @@
             <version>0.12.12</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.junit</groupId>-->
+<!--            <artifactId>junit-bom</artifactId>-->
+<!--            <version>5.7.1</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>
@@ -229,13 +241,13 @@
             </plugin>
 
             <plugin>
-                <groupId>org.tuean</groupId>
+                <groupId>io.github.tuean</groupId>
                 <artifactId>tuean-maven-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.2</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>dependency-counter</goal>
+<!--                            <goal>dependency-counter</goal>-->
                             <goal>codeGenerator</goal>
                         </goals>
                     </execution>

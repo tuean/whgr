@@ -16,6 +16,8 @@ public class XmlNode {
 
     private String content;
 
+    private List<XmlContent> fixedContent;
+
 
 
     private String id;
@@ -85,5 +87,13 @@ public class XmlNode {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<XmlContent> getFixedContent() {
+        return fixedContent;
+    }
+
+    public void setFixedContent(List<XmlContent> fixedContent) {
+        this.fixedContent = fixedContent;
     }
 }

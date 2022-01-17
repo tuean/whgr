@@ -226,6 +226,25 @@ public class Util {
     }
 
 
+    public static String tableName2ClassName(String tableName) {
+        return Util.uppercaseFirst(tableName) + "Mapper";
+    }
+
+    public static String getBaseWholeClass(String classStr) {
+        if ("Long".equals(classStr)) {
+            return "java.lang.Long";
+        } else if ("int".equals(classStr)) {
+            return "java.lang.Integer";
+        } else if ("String".equals(classStr)) {
+            return "java.lang.String";
+        } else if ("Double".equals(classStr)) {
+            return "java.lang.Double";
+        } else {
+            throw new RuntimeException("no key type");
+        }
+    }
+
+
     public static void main(String[] args) {
 //        System.out.println(dbColumn2JavaField("_plan_status"));
     }

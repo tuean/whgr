@@ -34,10 +34,10 @@ public class MineRunner {
 
     public static void javaRun(ConfigGenerator configGenerator, String tableName) {
         List<DBColumnInfo> dbColumnInfos = DatabaseGot.getTableColumnInfo(tableName);
-        // java entity file will always make a fresh start
+        // java entity file will always make a pure start
         JavaClass entityClass = generateEntity(dbColumnInfos, tableName);
         // check dao mapper exist
-        JavaClass mapperClass = generateDao(tableName, entityClass);
+        JavaClass mapperClass = generateDao(tableName, entityClass, dbColumnInfos);
         generateXml(dbColumnInfos, tableName, mapperClass, entityClass);
     }
 
@@ -79,13 +79,13 @@ public class MineRunner {
         return javaClazz;
     }
 
-    private static JavaClass generateDao(String tableName, JavaClass entityClass) {
+    private static JavaClass generateDao(String tableName, JavaClass entityClass, List<DBColumnInfo> dbColumnInfos) {
         String packageInfo = Env.codeGenerateConfig.getMapper().getDao();
         String outPath = Util.findDaoLocation(Env.codeGenerateConfig.getMapper(), Env.mavenProject);
-        String className = Util.uppercaseFirst(tableName) + "Mapper";
+        String className = Util.tableName2ClassName(tableName);
         String outFile = outPath + File.separator + className + ".java";
         File oldFile = new File(outFile);
-        JavaClass initClass = InitUtil.initDaoClass(className, packageInfo, outFile, entityClass);
+        JavaClass initClass = InitUtil.initDaoClass(className, packageInfo, outFile, entityClass, dbColumnInfos);
         JavaClass mapperClass = initClass;
         if (oldFile.exists()) {
             try {

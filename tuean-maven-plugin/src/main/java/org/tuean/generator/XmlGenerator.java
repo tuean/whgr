@@ -3,6 +3,7 @@ package org.tuean.generator;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.tuean.consts.Consts;
+import org.tuean.entity.XmlContent;
 import org.tuean.entity.XmlNode;
 import org.tuean.util.Util;
 
@@ -48,7 +49,7 @@ public class XmlGenerator {
             }
         }
 
-        if (CollectionUtils.isEmpty(node.getNodes()) && StringUtils.isBlank(node.getContent())) {
+        if (CollectionUtils.isEmpty(node.getNodes()) && StringUtils.isBlank(node.getContent()) && CollectionUtils.isEmpty(node.getFixedContent())) {
             sb.append("/>");
             Util.nextLine(sb);
             return sb.toString();
@@ -77,6 +78,16 @@ public class XmlGenerator {
             sb.append(Util.blank(blankSize + 2));
             sb.append(node.getContent());
             Util.nextLine(sb);
+        }
+
+        // fixed content
+        if (!CollectionUtils.isEmpty(node.getFixedContent())) {
+            for (XmlContent content : node.getFixedContent()) {
+                if (content == null) continue;
+                sb.append(Util.blank(blankSize)).append(Util.blank(content.getBlankSize()));
+                sb.append(content.getLine());
+                Util.nextLine(sb);
+            }
         }
 
         // content end

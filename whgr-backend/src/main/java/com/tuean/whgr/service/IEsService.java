@@ -6,4 +6,6 @@ public interface IEsService {
 
     void getData();
 
+    void mockChatData();
+
 }

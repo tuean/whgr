@@ -48,5 +48,9 @@ public class Consts {
 
     public static final String EQUAL = "=";
 
+    public static final String PRIMARY = "PRI";
+
+    public static final int MAPPER_BLANK = 2;
+
 
 }
