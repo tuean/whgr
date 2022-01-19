@@ -24,7 +24,7 @@ a simple maven project which provider code generator like [mybatis/generator](ht
 
 the latest version: 0.0.2
 
-useage : see [readme](../tuean-maven-plugin/README.md)
+useage : see [readme](./tuean-maven-plugin/README.md)
 
 #### features
 * support sql-lite
