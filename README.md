@@ -39,10 +39,8 @@ useage : see [readme](./tuean-maven-plugin/README.md)
 ~~fork from [vue3-admin](https://github.com/newbee-ltd/vue3-admin)~~
 
 ### author
-[tuean](http://tuean.cn)
+[tuean](http://tuean.cn)  <tuean_z@163.com>
 
-### email
-tuean_z@163.com
 
 
 
