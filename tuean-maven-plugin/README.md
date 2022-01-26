@@ -1,6 +1,17 @@
-## tuean-maven-plugin 
+## tuean-maven-plugin
+a maven plugin which providers some function.
 
-a maven plugin which providers some function
+
+### usage scenarios
+At the start of beginning, it would be better to use [mybatis/generator](https://github.com/mybatis/generator)
+
+But when want to modify some sql or mapper methods, the official plugin would rewrite our java file、 apppend our xml file
+
+which means something we need would be loss or must be manually modified.
+
+It's boaring when you do this for times and times.
+
+This plugin would be a better solution for this situation.
 
 
 ### codeGenerator
@@ -98,3 +109,22 @@ Process finished with exit code 0
 
 ```
 
+
+### output 
+This plugin providers 5 default methods (defined in org.tuean.enums.InitMethod.java):
+1. insert
+2. selectByPrimaryKey
+3. updateByPrimaryKey
+4. deleteByPrimaryKey
+5. updateByPrimaryKeySelective
+
+If you don't write method names or sql ids in above 5 names, it would fill in the result.
+
+Also if you have written, the template code would be replaced by your own code.
+
+
+
+### changelog
+* version 0.0.2 (2022-01-19)
+  
+  the first available version 

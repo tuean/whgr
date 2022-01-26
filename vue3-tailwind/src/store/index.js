@@ -15,6 +15,7 @@ const store = createStore({
             win: {},
             lotteryResultShow: false,
             theme: "",
+            fullFlag: false
         }
     },
     mutations: {
@@ -76,7 +77,11 @@ const store = createStore({
 
         hiddenResult() {
             state.lotteryResultShow = false
-        }
+        },
+        // full(state) {
+        //     console.log(state)
+        //     state.fullFlag = !state.fullFlag
+        // }
     }
 })
 

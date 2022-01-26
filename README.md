@@ -29,6 +29,7 @@ useage : see [readme](./tuean-maven-plugin/README.md)
 #### features
 * support sql-lite
 * more menu demos
+* micro front-end
 
 ### admin
 * product
