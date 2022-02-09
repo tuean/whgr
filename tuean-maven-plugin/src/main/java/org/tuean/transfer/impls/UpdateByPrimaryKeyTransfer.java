@@ -6,6 +6,7 @@ import org.tuean.entity.XmlNode;
 import org.tuean.entity.define.JavaClass;
 import org.tuean.entity.define.JavaMethod;
 import org.tuean.enums.InitMethod;
+import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.enums.SqlType;
 import org.tuean.transfer.ITransfer;
 import org.tuean.util.Log;
@@ -50,7 +51,7 @@ public class UpdateByPrimaryKeyTransfer implements ITransfer {
         for (int x = 0; x < dbColumnInfoList.size(); x++) {
             String name = dbColumnInfoList.get(x).getName();
             String fieldName = Util.dbColumn2JavaField(dbColumnInfoList.get(x).getName());
-            String fieldJdbcType = dbColumnInfoList.get(x).getType().toUpperCase(Locale.ROOT);
+            String fieldJdbcType = JdbcTypeEnum.getMybatisByDBType(dbColumnInfoList.get(x).getType());
             if (pri.equals(name)) continue;
             String sql = name + " = #{" + fieldName + ", jdbcType=" + fieldJdbcType + "}";
             if (x != dbColumnInfoList.size() - 1) sql = sql + ",";
@@ -58,7 +59,7 @@ public class UpdateByPrimaryKeyTransfer implements ITransfer {
             fixedContents.add(xmlContent);
         }
         tier--;
-        xmlContent = new XmlContent(tier * MAPPER_BLANK, "where " + pri + " = #{" + Util.dbColumn2JavaField(pri) + ", jdbcType=" + keyColumn.getType().toUpperCase(Locale.ROOT) + "}");
+        xmlContent = new XmlContent(tier * MAPPER_BLANK, "where " + pri + " = #{" + Util.dbColumn2JavaField(pri) + ", jdbcType=" + JdbcTypeEnum.getMybatisByDBType(keyColumn.getType()) + "}");
         fixedContents.add(xmlContent);
 
         node.setFixedContent(fixedContents);

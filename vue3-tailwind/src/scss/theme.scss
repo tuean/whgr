@@ -1,36 +1,36 @@
-@import "../index.scss";
+// @import "../index.scss";
 
-$light: (
-    base-color: #ffffff,
-    text-color: $bg-white,
-);
+// $light: (
+//     base-color: #ffffff,
+//     text-color: $bg-white,
+// );
 
-$dark: (
-    base-color: $bg-black,
-    text-color: #ffffff,
-);
-
-
-$themes: (
-    light: $light,
-    dark: $dark
-);
+// $dark: (
+//     base-color: $bg-black,
+//     text-color: #ffffff,
+// );
 
 
-[data-theme="light"] {
-    --bg-color: #ffffff;
-    --font-color: $bg-white
-}
+// $themes: (
+//     light: $light,
+//     dark: $dark
+// );
 
-[data-theme="dark"] {
-    --bg-color: $bg-black;
-    --font-color: #ffffff
-}
 
-.globalSetting {
-    background-color: var(--bg-color);
-    color: var(--font-color);
-}
+// [data-theme="light"] {
+//     --bg-color: #ffffff;
+//     --font-color: $bg-white
+// }
+
+// [data-theme="dark"] {
+//     --bg-color: $bg-black;
+//     --font-color: #ffffff
+// }
+
+// .globalSetting {
+//     background-color: var(--bg-color);
+//     color: var(--font-color);
+// }
 
 // @mixin base-background(){
 //     @each $themename , $theme in $themes {

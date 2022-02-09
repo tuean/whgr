@@ -6,6 +6,7 @@ import org.tuean.entity.XmlNode;
 import org.tuean.entity.define.JavaClass;
 import org.tuean.entity.define.JavaMethod;
 import org.tuean.enums.InitMethod;
+import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.enums.SqlType;
 import org.tuean.transfer.ITransfer;
 import org.tuean.util.Log;
@@ -45,7 +46,7 @@ public class SelectByPrimaryKeyTransfer implements ITransfer {
         fixedContents.add(xmlContent);
         xmlContent = new XmlContent(tier * MAPPER_BLANK, "from " + tableName);
         fixedContents.add(xmlContent);
-        xmlContent = new XmlContent(tier * MAPPER_BLANK, "where " + pri + " = #{" + Util.dbColumn2JavaField(pri) + ", jdbcType=" + keyColumn.getType().toUpperCase(Locale.ROOT) + "}");
+        xmlContent = new XmlContent(tier * MAPPER_BLANK, "where " + pri + " = #{" + Util.dbColumn2JavaField(pri) + ", jdbcType=" + JdbcTypeEnum.getMybatisByDBType(keyColumn.getType()) + "}");
         fixedContents.add(xmlContent);
 
         node.setFixedContent(fixedContents);

@@ -9,9 +9,6 @@
       class="el-menu-vertial"
       @open="open"
       @close="close"
-      background-color="#22252A"
-      text-color="#D1D5DB"
-      active-text-color="#ffd04b1"
     >
       <template v-for="menu in menus" :key="menu.id">
         <!-- 二级 -->
@@ -56,6 +53,7 @@ import menus from "/@/conf/menu.js";
 import store from "/@/store/index";
 import { useRouter } from "vue-router";
 import { computed } from "vue";
+import settings from '/@/store/settings' 
 
 export default {
   components: {
@@ -92,11 +90,35 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="less">
 .bg-menu {
-  background-color: $default-bg;
-  .el-menu-vertial {
-      border-right: 0
-  }
+  background-color: var(--theme-color) !important
 }
+.el-menu-vertial {
+  border-right: 0;
+  background-color: var(--theme-color)
+}
+.el-meun {
+  background-color: var(--theme-color);
+  color: var(--theme-text);
+}
+.el-menu-item {
+  background-color: var(--theme-color);
+  color: var(--theme-text);
+}
+.el-menu-item:focus, .el-menu-item:hover {
+    outline: 0;
+    background-color: var(--theme-color)
+}
+.el-submenu {
+  background-color: var(--theme-color);
+  color: var(--theme-text);
+}
+.el-submenu__title {
+  color: var(--theme-text);
+}
+.el-submenu__title:focus, .el-submenu__title:hover {
+  background-color: var(--theme-color)
+}
+
 </style>

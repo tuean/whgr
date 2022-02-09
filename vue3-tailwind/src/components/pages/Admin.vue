@@ -99,11 +99,11 @@ export default {
 }
 
 .bg-tabs {
-  background-color: $tabs-bg;
+  background-color: var(--tabs-bg)
 }
 
 .bg-main {
-  background-color: $end-bg;
+  background-color: var(--end-bg);
   // height: 100% - 56px;
   overflow-y: scroll;
   overflow-x: hidden;

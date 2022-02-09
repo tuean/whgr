@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="bg w-full h-14 p-0">
+    <div class="bg  w-full h-14 p-0">
         <div class="flex h-full items-center pr-2 justify-between">
             <div class="text-gray-300 " >
                 <i :class="rotate ? 'el-icon-refresh-right default can-click' : 'el-icon-refresh-right refresh can-click '" @click="refresh"/>
@@ -54,7 +54,8 @@ export default {
 </script>
 <style lang="scss">
     .bg{
-        background-color: $header-bg;
+        // background-color: $header-bg;
+        background-color: var(--theme-color)
     }
     .default {
         transition: all 0s;

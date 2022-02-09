@@ -48,6 +48,6 @@ export default {
 </script>
 <style lang="scss">
     .bg-cell {
-        background-color: $end-bg;   
+        background-color: var(--theme-color);   
     }
 </style>

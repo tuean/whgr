@@ -10,47 +10,50 @@ import java.util.List;
 /**
  * the mapping info can be found at
  *      {@docRoot https://www.w3schools.com/mysql/mysql_datatypes.asp}
+ *
+ * all mybatis jdbcType can be found at
+ *      {@docRoot https://mybatis.org/mybatis-3/apidocs/reference/org/apache/ibatis/type/JdbcType.html}
  */
 public enum JdbcTypeEnum {
 
     // string
-    CHAR                    ("char",        String.class),
-    VARCHAR                 ("varchar",     String.class),
-    VARBINARY               ("varbinary",   String.class),
-    BINARY                  ("binary",      String.class),
-    TINYBLOB                ("tinyblob",    String.class),
-    TINYTEXT                ("tinytext",    String.class),
-    TEXT                    ("text",        String.class),
-    BLOB                    ("blob",        String.class),
-    MEDIUMTEXT              ("mediumtext",  String.class),
-    MEDIUMBLOB              ("mediumblob",  String.class),
-    LONGTEXT                ("longtext",    String.class),
-    LONGBLOB                ("longblob",    String.class),
-    ENUM                    ("enum",        List.class),
-    SET                     ("set",         List.class),
+    CHAR                    ("char",        String.class,   "VARCHAR"),
+    VARCHAR                 ("varchar",     String.class,   "VARCHAR"),
+    VARBINARY               ("varbinary",   String.class,   "VARCHAR"),
+    BINARY                  ("binary",      String.class,   "BINARY"),
+    TINYBLOB                ("tinyblob",    String.class,   "BLOB"),
+    TINYTEXT                ("tinytext",    String.class,   "VARCHAR"),
+    TEXT                    ("text",        String.class,   "VARCHAR"),
+    BLOB                    ("blob",        String.class,   "BLOB"),
+    MEDIUMTEXT              ("mediumtext",  String.class,   "VARCHAR"),
+    MEDIUMBLOB              ("mediumblob",  String.class,   "BLOB"),
+    LONGTEXT                ("longtext",    String.class,   "VARCHAR"),
+    LONGBLOB                ("longblob",    String.class,   "BLOG"),
+    ENUM                    ("enum",        List.class,     "VARCHAR"),
+    SET                     ("set",         List.class,     "VARCHAR"),
 
     // numeric
-    BIT                     ("bit",         Byte.class),
-    TINYINT                 ("tinyint",     Integer.class),
-    BOOL                    ("bool",        Boolean.class),
-    BOOLEAN                 ("boolean",     Boolean.class),
-    SMALLINT                ("smallint",    Integer.class),
-    MEDIUMINT               ("mediumint",   Integer.class),
-    INT                     ("int",         Integer.class),
-    INTEGER                 ("integer",     Integer.class),
-    BIGINT                  ("bigint",      Long.class),
-    FLOAT                   ("float",       Double.class),
-    DOUBLE                  ("double",      Double.class),
-    DECIMAL                 ("decimal",     BigDecimal.class),
-    DEC                     ("dec",         BigDecimal.class),
+    BIT                     ("bit",         Byte.class,     "BIT"),
+    TINYINT                 ("tinyint",     Integer.class,  "TINYINT"),
+    BOOL                    ("bool",        Boolean.class,  "BOOLEAN"),
+    BOOLEAN                 ("boolean",     Boolean.class,  "BOOLEAN"),
+    SMALLINT                ("smallint",    Integer.class,  "SMALLINT"),
+    MEDIUMINT               ("mediumint",   Integer.class,  "INTEGER"),
+    INT                     ("int",         Integer.class,  "INTEGER"),
+    INTEGER                 ("integer",     Integer.class,  "INTEGER"),
+    BIGINT                  ("bigint",      Long.class,     "BIGINT"),
+    FLOAT                   ("float",       Double.class,   "FLOAT"),
+    DOUBLE                  ("double",      Double.class,   "DOUBLE"),
+    DECIMAL                 ("decimal",     BigDecimal.class,"DECIMAL"),
+    DEC                     ("dec",         BigDecimal.class,"DECIMAL"),
 
 
     // date
-    DATE                    ("date",        LocalDate.class),
-    DATETIME                ("datetime",    LocalDateTime.class),
-    TIMESTAMP               ("timestamp",   LocalDateTime.class),
-    TIME                    ("time",        LocalTime.class),
-    YEAR                    ("year",        Integer.class)
+    DATE                    ("date",        LocalDate.class, "TIMESTAMP"),
+    DATETIME                ("datetime",    LocalDateTime.class, "TIMESTAMP"),
+    TIMESTAMP               ("timestamp",   LocalDateTime.class, "TIMESTAMP"),
+    TIME                    ("time",        LocalTime.class, "TIMESTAMP"),
+    YEAR                    ("year",        Integer.class, "TIMESTAMP")
     ;
 
 
@@ -58,14 +61,24 @@ public enum JdbcTypeEnum {
 
     private Class javaType;
 
-    JdbcTypeEnum(String dbType, Class javaType) {
+    private String mybatisType;
+
+    JdbcTypeEnum(String dbType, Class javaType, String mybatisType) {
         this.dbType = dbType;
         this.javaType = javaType;
+        this.mybatisType = mybatisType;
     }
 
     public static Class getByDBType(String dbType) {
         for (JdbcTypeEnum e : values()) {
             if (e.getDbType().equals(dbType)) return e.getJavaType();
+        }
+        return null;
+    }
+
+    public static String getMybatisByDBType(String dbType) {
+        for (JdbcTypeEnum e : values()) {
+            if (e.getDbType().equals(dbType)) return e.getMybatisType();
         }
         return null;
     }
@@ -76,5 +89,9 @@ public enum JdbcTypeEnum {
 
     public Class getJavaType() {
         return javaType;
+    }
+
+    public String getMybatisType() {
+        return mybatisType;
     }
 }

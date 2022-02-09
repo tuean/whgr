@@ -194,7 +194,7 @@ public class InitUtil {
             Map<String, Object> rAttrs = new HashMap<>();
             rAttrs.put("column", dbColumnInfo.getName());
             rAttrs.put("property", Util.dbColumn2JavaField(dbColumnInfo.getName()));
-            rAttrs.put("jdbcType", dbColumnInfo.getType());
+            rAttrs.put("jdbcType", JdbcTypeEnum.getMybatisByDBType(dbColumnInfo.getType()));
             r.setTagAttrs(rAttrs);
             nodes.add(r);
         }

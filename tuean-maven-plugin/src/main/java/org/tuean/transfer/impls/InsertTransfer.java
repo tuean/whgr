@@ -6,6 +6,7 @@ import org.tuean.entity.XmlNode;
 import org.tuean.entity.define.JavaClass;
 import org.tuean.entity.define.JavaMethod;
 import org.tuean.enums.InitMethod;
+import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.enums.SqlType;
 import org.tuean.transfer.ITransfer;
 import org.tuean.util.Util;
@@ -57,7 +58,7 @@ public class InsertTransfer implements ITransfer {
 
         for (int i = 0; i < dbColumnInfoList.size(); i++) {
             String fieldName = Util.dbColumn2JavaField(dbColumnInfoList.get(i).getName());
-            String fieldJdbcType = dbColumnInfoList.get(i).getType().toUpperCase(Locale.ROOT);
+            String fieldJdbcType = JdbcTypeEnum.getMybatisByDBType(dbColumnInfoList.get(i).getType());
             int thisSize = fieldJdbcType.length() + 13 + fieldName.length();
             if (sb.length() + thisSize > line_letters) {
                 int lastIndex = xmlContent.getBlankSize();

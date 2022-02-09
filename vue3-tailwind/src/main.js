@@ -11,13 +11,9 @@ import '/@/assets/lib/tagcanvas.js';
 import mitt from 'mitt'
 import loading from './plugin/loading/loading';
 import dayjs from 'dayjs'
-
-// const bus = {}
-// const emitter = mitt()
-
-// bus.$on = emitter.on
-// bus.$off = emitter.off
-// bus.$emit = emitter.emit
+import '/@/theme/theme.less'
+import '/@/assets/font/lxgw.css'
+import tracing from './plugin/eventTracing/tracing';
 
 const app = createApp(Main)
 app.config.globalProperties.$bus = mitt()
@@ -25,6 +21,7 @@ app.config.globalProperties.$dayjs = dayjs
 // provide('dayjs', dayjs)
 
 app.use(loading)
+app.use(tracing, {url: "http://localhost:7777/api/out"})
 app.use(router)
 app.use(store)
 app.use(ElementPlus)
