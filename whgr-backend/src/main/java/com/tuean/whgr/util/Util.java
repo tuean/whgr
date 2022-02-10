@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Slf4j
 public class Util {
@@ -58,6 +59,10 @@ public class Util {
         httpServletResponse.getOutputStream().close();
     }
 
+
+    public static String makeReqId(String name) {
+        return UUID.fromString(name).toString();
+    }
 
 
 
