@@ -60,8 +60,8 @@ public class Util {
     }
 
 
-    public static String makeReqId(String name) {
-        return UUID.fromString(name).toString();
+    public static String makeReqId() {
+        return UUID.randomUUID().toString();
     }
 
 

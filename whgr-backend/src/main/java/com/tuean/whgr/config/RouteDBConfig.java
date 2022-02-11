@@ -12,20 +12,20 @@ import java.util.Map;
 
 import static com.tuean.whgr.config.Const.DB_MAIN;
 
-@Configuration
+//@Configuration
 public class RouteDBConfig {
 
-    @Qualifier("mainDB")
-    @Resource
+//    @Qualifier("mainDB")
+//    @Resource
     private DataSource mainDB;
 
-    @Bean
-    public DataSource allDataSource() {
-        Map<Object, Object> all = new HashMap<>();
-        all.put(DB_MAIN, mainDB);
-        RouteableDataSource routeableDataSource = new RouteableDataSource();
-        routeableDataSource.setTargetDataSources(all);
-        return routeableDataSource;
-    }
+//    @Bean
+//    public DataSource allDataSource() {
+//        Map<Object, Object> all = new HashMap<>();
+//        all.put(DB_MAIN, mainDB);
+//        RouteableDataSource routeableDataSource = new RouteableDataSource();
+//        routeableDataSource.setTargetDataSources(all);
+//        return routeableDataSource;
+//    }
 
 }

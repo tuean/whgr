@@ -15,7 +15,7 @@ public class ReqHelper {
     public static String get() {
         String reqId = reqMap.get();
         if (reqId != null) {
-            reqId = Util.makeReqId(REQ_ID);
+            reqId = Util.makeReqId();
         }
         return reqId;
     }

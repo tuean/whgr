@@ -14,10 +14,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
-@Configuration
-@MapperScan(basePackages = "com.tuean.whgr.dao",
-        sqlSessionFactoryRef = "mainConfig"
-)
+//@Configuration
+//@MapperScan(basePackages = "com.tuean.whgr.dao",
+//        sqlSessionFactoryRef = "mainConfig"
+//)
 public class MainDbConfig implements EnvironmentAware {
 
     private static final String MAPPER_LOCATION = "classpath:/mapper/main/*.xml";

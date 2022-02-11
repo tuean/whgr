@@ -28,7 +28,7 @@ public class ReqFilter extends OncePerRequestFilter {
         String reqId = request.getHeader(REQ_ID);
         if (StringUtils.isEmpty(reqId)) {
             if (!response.containsHeader(REQ_ID)) {
-                String newReqId = Util.makeReqId(REQ_ID);
+                String newReqId = Util.makeReqId();
                 response.addHeader(REQ_ID, newReqId);
             } else {
                 reqId = response.getHeader(REQ_ID);
