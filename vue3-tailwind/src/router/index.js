@@ -36,6 +36,11 @@ const admins = [
         name: 'go2',
         component: () => import(/* webpackChunkName: "go2" */ '@/com/pages/admin/go.vue')
     }, 
+    {
+        path: 'micro',
+        name: 'micro',
+        component: () => import(/* webpackChunkName: "Micro" */ '../components/pages/admin/Micro.vue')
+    },
 ]
 
 const routes = {

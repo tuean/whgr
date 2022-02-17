@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "spring.datasource.sqlite")
-public class SqliteConfig {
+public class DerbyDBConfig {
 
 
     private String driverClassName;

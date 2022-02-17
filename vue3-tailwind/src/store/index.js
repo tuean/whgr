@@ -78,10 +78,6 @@ const store = createStore({
         hiddenResult() {
             state.lotteryResultShow = false
         },
-        // full(state) {
-        //     console.log(state)
-        //     state.fullFlag = !state.fullFlag
-        // }
     }
 })
 

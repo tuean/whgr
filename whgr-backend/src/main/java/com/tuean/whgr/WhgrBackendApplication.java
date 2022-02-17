@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = {
-//        DataSourceAutoConfiguration.class
+        DataSourceAutoConfiguration.class
 })
-@MapperScan("com.tuean.whgr.dao")
+//@MapperScan("com.tuean.whgr.dao")
 @EnableScheduling
 @EnableEncryptableProperties
 @Configuration

@@ -3,7 +3,7 @@
         <span class="text-gray-300 ">
             <!-- <span v-if="tabInfo.icon" /> -->
             <span class="can-click" @click="activeTab">{{ tabInfo.name }}</span>
-            <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="!tabInfo.removeable">x</span>
+            <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span>
         </span>
     </div>
 </template>
@@ -36,6 +36,7 @@ export default {
         }
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
+            console.log('active tab', tabInfo)
             router.push(tabInfo.path)
         }
         return {

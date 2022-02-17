@@ -76,9 +76,14 @@ export default {
 
     const menuClick = (m) => {
       console.log(m);
+      let isThird = m.isThird || false
       store.commit("pushTab", m);
       store.commit("activeTab", m);
-      router.push(m.path);
+      if (isThird) {
+        router.push({path: '/admin/micro', params: {url: m.path}})
+      } else {
+        router.push(m.path);
+      }
     };
 
     return {
