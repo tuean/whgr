@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+<!--            <pattern>%d [%thread] %-5level %-50logger{40} - %msg%n</pattern>-->
+            <pattern>REQ:%X{req} %d %-5p %X{THREAD_UUID}[%thread] %c{0} - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>whgr.log</file>
+        <encoder>
+<!--            <pattern>%d [%thread] %-5level %-50logger{40} - %msg%n</pattern>-->
+            <pattern>REQ:%X{req} %d %-5p %X{THREAD_UUID}[%thread] %c{0} - %m%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>whgr-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="Async" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="RollingFile" />
+    </appender>
+
+    <logger name="org.springframework" level="ERROR" />
+
+    <root level="INFO">
+        <appender-ref ref="Console" />
+        <appender-ref ref="Async" />
+    </root>
+
+</configuration>

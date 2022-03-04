@@ -26,7 +26,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
-import static com.tuean.whgr.Const.TOKEN;
+import static com.tuean.whgr.config.Const.TOKEN;
+
 
 @Component
 @Aspect

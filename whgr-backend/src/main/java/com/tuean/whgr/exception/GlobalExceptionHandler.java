@@ -13,7 +13,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.sql.SQLException;
 
-import static com.tuean.whgr.Const.NEED_LOGIN_ERROR;
+import static com.tuean.whgr.config.Const.NEED_LOGIN_ERROR;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {

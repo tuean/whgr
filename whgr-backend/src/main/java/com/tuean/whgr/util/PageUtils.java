@@ -3,7 +3,7 @@ package com.tuean.whgr.util;
 
 import com.tuean.whgr.entity.PageTair;
 
-import static com.tuean.whgr.Const.NO_PAGE_SIGN;
+import static com.tuean.whgr.config.Const.NO_PAGE_SIGN;
 
 public class PageUtils {
 

@@ -68,7 +68,7 @@ public class Util {
 
 
     public static String makeReqId() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     public static Long getNowMills() {

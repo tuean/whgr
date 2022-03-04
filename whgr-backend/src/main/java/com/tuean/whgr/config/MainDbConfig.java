@@ -1,10 +1,12 @@
 package com.tuean.whgr.config;
 
+import com.tuean.whgr.filter.mybatis.SqlLogIntercepts;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -31,18 +33,21 @@ public class MainDbConfig implements EnvironmentAware {
         this.environment = environment;
     }
 
+    @Autowired
+    private SqlLogIntercepts sqlLogIntercepts;
+
 
     @Bean(name = "mainDB")
-    @ConfigurationProperties(prefix = "spring.datasource.main")
+//    @ConfigurationProperties(prefix = "spring.datasource.main")
     public DataSource dataSource() {
-//        HikariConfig config = new HikariConfig();
-//        config.setUsername(environment.getProperty("spring.datasource.username"));
-//        config.setPassword(environment.getProperty("spring.datasource.password"));
-//        config.setJdbcUrl(environment.getProperty("spring.datasource.url"));
-//        config.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
-//        HikariDataSource dataSource = new HikariDataSource(config);
-//        return dataSource;
-        return DataSourceBuilder.create().build();
+        HikariConfig config = new HikariConfig();
+        config.setUsername(environment.getProperty("spring.datasource.main.username"));
+        config.setPassword(environment.getProperty("spring.datasource.main.password"));
+        config.setJdbcUrl(environment.getProperty("spring.datasource.main.url"));
+        config.setDriverClassName(environment.getProperty("spring.datasource.main.driver-class-name"));
+        HikariDataSource dataSource = new HikariDataSource(config);
+        return dataSource;
+//        return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "mainConfig")
@@ -50,6 +55,7 @@ public class MainDbConfig implements EnvironmentAware {
         final SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION));
+        bean.setPlugins(sqlLogIntercepts);
         return bean.getObject();
     }
 
