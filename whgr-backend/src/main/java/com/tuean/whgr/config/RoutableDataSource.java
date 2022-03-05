@@ -1,5 +1,6 @@
 package com.tuean.whgr.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.Assert;
 
@@ -7,8 +8,8 @@ import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-public class RouteableDataSource extends AbstractRoutingDataSource {
+@Slf4j
+public class RoutableDataSource extends AbstractRoutingDataSource {
 
     private static Map<String, DataSource> map = new ConcurrentHashMap<>();
 
@@ -21,6 +22,7 @@ public class RouteableDataSource extends AbstractRoutingDataSource {
     }
 
     public static void set(String db) {
+        log.debug("setting db: {}", db);
         dbSelector.set(db);
     }
 
@@ -30,7 +32,7 @@ public class RouteableDataSource extends AbstractRoutingDataSource {
 
     public static DataSource get(String key) {
         DataSource source = map.get(key);
-        Assert.notNull(source, "dataSource not found");
+        Assert.notNull(source, "dataSource can not be null");
         return source;
     }
 
@@ -40,9 +42,5 @@ public class RouteableDataSource extends AbstractRoutingDataSource {
         return dbSelector.get();
     }
 
-//    @Override
-//    protected DataSource determineTargetDataSource() {
-//
-//    }
 
 }

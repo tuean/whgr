@@ -45,16 +45,22 @@ public class SqlLogIntercepts implements Interceptor {
             Object returnObject = invocation.proceed();
             return returnObject;
         } finally {
-            BoundSql boundSql = statementHandler.getBoundSql();
-            Object parameterObject = boundSql.getParameterObject();
-            String sql = boundSql.getSql();
+
 
             stopWatch.stop();
             log.info("sql: took:{} ms", stopWatch.getTotalTimeMillis());
-            log.info(sql);
-            log.info("params:");
-//            log.info(parameterObject);  // todo
+            logFullSql(statementHandler.getBoundSql());
         }
+    }
+
+    private void logFullSql(BoundSql boundSql) {
+
+        Object parameterObject = boundSql.getParameterObject();
+        String sql = boundSql.getSql();
+        //            log.info(parameterObject);  // todo
+        log.info(sql);
+        log.info("params:");
+        log.info(String.valueOf(parameterObject));
     }
 
 }
