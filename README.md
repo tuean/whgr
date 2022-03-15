@@ -11,7 +11,7 @@ whgr = Work Hard to Get Rich
 
 
 #### vue3-tailwind
-front project with vue3 and tailwind
+front project with vue3 and tailwind([daisyui](https://daisyui.com/))
 
 #### whgr-backend
 back project with springboot

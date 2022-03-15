@@ -9,6 +9,7 @@
   "dependencies": {
     "@micro-zoe/micro-app": "^0.8.4",
     "axios": "^0.21.1",
+    "daisyui": "^2.6.4",
     "dayjs": "^1.10.7",
     "echarts": "^5.2.0",
     "element-plus": "latest",
