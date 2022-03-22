@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class Util {
@@ -75,6 +77,25 @@ public class Util {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         return Long.parseLong(formatter.format(now));
+    }
+
+
+    /**
+     * from
+     *      https://stackoverflow.com/questions/35809827/java-8-completablefuture-allof-with-collection-or-list
+     *
+     * @param futuresList
+     * @param <T>
+     * @return
+     */
+    public static <T> CompletableFuture<List<T>> allOf(List<CompletableFuture<T>> futuresList) {
+        CompletableFuture<Void> allFuturesResult =
+                CompletableFuture.allOf(futuresList.toArray(new CompletableFuture[futuresList.size()]));
+        return allFuturesResult.thenApply(v ->
+                futuresList.stream().
+                        map(future -> future.join()).
+                        collect(Collectors.<T>toList())
+        );
     }
 
 
