@@ -10,7 +10,6 @@
 import { useRouter } from "vue-router";
 import { reactive, getCurrentInstance, inject } from "vue";
 import bus from "@/bus";
-import "./index.css";
 import _ from "lodash";
 
 export default {

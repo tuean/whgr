@@ -12,7 +12,6 @@
     </div>
 </template>
 <script>
-import '/@/index.css'
 
 export default {
     props: {

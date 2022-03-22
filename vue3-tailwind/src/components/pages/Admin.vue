@@ -44,7 +44,6 @@ import Loading from "/@/components/Loading.vue";
 import LeftMenuSpec from "/@/components/layout/LeftMenuSpec.vue";
 import TopHeader from '/@/components/layout/TopHeader.vue';
 import Tabs from '/@/components/tabs/Tabs.vue';
-import "../../index.css";
 import GlobalSetting from '/@/components/layout/GlobalSetting.vue'
 import { useStore } from 'vuex'
 

@@ -43,6 +43,14 @@ const admins = [
     },
 ]
 
+const daisyui = [
+    {
+        // path: 'root',
+        // name: 'root',
+        // component: () => import(/* webpackChunkName: "root" */ '@/com/daisyui/root.vue')
+    }
+]
+
 const routes = {
     history: createWebHashHistory(),
     routes: [
@@ -65,6 +73,12 @@ const routes = {
             name: 'admin',
             component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue'),
             children: admins
+        },
+        {
+            path: '/daisyui',
+            name: 'daisyui',
+            component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
+            // children: daisyui
         },
         {
             path: '/404',

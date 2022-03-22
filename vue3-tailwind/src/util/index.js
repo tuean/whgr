@@ -82,3 +82,22 @@ export const getLastNum = s => {
   }
 }
 
+export const flatMenus = menus => {
+  let result = []
+  for (let x = 0; menus.length > x; x++) {
+    result.push(menus[x])
+    if (menus[x].child) {
+      let id = menus[x].id
+      for (let y = 0; menus[x].child.length > y; y++) {
+         let r = {
+           id: id + "_" + menus[x].id,
+           parent: id,
+           ...menus[x].child[y]
+         }
+         result.push(r)
+      }
+    }
+  }
+
+  return result
+}
