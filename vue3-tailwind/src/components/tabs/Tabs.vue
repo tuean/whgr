@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="inline-block">
+    <div class="inline-block tabs tabs-boxed">
         <Tab v-for="tabInfo in tabList" :tabInfo="tabInfo" :key="tabInfo.id"></Tab>
     </div>
 </template>
