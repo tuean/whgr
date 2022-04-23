@@ -100,8 +100,8 @@ export default {
 
 
 <style scoped>
-.navbar {
+.navbar { ·
     display: flex;
-    
+
 }
 </style>

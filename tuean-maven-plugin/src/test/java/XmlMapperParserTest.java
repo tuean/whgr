@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 
 public class XmlMapperParserTest {
 
-    @Test
+//    @Test
     public void test() {
         String file = "/Users/tuean/IdeaProjects/whgr/whgr-backend/src/main/resources/mapper/TodoInfoMapper.xml";
         XmlFileParser parser = new XmlFileParser();

@@ -50,8 +50,8 @@ public enum JdbcTypeEnum {
 
     // date
     DATE                    ("date",        LocalDate.class, "TIMESTAMP"),
-    DATETIME                ("datetime",    LocalDateTime.class, "TIMESTAMP"),
-    TIMESTAMP               ("timestamp",   LocalDateTime.class, "TIMESTAMP"),
+    DATETIME                ("datetime",    Date.class, "TIMESTAMP"),
+    TIMESTAMP               ("timestamp",   Date.class, "TIMESTAMP"),
     TIME                    ("time",        LocalTime.class, "TIMESTAMP"),
     YEAR                    ("year",        Integer.class, "TIMESTAMP")
     ;

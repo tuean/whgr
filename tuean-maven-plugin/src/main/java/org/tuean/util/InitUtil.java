@@ -149,7 +149,7 @@ public class InitUtil {
         XmlNode node = new XmlNode();
         node.setTag("mapper");
         Map<String, Object> tagAttrs = new HashMap<>();
-        tagAttrs.put("namespace", mapperClass.getPackageInfo() + "." + Util.tableName2ClassName(tableName));
+        tagAttrs.put("namespace", mapperClass.getPackageInfo() + "." + mapperClass.getClassName());
         node.setTagAttrs(tagAttrs);
 
         List<XmlNode> nodes = new LinkedList<>();

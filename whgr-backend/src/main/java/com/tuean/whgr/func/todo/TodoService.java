@@ -1,7 +1,5 @@
 package com.tuean.whgr.func.todo;
 
-import com.tuean.whgr.dao.TodoInfoMapper;
-import com.tuean.whgr.entity.db.TodoInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

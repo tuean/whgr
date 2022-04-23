@@ -100,6 +100,8 @@ public class Util {
 
 
 
+
+
     public static void main(String[] args) throws NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
         String key = "192.168.";
         DES des = new DES(key);
