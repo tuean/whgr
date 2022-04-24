@@ -65,7 +65,7 @@ add pom:
 <dependency>
     <groupId>io.github.tuean</groupId>
     <artifactId>tuean-maven-plugin</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
@@ -128,3 +128,13 @@ Also if you have written, the template code would be replaced by your own code.
 * version 0.0.2 (2022-01-19)
   
   the first available version 
+
+* version 0.0.3 
+
+  dev version skip
+
+* version 0.0.4 (2022-4-22)
+
+  fix the bug of the method name
+
+  support table name with _

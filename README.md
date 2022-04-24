@@ -24,7 +24,7 @@ provider http request to specified method without writing code
 ### tuean-maven-plugin (can use)
 a simple maven project which provider code generator like [mybatis/generator](https://github.com/mybatis/generator) but performs code merge
 
-the latest version: 0.0.2
+the latest version: 0.0.4
 
 useage : see [readme](./tuean-maven-plugin/README.md)
 
