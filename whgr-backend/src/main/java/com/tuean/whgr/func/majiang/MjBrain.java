@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class MjBrain {
 
-    public
+
 
 
 }

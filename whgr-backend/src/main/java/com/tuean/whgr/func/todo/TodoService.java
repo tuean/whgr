@@ -1,5 +1,7 @@
 package com.tuean.whgr.func.todo;
 
+import com.tuean.whgr.dao.TodoInfoMapper;
+import com.tuean.whgr.entity.db.TodoInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,14 @@ public class TodoService {
     private TodoInfoMapper todoInfoMapper;
 
     public List<TodoInfo> getTodoInfo(TodoListRequest request) {
-        return todoInfoMapper.selectByRequest(request);
+        return null;
     }
 
     public void insert(TodoInfo info) {
         info.setCreateTime(new Date());
         info.setUpdateTime(new Date());
         info.setId(null);
-        todoInfoMapper.insertSelective(info);
+        todoInfoMapper.insert(info);
     }
 
     public TodoInfo update(TodoInfo info) {
