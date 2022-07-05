@@ -29,15 +29,31 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
     @Override
     public JavaClass parser(List<String> textLines) {
         int size = textLines.size(), startIndex = 0;
-        boolean packageFlag = false;
+        boolean packageFlag = false, multiIgnore = false;
         JavaClass javaClass = new JavaClass();
 
         // package info
         int annotation = -1;
         for (; size > startIndex; startIndex++) {
             String line = textLines.get(startIndex);
-            if (annotation != 3) annotation = ParserJavaUtil.ignore(line);
-            if (annotation > 0) continue;
+            annotation = ParserJavaUtil.ignore(line);
+            if (multiIgnore && annotation == 5) continue;
+            if (annotation == 1) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 2) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 3) {
+                multiIgnore = true;
+                continue;
+            }
+            if (annotation == 4) {
+                multiIgnore = false;
+                continue;
+            }
             if (line.trim().startsWith("package ")) {
                 String packageInfo = line.trim().replaceFirst("package ", "");
                 javaClass.setPackageInfo(packageInfo);
@@ -53,11 +69,28 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
         List<String> importList = new ArrayList<>();
         for (; size > startIndex; startIndex++) {
             String line = textLines.get(startIndex);
-            if (annotation != 3) annotation = ParserJavaUtil.ignore(line);
-            if (annotation > 0) continue;
+            annotation = ParserJavaUtil.ignore(line);
+            if (multiIgnore && annotation == 5) continue;
+            if (annotation == 1) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 2) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 3) {
+                multiIgnore = true;
+                continue;
+            }
+            if (annotation == 4) {
+                multiIgnore = false;
+                continue;
+            }
             if (line.trim().startsWith("package ")) throw new RuntimeException("multi package error");
             if (line.trim().startsWith("import ")) {
                 importList.add(line.trim().replaceFirst("import ", ""));
+                continue;
             }
             if (line.trim().startsWith("public ")) {
                 break;
@@ -69,8 +102,24 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
         annotation = -1;
         for (; size > startIndex; startIndex++) {
             String line = textLines.get(startIndex);
-            if (annotation != 3) annotation = ParserJavaUtil.ignore(line);
-            if (annotation > 0) continue;
+            annotation = ParserJavaUtil.ignore(line);
+            if (multiIgnore && annotation == 5) continue;
+            if (annotation == 1) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 2) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 3) {
+                multiIgnore = true;
+                continue;
+            }
+            if (annotation == 4) {
+                multiIgnore = false;
+                continue;
+            }
             String[] ss = line.trim().split(" ");
             if ("public".equals(ss[0]) && "interface".equals(ss[1])) {
                 String className = ss[2];
@@ -87,8 +136,24 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
         StringBuffer sb = new StringBuffer();
         for (; size > startIndex; startIndex++) {
             String line = textLines.get(startIndex);
-            if (annotation != 3) annotation = ParserJavaUtil.ignore(line);
-            if (annotation > 0) continue;
+            annotation = ParserJavaUtil.ignore(line);
+            if (multiIgnore && annotation == 5) continue;
+            if (annotation == 1) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 2) {
+                multiIgnore = false;
+                continue;
+            }
+            if (annotation == 3) {
+                multiIgnore = true;
+                continue;
+            }
+            if (annotation == 4) {
+                multiIgnore = false;
+                continue;
+            }
             for (int i = 0; i < line.toCharArray().length; i++) {
                 char t = line.charAt(i);
                 sb.append(t);
@@ -96,7 +161,7 @@ public class JavaInterfaceFileParser implements IParser<org.tuean.entity.define.
                     String methodLine = sb.toString();
                     sb = new StringBuffer();
                     Log.getLog().info(methodLine);
-                    JavaMethod method = ParserJavaUtil.parseInterfaceMethodStr(methodLine);
+                    JavaMethod method = ParserJavaUtil.parseInterfaceMethodStr(methodLine.trim());
                     javaClass.addMethod(method);
                 }
             }

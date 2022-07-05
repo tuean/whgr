@@ -21,7 +21,7 @@
         <el-main style="padding: 0"> 
             <!-- content --> 
             <div class="bg-main">
-              <router-view v-slot="{ Component }">
+              <router-view v-slot="{ Component }" :key="$route.fullPath">
                 <transition name="router-fade" mode="out-in">
                   <keep-alive v-if="isRouterAlive">
                     <component :is="Component" />
@@ -44,7 +44,6 @@ import Loading from "/@/components/Loading.vue";
 import LeftMenuSpec from "/@/components/layout/LeftMenuSpec.vue";
 import TopHeader from '/@/components/layout/TopHeader.vue';
 import Tabs from '/@/components/tabs/Tabs.vue';
-import "../../index.css";
 import GlobalSetting from '/@/components/layout/GlobalSetting.vue'
 import { useStore } from 'vuex'
 
@@ -99,11 +98,11 @@ export default {
 }
 
 .bg-tabs {
-  background-color: $tabs-bg;
+  background-color: var(--tabs-bg)
 }
 
 .bg-main {
-  background-color: $end-bg;
+  background-color: var(--end-bg);
   // height: 100% - 56px;
   overflow-y: scroll;
   overflow-x: hidden;

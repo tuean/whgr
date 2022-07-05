@@ -38,6 +38,7 @@ public class JavaClass {
         List<JavaMethod> methods = this.getMethodList();
         methods = methods == null ? new ArrayList<>() : methods;
         methods.add(method);
+        this.setMethodList(methods);
     }
 
 

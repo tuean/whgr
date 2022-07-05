@@ -1,0 +1,34 @@
+// 组件底色
+@default-bg: #22252A;
+// @tabs-bg: #22252A;
+// $tabs-bg: #30161c;
+@header-bg:#22252A;
+
+// 底色
+// @end-bg:#1E1D1D;
+
+// 暗色主题色
+@bg-black:#22252A;
+// 亮色主题色
+@bg-light: #7a7374;
+@text-light: white;
+@text-black: white;
+
+
+.theme-dark {
+    --theme-color: @header-bg;
+    --theme-text: @text-black;
+    --tabs-bg: var(--theme-color);
+    --end-bg: var(--theme-color);
+    --text-color: @text-black;
+    --el-color-primary: var(--theme-color);
+}
+
+.theme-light {
+    --theme-color: @bg-light;
+    --theme-text: @text-light;
+    --tabs-bg: var(--theme-color);
+    --end-bg: var(--theme-color);
+    --text-color: @text-light;
+    --el-color-primary: var(--theme-color);
+}

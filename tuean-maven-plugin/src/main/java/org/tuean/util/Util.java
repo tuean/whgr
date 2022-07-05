@@ -2,26 +2,28 @@ package org.tuean.util;
 
 import com.google.inject.internal.util.Lists;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.util.Asserts;
+import org.apache.maven.model.Resource;
 import org.apache.maven.project.MavenProject;
+import org.tuean.consts.Consts;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigMapper;
-import org.tuean.entity.define.JavaClass;
-import org.tuean.entity.define.JavaField;
-import org.tuean.entity.define.JavaMethod;
-import org.tuean.entity.define.JavaVisible;
+import org.tuean.entity.XmlNode;
+import org.tuean.entity.define.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.tuean.consts.Consts.CONFIG_LINE_SEPARATOR;
-import static org.tuean.consts.Consts.JAVA_END;
+import static org.tuean.consts.Consts.*;
 
 public class Util {
+
 
     public static void initDir(String path) {
         File file = new File(path);
@@ -74,35 +76,22 @@ public class Util {
         out.write(newLine.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static JavaMethod getMethod(JavaField field) {
-        JavaMethod method = new JavaMethod();
-        method.setArgClazzs(null);
-        method.setArgNames(null);
-        method.setJavaVisible(JavaVisible.visiblePublic());
-        method.setStatic(false);
-        method.setMethodName("get" + uppercaseFirst(field.getFieldName()));
-        method.setMethodBody(Lists.newArrayList("return this." + field.getFieldName() + JAVA_END));
-        method.setReturnClass(field.getFieldClazz());
-        method.setVoidFlag(false);
-        return method;
+    public static void nextLine(StringBuffer sb) {
+        nextLine(sb, 1);
     }
 
-    public static JavaMethod setMethod(JavaField field) {
-        JavaMethod method = new JavaMethod();
-        method.setArgClazzs(new Class[]{field.getFieldClazz()});
-        method.setArgNames(new String[]{field.getFieldName()});
-        method.setJavaVisible(JavaVisible.visiblePublic());
-        method.setStatic(false);
-        method.setMethodName("set" + uppercaseFirst(field.getFieldName()));
-        method.setMethodBody(Lists.newArrayList("this." + field.getFieldName() + " = " + field.getFieldName() + JAVA_END));
-        method.setVoidFlag(true);
-        return method;
+    public static void nextLine(StringBuffer sb, int lines) {
+        String newLine = System.getProperty(CONFIG_LINE_SEPARATOR);
+        for (int i = 0; i < lines; i++) {
+            sb.append(newLine);
+        }
     }
+
 
     public static String blank(int length) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < length; i++) {
-            sb.append(" ");
+            sb.append(BLANK_SPACE);
         }
         return sb.toString();
     }
@@ -168,35 +157,6 @@ public class Util {
     }
 
 
-    public static JavaMethod insertMethod(JavaClass clazz) {
-        JavaMethod method = new JavaMethod();
-        method.setJavaVisible(JavaVisible.visibleEmpty());
-        method.setFinal(false);
-        method.setVoidFlag(false);
-        method.setStatic(false);
-        method.setReturnClass(int.class);
-        method.setMethodName("insert");
-        method.setArgClazzs(null);
-        method.setArgClassStrs(new String[]{clazz.getClassName()});
-        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
-        method.setInterfaceMethod(true);
-        return method;
-    }
-
-    public static JavaMethod updateMethod(JavaClass clazz) {
-        JavaMethod method = new JavaMethod();
-        method.setJavaVisible(JavaVisible.visibleEmpty());
-        method.setFinal(false);
-        method.setVoidFlag(false);
-        method.setStatic(false);
-        method.setReturnClass(int.class);
-        method.setMethodName("update");
-        method.setArgClazzs(null);
-        method.setArgClassStrs(new String[]{clazz.getClassName()});
-        method.setArgNames(new String[]{lowercaseFirst(clazz.getClassName())});
-        method.setInterfaceMethod(true);
-        return method;
-    }
 
 
     public static String removeByFirst(String str, String first) {
@@ -211,6 +171,105 @@ public class Util {
             return str.substring(0, str.length() - end.length() - 1);
         }
         return str;
+    }
+
+
+
+    public static JavaClass unionDaoJavaClass(JavaClass initClass, JavaClass oldClass) {
+        List<JavaMethod> oldMethods = oldClass.getMethodList();
+        if (CollectionUtils.isEmpty(oldMethods)) return initClass;
+
+        List<String> importList = initClass.getImportList();
+        List<String> oldImportList = oldClass.getImportList();
+        List<String> list = unionList(importList, oldImportList);
+
+        List<JavaMethod> initMethods = initClass.getMethodList();
+        List<String> mNames = oldMethods.stream().map(JavaMethod::getMethodName).map(String::trim).collect(Collectors.toList());
+        for (JavaMethod m : initMethods) {
+            if (mNames.contains(m.getMethodName())) continue;
+            oldMethods.add(m);
+        }
+
+        initClass.setMethodList(oldMethods);
+        initClass.setImportList(list);
+        return initClass;
+    }
+
+    public static List<String> unionList(List<String> l1, List<String> l2) {
+        Set<String> r = new HashSet<>();
+        if (l1 != null) r.addAll(l1);
+        if (l2 != null) r.addAll(l2);
+        return new ArrayList<>(r);
+    }
+
+    public static String findResourceByName(String resourceFile, MavenProject mavenProject) {
+        try {
+            List<Resource> resources = mavenProject.getResources();
+
+            return null;
+        } catch (Exception var) {
+            Log.getLog().error("load error: " + resourceFile, var);
+            return null;
+        }
+    }
+
+
+    public static XmlNode unionXml(XmlNode initNode, XmlNode oldNode) {
+        if (oldNode == null) return initNode;
+//        List<String> oldIds = oldNode.getNodes().stream().map(XmlNode::getId).collect(Collectors.toList());
+        List<String> initIds = initNode.getNodes().stream().map(XmlNode::getId).collect(Collectors.toList());
+
+        for (XmlNode node : oldNode.getNodes()) {
+            if (initIds.contains(node.getId())) continue;
+            initNode.getNodes().add(node);
+        }
+        return initNode;
+    }
+
+
+    public static String tableName2ClassName(String tableName) {
+        return Util.uppercaseFirst(tableName) + "Mapper";
+    }
+
+    public static String getBaseWholeClass(String classStr) {
+        if ("Long".equals(classStr)) {
+            return "java.lang.Long";
+        } else if ("int".equals(classStr)) {
+            return "java.lang.Integer";
+        } else if ("String".equals(classStr)) {
+            return "java.lang.String";
+        } else if ("Double".equals(classStr)) {
+            return "java.lang.Double";
+        } else {
+            throw new RuntimeException("no key type");
+        }
+    }
+
+
+    public static void chooseInput(Class clazz, Set<String> importList) {
+        if (clazz == null) return;
+        String className = clazz.getName();
+        if (className.startsWith("java.lang")) return;
+        importList.add(className + JAVA_END);
+    }
+
+    public static void resort(XmlNode initMapperNode) {
+        System.out.println(initMapperNode);
+        List<XmlNode> nodes = initMapperNode.getNodes();
+        if (CollectionUtils.isEmpty(nodes)) return;
+        for (XmlNode node : nodes) {
+            if ("resultMap".equals(node.getTag())) {
+                List<XmlNode> t = node.getNodes();
+                if (CollectionUtils.isEmpty(nodes)) break;
+                List<XmlNode> newNodeList = new LinkedList<>();
+                List<XmlNode> idList = t.stream().filter(n -> "id".equals(n.getTag())).collect(Collectors.toList());;
+                List<XmlNode> noIdList = t.stream().filter(n -> !"id".equals(n.getTag())).collect(Collectors.toList());
+                newNodeList.addAll(idList);
+                newNodeList.addAll(noIdList);
+                node.setNodes(newNodeList);
+                break;
+            }
+        }
     }
 
 

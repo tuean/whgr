@@ -1,8 +1,8 @@
 <template>
   <div class="loading-content">
-      <div class="loading">
+      <!-- <div class="loading"> -->
 
-      </div>
+      <!-- </div> -->
   </div>
 </template>
 

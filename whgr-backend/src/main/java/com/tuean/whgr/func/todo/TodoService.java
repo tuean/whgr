@@ -19,14 +19,14 @@ public class TodoService {
     private TodoInfoMapper todoInfoMapper;
 
     public List<TodoInfo> getTodoInfo(TodoListRequest request) {
-        return todoInfoMapper.selectByRequest(request);
+        return null;
     }
 
     public void insert(TodoInfo info) {
         info.setCreateTime(new Date());
         info.setUpdateTime(new Date());
         info.setId(null);
-        todoInfoMapper.insertSelective(info);
+        todoInfoMapper.insert(info);
     }
 
     public TodoInfo update(TodoInfo info) {

@@ -32,3 +32,4 @@ whgr-backend/.mvn
 
 
 tuean-maven-plugin/target/
+/docs/node_modules/

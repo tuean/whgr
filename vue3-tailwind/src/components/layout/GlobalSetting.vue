@@ -50,7 +50,8 @@
 
 <script>
 import { inject, ref, toRefs, watch, reactive } from "vue";
-import { useStore } from "vuex";
+import { useStore } from "vuex"
+import settings from '/@/store/settings'
 
 export default {
   name: "globalSetting",
@@ -70,16 +71,17 @@ export default {
       context.emit("updateVisible", false);
     };
 
-    const setTheme = (theme) => {
-    //   state.theme = theme;
-      console.log(theme);
-      store.commit("setTheme", theme);
+    const setTheme = (t) => {
+      // console.log(t);
+      // store.commit("setTheme", theme);
+      settings.theme = t
     };
+
+    // setTheme('dark')
 
     return {
       drawVisible,
       close,
-    //   state,
       setTheme,
     };
   },

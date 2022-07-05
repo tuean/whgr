@@ -1,15 +1,19 @@
 <template lang="">
-    <div class="pl-1 mr-2 bg-cell inline-block">
-        <span class="text-gray-300 ">
+    <!-- <div class="inline-block pl-1 mr-2 bg-cell"> -->
+        <!-- <span class="text-gray-300 "> -->
             <!-- <span v-if="tabInfo.icon" /> -->
-            <span class="can-click" @click="activeTab">{{ tabInfo.name }}</span>
-            <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="!tabInfo.removeable">x</span>
-        </span>
+            <!-- <span class="can-click" @click="activeTab">{{ tabInfo.name }}</span> -->
+            <!-- <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span> -->
+        <!-- </span> -->
+    <!-- </div> -->
+    <div :class="tabClass" @click="activeTab">
+        <span>{{tabInfo.name}}</span>
+        <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span>
     </div>
 </template>
 <script>
 import { useStore } from 'vuex'
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { tabEqual, getNextShow } from '/@/util/index'
 
@@ -22,6 +26,12 @@ export default {
         console.log('init tabInfo', tabInfo)
         const store = useStore()
         const router = useRouter()
+        const tabClass = ref('tab')
+        if (tabInfo.active) {
+            tabClass.value = 'tab active'
+        } else {
+            tabClass.value = 'tab'
+        }
         const closeTab = () => {
             // 计算前面一个tab
             // let nextShow = tabEqual(store.state.tabList, tabInfo.id)
@@ -33,21 +43,26 @@ export default {
             store.commit('removeTab', tabInfo.id)
             if (nextShow != null) router.push(nextShow.path)
             console.log('after close', store.state.tabList)
+            tabClass = 'tab'
         }
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
+            console.log('active tab', tabInfo)
             router.push(tabInfo.path)
+            tabClass = "tab tab-active"
         }
+        
         return {
             tabInfo,
             closeTab,
-            activeTab
+            activeTab,
+            tabClass
         }
     }
 }
 </script>
 <style lang="scss">
     .bg-cell {
-        background-color: $end-bg;   
+        background-color: var(--theme-color);   
     }
 </style>

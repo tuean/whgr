@@ -50,6 +50,13 @@ public class WebLogFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
+        String contentType = httpServletRequest.getContentType();
+        if (contentType != null && contentType.startsWith("multipart/form-data")) {
+            log.info("form req, no log");
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         String ip = IpUtils.getLocalIp(httpServletRequest);
 
         String requestUrl = httpServletRequest.getRequestURI();

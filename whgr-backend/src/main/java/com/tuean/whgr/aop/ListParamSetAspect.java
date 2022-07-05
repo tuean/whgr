@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-@Order()
+@Order(Integer.MIN_VALUE)
 public class ListParamSetAspect {
 
     private static Logger logger = LoggerFactory.getLogger(ListParamSetAspect.class);

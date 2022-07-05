@@ -7,14 +7,14 @@ import java.util.concurrent.*;
 
 public class RequestThreadPoolTaskExecutor {
 
-    private static ThreadPoolExecutor executor = null;
+    private static ThreadPoolExecutorMdcWrapper executor = null;
 
-    public static ThreadPoolExecutor getExecutor() {
+    public static ThreadPoolExecutorMdcWrapper getExecutor() {
 
         if (executor != null) return executor;
 
         ThreadFactory threadFactory = new NamedThreadFactory("request", false);
-        executor = new ThreadPoolExecutor(
+        executor = new ThreadPoolExecutorMdcWrapper(
                 12,
                 12 * 2,
                 30,

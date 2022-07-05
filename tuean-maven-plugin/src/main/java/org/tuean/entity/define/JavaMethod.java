@@ -1,5 +1,7 @@
 package org.tuean.entity.define;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,13 +23,26 @@ public class JavaMethod {
 
     private JavaVisible javaVisible;
 
-    private String[] argNames;
+//    private String[] argNames;
 
-    private String[] argClassStrs;
-    private Class[] argClazzs;
+//    private String[] argClassStrs;
+//    private Class[] argClazzs;
     private List<JavaMethodArgs> args;
 
     private List<String> methodBody;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj instanceof JavaMethod) {
+            JavaMethod o = (JavaMethod) obj;
+            boolean nameFlag = StringUtils.equals(o.getMethodName(), this.getMethodName());
+            boolean returnClassFlag = StringUtils.equals(o.getReturnClassStr(), this.getReturnClassStr());
+            // todo check return class and args if equals
+            return nameFlag;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
@@ -40,9 +55,6 @@ public class JavaMethod {
                 ", returnClass=" + returnClass +
                 ", returnClassStr='" + returnClassStr + '\'' +
                 ", javaVisible=" + javaVisible +
-                ", argNames=" + Arrays.toString(argNames) +
-                ", argClassStrs=" + Arrays.toString(argClassStrs) +
-                ", argClazzs=" + Arrays.toString(argClazzs) +
                 ", args=" + args +
                 ", methodBody=" + methodBody +
                 '}';
@@ -62,14 +74,6 @@ public class JavaMethod {
 
     public void setInterfaceMethod(boolean interfaceMethod) {
         this.interfaceMethod = interfaceMethod;
-    }
-
-    public String[] getArgClassStrs() {
-        return argClassStrs;
-    }
-
-    public void setArgClassStrs(String[] argClassStrs) {
-        this.argClassStrs = argClassStrs;
     }
 
     public boolean isVoidFlag() {
@@ -120,21 +124,6 @@ public class JavaMethod {
         this.javaVisible = javaVisible;
     }
 
-    public String[] getArgNames() {
-        return argNames;
-    }
-
-    public void setArgNames(String[] argNames) {
-        this.argNames = argNames;
-    }
-
-    public Class[] getArgClazzs() {
-        return argClazzs;
-    }
-
-    public void setArgClazzs(Class[] argClazzs) {
-        this.argClazzs = argClazzs;
-    }
 
     public List<String> getMethodBody() {
         return methodBody;

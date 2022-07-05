@@ -16,8 +16,11 @@ export default defineConfig({
   resolve: {
     alias: {
       "/@": pathResolve("src"),
-      "/config": pathResolve("public/config"),
-      "/com": pathResolve("src/components"),
+      // "/config": pathResolve("public/config"),
+      // "/com": pathResolve("src/components"),
+      "@/config": pathResolve("public/config"),
+      "@/com": pathResolve("src/components"),
+      "@/bus": pathResolve("src/bus"),
       // "/util": pathResolve("src/util")
     }
   },
@@ -46,7 +49,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "./src/scss/theme.scss";`
+        additionalData: `@import "./src/scss/color.scss";`
       }
     }
   }

@@ -15,7 +15,9 @@ public class Consts {
 
     public static final String DB_COLUMN_DATA_TYPE = "data_type";
 
-    public static final List<String> DB_COLUMNS = Arrays.asList(DB_COLUMN_NAME, DB_COLUMN_DATA_TYPE);
+    public static final String DB_COLUMN_KEY = "column_key";
+
+    public static final List<String> DB_COLUMNS = Arrays.asList(DB_COLUMN_NAME, DB_COLUMN_DATA_TYPE, DB_COLUMN_KEY);
 
     public static final String COMMA = ",";
 
@@ -36,4 +38,19 @@ public class Consts {
     public static final String STATIC = "static ";
 
     public static final String ARG_DEFAULT = "default";
+
+    public static final int NEXT_BLANK = 4;
+
+    public static final String JAVA_ANNOTATION = "@";
+
+    public static final String LEFT = "(";
+    public static final String RIGHT = ")";
+
+    public static final String EQUAL = "=";
+
+    public static final String PRIMARY = "PRI";
+
+    public static final int MAPPER_BLANK = 2;
+
+
 }

@@ -1,5 +1,7 @@
 package org.tuean.entity.define;
 
+import org.tuean.consts.Consts;
+
 import java.util.List;
 
 public class JavaMethodArgs {
@@ -12,6 +14,17 @@ public class JavaMethodArgs {
     private String argClassStr;
 
     private JavaAnnotation annotation;
+
+    public JavaMethodArgs() {
+    }
+
+    public JavaMethodArgs(int index, String argName, Class argClass, String argClassStr, JavaAnnotation annotation) {
+        this.index = index;
+        this.argName = argName;
+        this.argClass = argClass;
+        this.argClassStr = argClassStr;
+        this.annotation = annotation;
+    }
 
     @Override
     public String toString() {

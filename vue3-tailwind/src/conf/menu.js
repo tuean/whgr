@@ -1,11 +1,22 @@
 const menus = [
     {
+        id: "0",
+        name: "tuean",
+        path: "https://zoey.plus",
+        keepAlive: true,
+        isFolder: false,
+        removeable: true,
+        child: [],
+        icon: null,
+        isThird: true,
+    },
+    {
         id: "1",
         name: "首页",
         path: "/admin",
         keepAlive: true,
         isFolder: false,
-        removeable: true,
+        removeable: false,
         child: [],
         icon: "el-icon-s-home",
     }, 
@@ -15,7 +26,7 @@ const menus = [
         path: "/admin/status",
         keepAlive: true,
         isFolder: false,
-        removeable: false,
+        removeable: true,
         icon: "el-icon-warning",
         child: [
             {
@@ -24,7 +35,7 @@ const menus = [
                 path: "/admin/pageNotFound",
                 keepAlive: false,
                 isFolder: false,
-                removeable: false,
+                removeable: true,
                 icon: ""
             },
         ]
@@ -36,7 +47,7 @@ const menus = [
         path: "/admin/lotteryDemo",
         keepAlive: false,
         isFolder: false,
-        removeable: false,
+        removeable: true,
         child: []
     },
     {
@@ -45,7 +56,7 @@ const menus = [
         path: "/demo",
         keepAlive: false,
         isFolder: true,
-        removeable: false,
+        removeable: true,
         child: [
             {
                 id: "41",
@@ -53,7 +64,7 @@ const menus = [
                 path: "/admin/tableDemo",
                 keepAlive: false,
                 isFolder: false,
-                removeable: false,
+                removeable: true,
             },
         ]
     },
@@ -63,7 +74,7 @@ const menus = [
         path: "/admin/vuexDemo",
         keepAlive: false,
         isFolder: false,
-        removeable: false,
+        removeable: true,
         child: []
     },
     {
@@ -72,7 +83,7 @@ const menus = [
         path: "",
         keepAlive: false,
         isFolder: false,
-        removeable: false,
+        removeable: true,
         child: [
             {
                 id: "61",
@@ -80,10 +91,28 @@ const menus = [
                 path: "/admin/goods",
                 keepAlive: false,
                 isFolder: false,
-                removeable: false,
+                removeable: true,
             },
         ]
-    }
+    },
+    {
+        id: "7",
+        name: "gojs1",
+        path: "/admin/go1",
+        keepAlive: false,
+        isFolder: false,
+        removeable: true,
+        child: []
+    },
+    {
+        id: "8",
+        name: "gojs2",
+        path: "/admin/go2",
+        keepAlive: false,
+        isFolder: false,
+        removeable: true,
+        child: []
+    },
 ]
 
 export default menus

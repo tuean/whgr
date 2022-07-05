@@ -1,5 +1,6 @@
 package com.tuean.whgr.util;
 
+import com.alibaba.excel.EasyExcel;
 import com.tuean.whgr.http.SpringResponseWrapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -22,10 +23,12 @@ import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.*;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -445,6 +448,19 @@ public class HttpUtil {
         }
 
         return bodyString;
+    }
+
+
+    public static void downloadResponse(HttpServletResponse httpServletResponse, String fileName, String suffix) throws IOException {
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+//        httpServletResponse.setContentType("application/vnd.ms-excel");
+        httpServletResponse.setContentType("application/octet-stream");
+        httpServletResponse.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        String fileNameUtf8 = URLEncoder.encode("数据", "UTF-8");
+        httpServletResponse.setHeader("Content-Disposition", "attachment; filename=" + fileNameUtf8 + "." + suffix);
+        httpServletResponse.getOutputStream().flush();
+        httpServletResponse.getOutputStream().close();
     }
 
 

@@ -3,25 +3,26 @@
     <el-menu
       default-active="1"
       :collapse="isCollapse"
-      class="h-screen bg-yhh el-menu-vertical-demo"
+      class="h-screen bg-theme"
     >
       <component
         v-for="menu in menus"
         :key="menu.index"
         :index="menu.index"
         :is="menu.isFolder ? 'el-submenu' : 'el-menu-item'"
+        :class="'bg-theme'"
       >
         <template #title v-if="menu.isFolder" class="pl-8" style="padding: 0">
           <span>{{ menu.name }}</span>
         </template>
         <el-menu-item-group v-if="menu.isFolder">
-          <el-menu-item v-for="c in menu.child" :key="c.index" :index="c.index" :route="{path: menu.path}">
+          <el-menu-item class="bg-theme" v-for="c in menu.child" :key="c.index" :index="c.index" :route="{path: menu.path}">
             <template #title class="pl-8" style="padding: 0">
               <span>{{ c.name }}</span>
             </template>
           </el-menu-item>
         </el-menu-item-group>
-        <el-menu-item :index="menu.index" class="pl-0 pr-0" @click="menuClick" :route="{path: menu.path}"> 
+        <el-menu-item :index="menu.index" class="pl-0 pr-0 bg-theme" @click="menuClick" :route="{path: menu.path}"> 
           <template #title class="pl-8" style="padding: 0">
             <span>{{ menu.name }}</span>
           </template>
@@ -78,26 +79,20 @@ export default {
   },
 };
 </script>
-<style scoped>
-/* .el-submenu .el-menu-item { */
-/* padding-left: 20px !important; */
-/* } */
-/* .el-menu {
-    background-color: #f1939c;
+<style lang='less'>
+.bg-theme {
+  background-color: var(--theme-color)
 }
-.el-menu-item:hover {
-    background-color: #b598a1;
+.el-meun {
+  background-color: var(--theme-color)
 }
-.el-menu-item:focus {
-    background-color: #f1939c;
+.el-menu-item {
+  background-color: var(--theme-color)
 }
-..el-submenu__title {
-    background-color: #f1939c;
+.el-submenu {
+  background-color: var(--theme-color)
 }
-.el-submenu__title:hover {
-    background-color: #b598a1;
+.el-submenu__title {
+  background-color: var(--theme-color)
 }
-.el-submenu__title:focus {
-    background-color: #b598a1;
-} */
 </style>

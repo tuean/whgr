@@ -30,8 +30,9 @@ public class AES {
     // http://imsfz.gjzq.cn:8090/ims-web/login/eboss?request_url=http%3A%2F%2Fimsfz.gjzq.cn%3A8090%2Fims-web%2Findex%3Fst3d718522532248555520&system_id=2&encrypt=
 
     public static void main(String[] args) throws Exception {
-        String source = "ismp|zhongxiaotian|" + System.currentTimeMillis();
+//        String source = "ismp|zhongxiaotian|" + System.currentTimeMillis();
 //        String source = "ismp|zhongxiaotian|" + "1618975195725";
+        String source = "10005";
         String encrypt = encrypt(source);
         System.out.println(encrypt);
         String decrypt = decrypt(encrypt);

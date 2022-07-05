@@ -6,7 +6,6 @@
 
 
 <script>
-import '/@/index.css'
 
 export default {
     setup() {

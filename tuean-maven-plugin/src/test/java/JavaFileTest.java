@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.tuean.entity.DBColumnInfo;
 import org.tuean.entity.define.JavaClass;
 import org.tuean.entity.define.JavaField;
 import org.tuean.entity.define.JavaMethod;
@@ -6,6 +7,7 @@ import org.tuean.entity.define.JavaVisible;
 import org.tuean.enums.JdbcTypeEnum;
 import org.tuean.generator.JavaGenerator;
 import org.tuean.parser.java.JavaInterfaceFileParser;
+import org.tuean.util.InitUtil;
 import org.tuean.util.Util;
 
 import java.io.FileInputStream;
@@ -19,20 +21,20 @@ public class JavaFileTest {
 
 //    @Test
     public void testMakeJavaFile() throws IOException {
-        Map<String, String> dbParamMap = DBTest.testDBMap();
+        List<DBColumnInfo> list = DBTest.testDBMap();
         String tableName = "menus";
         String packageInfo = "com.tuean";
         List<JavaField> fieldList = new ArrayList<>();
         List<JavaMethod> methodList = new ArrayList<>();
-        for (String column : dbParamMap.keySet()) {
-            String fieldName = Util.dbColumn2JavaField(column);
-            String fieldJdbcType = dbParamMap.get(column);
+        for (DBColumnInfo column : list) {
+            String fieldName = Util.dbColumn2JavaField(column.getName());
+            String fieldJdbcType = column.getType();
             Class fieldJavaType = JdbcTypeEnum.getByDBType(fieldJdbcType);
 
             JavaField field = new JavaField(JavaVisible.visiblePrivate(), false, false, fieldJavaType, fieldName);
             fieldList.add(field);
-            JavaMethod fieldGetMethod = Util.getMethod(field);
-            JavaMethod fieldSetMethod = Util.setMethod(field);
+            JavaMethod fieldGetMethod = InitUtil.getMethod(field);
+            JavaMethod fieldSetMethod = InitUtil.setMethod(field);
             methodList.add(fieldGetMethod);
             methodList.add(fieldSetMethod);
         }
@@ -51,9 +53,10 @@ public class JavaFileTest {
     }
 
 
-    @Test
+//    @Test
     public void testParserInterface() throws FileNotFoundException {
         JavaInterfaceFileParser parser = new JavaInterfaceFileParser();
-        JavaClass javaClass = parser.parser(new FileInputStream("C:\\Users\\user\\Documents\\GitHub\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
+//        JavaClass javaClass = parser.parser(new FileInputStream("C:\\Users\\user\\Documents\\GitHub\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
+//        JavaClass javaClass = parser.parser(new FileInputStream("D:\\IdeaProjects\\whgr\\whgr-backend\\src\\main\\java\\com\\tuean\\whgr\\dao\\TodoInfoMapper.java"));
     }
 }

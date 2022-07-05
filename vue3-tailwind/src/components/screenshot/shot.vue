@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import "/@/index.css";
 import html2canvas from "html2canvas";
 import * as echarts from "echarts";
 import { nextTick } from 'vue'

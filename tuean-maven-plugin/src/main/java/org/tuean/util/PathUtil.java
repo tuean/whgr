@@ -31,4 +31,9 @@ public class PathUtil {
         return entityConfigFilePath;
     }
 
+    public static String configPath2sysPath(String path) {
+        if (path.contains(".")) path = path.replace(".", File.separator);
+        return path;
+    }
+
 }

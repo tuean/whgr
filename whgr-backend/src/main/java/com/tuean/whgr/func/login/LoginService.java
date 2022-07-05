@@ -18,7 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-import static com.tuean.whgr.Const.*;
+import static com.tuean.whgr.config.Const.*;
 
 @Service
 public class LoginService {

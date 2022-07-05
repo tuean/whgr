@@ -1,0 +1,24 @@
+{
+  "chat-info": {
+    "mappings": {
+      "properties": {
+        "msgtype": {
+          "type": "keyword"
+        },
+        "from": {
+          "type": "keyword"
+        },
+        "to": {
+          "type": "keyword"
+        },
+        "msgTime": {
+          "type": "date"
+        },
+        "msgid": {
+          "type": "keyword",
+
+        }
+      }
+    }
+  }
+}

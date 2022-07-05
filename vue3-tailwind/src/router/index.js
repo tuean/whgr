@@ -4,28 +4,51 @@ const admins = [
     {
         path: 'pageNotFound',
         name: 'pageNotFound',
-        component: () => import(/* webpackChunkName: "404" */ '../components/pages/pageNotFound.vue')
+        component: () => import(/* webpackChunkName: "404" */ '@/com/pages/pageNotFound.vue')
     },
     {
         path: 'vuexDemo',
         name: 'vuexDemo',
-        component: () => import(/* webpackChunkName: "vuexDemo" */ '../components/pages/VuexDemo.vue')
+        component: () => import(/* webpackChunkName: "vuexDemo" */ '@/com/pages/VuexDemo.vue')
     },
     {
         path: 'lotteryDemo',
         name: 'lotteryDemo',
-        component: () => import(/* webpackChunkName: "Lottery" */ '../components/pages/Lottery.vue')
+        component: () => import(/* webpackChunkName: "Lottery" */ '@/com/pages/Lottery.vue')
     }, 
     {
         path: 'tableDemo',
         name: 'tableDemo',
-        component: () => import(/* webpackChunkName: "TableDemo" */ '../components/pages/admin/TableDemo.vue')
+        component: () => import(/* webpackChunkName: "TableDemo" */ '@/com/pages/admin/TableDemo.vue')
     }, 
     {
         path: 'goods',
         name: 'goods',
-        component: () => import(/* webpackChunkName: "Goods" */ '../components/pages/admin/Goods.vue')
+        component: () => import(/* webpackChunkName: "Goods" */ '@/com/pages/admin/Goods.vue')
     }, 
+    {
+        path: 'go1',
+        name: 'go1',
+        component: () => import(/* webpackChunkName: "go1" */ '@/com/pages/admin/go.vue')
+    }, 
+    {
+        path: 'go2',
+        name: 'go2',
+        component: () => import(/* webpackChunkName: "go2" */ '@/com/pages/admin/go.vue')
+    }, 
+    {
+        path: 'micro',
+        name: 'micro',
+        component: () => import(/* webpackChunkName: "Micro" */ '../components/pages/admin/Micro.vue')
+    },
+]
+
+const daisyui = [
+    {
+        // path: 'root',
+        // name: 'root',
+        // component: () => import(/* webpackChunkName: "root" */ '@/com/daisyui/root.vue')
+    }
 ]
 
 const routes = {
@@ -50,6 +73,12 @@ const routes = {
             name: 'admin',
             component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue'),
             children: admins
+        },
+        {
+            path: '/daisyui',
+            name: 'daisyui',
+            component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
+            // children: daisyui
         },
         {
             path: '/404',

@@ -8,8 +8,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.Executor;
 
-@Configuration
-@EnableAsync
+/**
+ * not support for multipartFile
+ */
+//@Configuration
+//@EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
 
 

@@ -17,6 +17,10 @@ public class JavaVisible {
 
     public static String getVisibleString(JavaVisible visible) {
         if (visible == null) return Consts.EMPTY_STR;
+        if (JavaVisible.visibleEmpty().equals(visible)) return Consts.EMPTY_STR;
+        if (StringUtils.isBlank(visible.getVisibleRange())) {
+            return visible.getVisibleRange();
+        }
         return visible.getVisibleRange() + Consts.BLANK_SPACE;
     }
 
