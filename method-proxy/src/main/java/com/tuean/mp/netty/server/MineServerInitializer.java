@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package netty;
+package com.tuean.mp.netty.server;
 
+import com.tuean.mp.netty.coder.MethodRequestDecoder;
+import com.tuean.mp.netty.coder.MethodRequestEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -26,8 +28,10 @@ public class MineServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     public void initChannel(SocketChannel ch) {
         ChannelPipeline p = ch.pipeline();
-        p.addLast(new HttpRequestDecoder());
-        p.addLast(new HttpResponseEncoder());
+//        p.addLast(new HttpRequestDecoder());
+//        p.addLast(new HttpResponseEncoder());
+        p.addLast(new MethodRequestEncoder());
+        p.addLast(new MethodRequestDecoder());
     }
 
 }

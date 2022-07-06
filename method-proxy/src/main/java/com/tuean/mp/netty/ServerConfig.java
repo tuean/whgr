@@ -1,4 +1,4 @@
-package netty;
+package com.tuean.mp.netty;
 
 public class ServerConfig {
 

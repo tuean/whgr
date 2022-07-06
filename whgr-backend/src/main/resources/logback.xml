@@ -8,14 +8,14 @@
     </appender>
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>whgr.log</file>
+        <file>./logs/whgr.log</file>
         <encoder>
 <!--            <pattern>%d [%thread] %-5level %-50logger{40} - %msg%n</pattern>-->
             <pattern>REQ:%X{req} %d %-5p %X{THREAD_UUID}[%thread] %c{0} - %m%n</pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>whgr-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>./logs/whgr-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>1MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>10MB</totalSizeCap>

@@ -1,6 +1,7 @@
-package annotations;
+package com.tuean.mp.annotations;
 
-import config.MethodProxyConfiguration;
+import com.tuean.mp.config.MethodProxyServerConfiguration;
+import com.tuean.mp.util.SpringContextUtil;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Role;
 
@@ -10,10 +11,10 @@ import static org.springframework.beans.factory.config.BeanDefinition.ROLE_INFRA
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({MethodProxyConfiguration.class})
+@Import({MethodProxyServerConfiguration.class, SpringContextUtil.class})
 @Documented
 @Role(ROLE_INFRASTRUCTURE)
-public @interface EnableMethodProxy {
+public @interface EnableMethodProxyServer {
 
     String[] basePacks() default {""};
 

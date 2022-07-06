@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full">
     <el-container class="h-full w-full">
-      <el-aside width="200px">
+      <el-aside width="200px" class="scrollbar">
         <!-- left menu -->
         <!-- <left-menu :menus="menus" /> -->
         <left-menu-spec />

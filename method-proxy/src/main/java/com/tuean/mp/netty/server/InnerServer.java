@@ -1,10 +1,11 @@
-package netty;
+package com.tuean.mp.netty.server;
 
+import com.tuean.mp.netty.ServerConfig;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFactory;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
@@ -15,11 +16,26 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.channels.spi.SelectorProvider;
 
-public class InnerServer {
+public class InnerServer implements Runnable{
 
     private static final Logger logger = LoggerFactory.getLogger(InnerServer.class);
 
-    public static void run(ServerConfig serverConfig) {
+    private ServerConfig serverConfig;
+
+    public InnerServer(ServerConfig serverConfig) {
+        this.serverConfig = serverConfig;
+    }
+
+    public ServerConfig getServerConfig() {
+        return serverConfig;
+    }
+
+    public void setServerConfig(ServerConfig serverConfig) {
+        this.serverConfig = serverConfig;
+    }
+
+    @Override
+    public void run() {
         serverConfig.check();
         EventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBossThreadNum(), new DefaultThreadFactory(serverConfig.getBossThreadName(), Thread.MAX_PRIORITY));
         EventLoopGroup workerGroup = new NioEventLoopGroup(serverConfig.getWorkerThreadNum(), new DefaultThreadFactory(serverConfig.getWorkerThreadName(), Thread.MAX_PRIORITY));
@@ -27,10 +43,13 @@ public class InnerServer {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channelFactory((ChannelFactory) () -> new NioServerSocketChannel(SelectorProvider.provider()))
+                    .option(ChannelOption.SO_BACKLOG, 20)
                     .handler(new LoggingHandler(LogLevel.DEBUG))
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childHandler(new MineServerInitializer());
             Integer port = serverConfig.getPort();
             Channel ch = b.bind(port).sync().channel();
+            logger.info("InnerServer started on port {}", port);
             ch.closeFuture().sync();
         } catch (Exception var) {
             logger.error("", var);
@@ -39,5 +58,4 @@ public class InnerServer {
             workerGroup.shutdownGracefully();
         }
     }
-
 }

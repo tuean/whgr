@@ -19,6 +19,11 @@ public class Test {
         String a = "1,2,4";
         List<String> r = Arrays.asList(a.split(","));
         System.out.println(r);
+
+        String test = "{\\\\\\\"a\": \" b\"}";
+//        test = test.replace("\\", "");
+        test.replace("\\", "");
+        System.out.println(test);
     }
 
     @org.junit.Test

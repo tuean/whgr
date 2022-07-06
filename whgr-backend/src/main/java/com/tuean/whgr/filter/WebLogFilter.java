@@ -68,6 +68,7 @@ public class WebLogFilter implements Filter {
         AntPathMatcher apm = new AntPathMatcher();
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = this.requestMappingHandlerMapping.getHandlerMethods();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> item : handlerMethods.entrySet()) {
+            if (item.getKey().getPatternsCondition() == null) continue;
             for (String urlPattern : item.getKey().getPatternsCondition().getPatterns()) {
                 urlPattern = httpServletRequest.getContextPath() + urlPattern;
                 if (apm.match(urlPattern, requestUrl)) {

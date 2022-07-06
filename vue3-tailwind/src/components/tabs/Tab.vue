@@ -1,16 +1,10 @@
 <template lang="">
-    <!-- <div class="inline-block pl-1 mr-2 bg-cell"> -->
-        <!-- <span class="text-gray-300 "> -->
-            <!-- <span v-if="tabInfo.icon" /> -->
-            <!-- <span class="can-click" @click="activeTab">{{ tabInfo.name }}</span> -->
-            <!-- <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span> -->
-        <!-- </span> -->
-    <!-- </div> -->
     <div :class="tabClass" @click="activeTab">
-        <span>{{tabInfo.name}}</span>
+        <span class="text-xl">{{tabInfo.name}}</span>
         <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span>
     </div>
 </template>
+
 <script>
 import { useStore } from 'vuex'
 import { reactive, toRefs, ref } from 'vue'
@@ -43,13 +37,13 @@ export default {
             store.commit('removeTab', tabInfo.id)
             if (nextShow != null) router.push(nextShow.path)
             console.log('after close', store.state.tabList)
-            tabClass = 'tab'
+            tabClass.value = 'tab'
         }
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
             console.log('active tab', tabInfo)
             router.push(tabInfo.path)
-            tabClass = "tab tab-active"
+            tabClass.value = "tab tab-active"
         }
         
         return {

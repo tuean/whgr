@@ -1,4 +1,4 @@
-package netty;
+package com.tuean.mp.netty.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

@@ -30,7 +30,8 @@ public class BeanConfig {
 
     @Bean
     public BaseDataDTO<ProfileDataDTO> profileDTO() {
-        return new UserService(smmsProperties, restTemplate()).getProfile();
+//        return new UserService(smmsProperties, restTemplate()).getProfile();
+        return null;
     }
 
     @Bean

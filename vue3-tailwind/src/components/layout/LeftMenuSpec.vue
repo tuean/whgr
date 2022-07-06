@@ -103,7 +103,7 @@ export default {
   border-right: 0;
   background-color: var(--theme-color)
 }
-.el-meun {
+.el-menu {
   background-color: var(--theme-color);
   color: var(--theme-text);
 }
