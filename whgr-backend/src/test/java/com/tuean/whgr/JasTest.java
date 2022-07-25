@@ -20,7 +20,7 @@ public class JasTest {
 
     @Test
     public void makeENC() {
-        System.out.println(encryptor.encrypt("111"));
+        System.out.println(encryptor.encrypt("root"));
     }
 
 }

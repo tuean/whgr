@@ -43,13 +43,13 @@ export default {
             store.commit('removeTab', tabInfo.id)
             if (nextShow != null) router.push(nextShow.path)
             console.log('after close', store.state.tabList)
-            tabClass = 'tab'
+            tabClass.value = 'tab'
         }
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
             console.log('active tab', tabInfo)
             router.push(tabInfo.path)
-            tabClass = "tab tab-active"
+            tabClass.value = "tab tab-active"
         }
         
         return {

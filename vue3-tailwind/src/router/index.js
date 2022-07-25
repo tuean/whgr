@@ -45,9 +45,14 @@ const admins = [
 
 const daisyui = [
     {
-        // path: 'root',
-        // name: 'root',
-        // component: () => import(/* webpackChunkName: "root" */ '@/com/daisyui/root.vue')
+        path: 'main',
+        name: 'main',
+        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/main.vue')
+    },
+    {
+        path: 'third/:id',
+        name: 'third',
+        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/main.vue')
     }
 ]
 
@@ -78,7 +83,7 @@ const routes = {
             path: '/daisyui',
             name: 'daisyui',
             component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
-            // children: daisyui
+            children: daisyui
         },
         {
             path: '/404',

@@ -28,8 +28,10 @@ whgr-backend/target/
 
 whgr-backend/.mvn
 
-
-
-
 tuean-maven-plugin/target/
 /docs/node_modules/
+
+# docker files
+./config/elasticsearch/*
+./config/mysql/datadir/*
+./config/mysql/mydir/*
