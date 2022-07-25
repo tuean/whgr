@@ -3,7 +3,6 @@ package com.tuean.whgr.func.todo;
 import cn.hutool.core.lang.Assert;
 import com.tuean.whgr.annotation.NoAccess;
 import com.tuean.whgr.entity.BaseResponse;
-import com.tuean.whgr.entity.db.TodoInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

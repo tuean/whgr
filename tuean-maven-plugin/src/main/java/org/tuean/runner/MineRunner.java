@@ -23,9 +23,8 @@ import org.tuean.util.Util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.tuean.consts.Consts.JAVA_END;
 
@@ -35,19 +34,21 @@ public class MineRunner {
     public static void javaRun(ConfigGenerator configGenerator, String tableName) {
         List<DBColumnInfo> dbColumnInfos = DatabaseGot.getTableColumnInfo(tableName);
         // java entity file will always make a pure start
-        JavaClass entityClass = generateEntity(dbColumnInfos, tableName);
+        JavaClass entityClass = generateEntity(dbColumnInfos, tableName, configGenerator);
         // check dao mapper exist
-        JavaClass mapperClass = generateDao(tableName, entityClass, dbColumnInfos);
-        generateXml(dbColumnInfos, tableName, mapperClass, entityClass);
+        JavaClass mapperClass = generateDao(tableName, entityClass, dbColumnInfos, configGenerator);
+        generateXml(dbColumnInfos, tableName, mapperClass, entityClass, configGenerator);
     }
 
-    private static JavaClass generateEntity(List<DBColumnInfo> dbColumnInfos, String tableName) {
+    private static JavaClass generateEntity(List<DBColumnInfo> dbColumnInfos, String tableName, ConfigGenerator configGenerator) {
         String packageInfo = Env.codeGenerateConfig.getMapper().getEntity();
-        String className = Util.uppercaseFirst(tableName);
+        String className = configGenerator.getEntity();
         String outPath = Util.findEntityLocation(Env.codeGenerateConfig.getMapper(), Env.mavenProject);
         String outFile = outPath + File.separator + className + ".java";
         List<JavaField> fieldList = new ArrayList<>();
         List<JavaMethod> methodList = new ArrayList<>();
+        Set<String> importList = new HashSet<>();
+
         for (DBColumnInfo columnInfo : dbColumnInfos) {
             String fieldName = Util.dbColumn2JavaField(columnInfo.getName());
             String fieldJdbcType = columnInfo.getType();
@@ -59,6 +60,8 @@ public class MineRunner {
             JavaMethod fieldSetMethod = InitUtil.setMethod(field);
             methodList.add(fieldGetMethod);
             methodList.add(fieldSetMethod);
+
+            Util.chooseInput(fieldJavaType, importList);
         }
 
         JavaClass javaClazz = new JavaClass();
@@ -66,7 +69,7 @@ public class MineRunner {
         javaClazz.setClassName(className);
         javaClazz.setMethodList(methodList);
         javaClazz.setPackageInfo(packageInfo);
-        javaClazz.setImportList(null);
+        javaClazz.setImportList(new ArrayList<>(importList));
         javaClazz.setClassType("class");
         Log.getLog().info(javaClazz.toString());
 
@@ -79,10 +82,11 @@ public class MineRunner {
         return javaClazz;
     }
 
-    private static JavaClass generateDao(String tableName, JavaClass entityClass, List<DBColumnInfo> dbColumnInfos) {
+    private static JavaClass generateDao(String tableName, JavaClass entityClass, List<DBColumnInfo> dbColumnInfos, ConfigGenerator configGenerator) {
         String packageInfo = Env.codeGenerateConfig.getMapper().getDao();
         String outPath = Util.findDaoLocation(Env.codeGenerateConfig.getMapper(), Env.mavenProject);
-        String className = Util.tableName2ClassName(tableName);
+//        String className = Util.tableName2ClassName(tableName);
+        String className = configGenerator.getDao();
         String outFile = outPath + File.separator + className + ".java";
         File oldFile = new File(outFile);
         JavaClass initClass = InitUtil.initDaoClass(className, packageInfo, outFile, entityClass, dbColumnInfos);
@@ -107,9 +111,9 @@ public class MineRunner {
         return mapperClass;
     }
 
-    private static void generateXml(List<DBColumnInfo> dbColumnInfos, String tableName, JavaClass mapperClass, JavaClass entityClass) {
-        String xmlPath = Env.codeGenerateConfig.getMapper().getXml();
-        String xmlFileName = Util.uppercaseFirst(tableName) + "Mapper.xml";
+    private static void generateXml(List<DBColumnInfo> dbColumnInfos, String tableName, JavaClass mapperClass, JavaClass entityClass, ConfigGenerator configGenerator) {
+        String xmlPath = PathUtil.configPath2sysPath(Env.codeGenerateConfig.getMapper().getXml());
+        String xmlFileName = configGenerator.getXml() + ".xml";
         String fileDirPath = PathUtil.getResourcePath(Env.mavenProject, xmlPath);
         String filePath = fileDirPath + File.separator + xmlFileName;
         File mapperFile = new File(filePath);
@@ -129,6 +133,7 @@ public class MineRunner {
 
 
         try {
+            Util.resort(initMapperNode);
             XmlGenerator.generateXml(initMapperNode, filePath);
         } catch (Exception var) {
             Log.getLog().error(var);

@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.util.Asserts;
 import org.apache.maven.model.Resource;
 import org.apache.maven.project.MavenProject;
+import org.tuean.consts.Consts;
 import org.tuean.consts.Env;
 import org.tuean.entity.ConfigMapper;
 import org.tuean.entity.XmlNode;
@@ -241,6 +242,33 @@ public class Util {
             return "java.lang.Double";
         } else {
             throw new RuntimeException("no key type");
+        }
+    }
+
+
+    public static void chooseInput(Class clazz, Set<String> importList) {
+        if (clazz == null) return;
+        String className = clazz.getName();
+        if (className.startsWith("java.lang")) return;
+        importList.add(className + JAVA_END);
+    }
+
+    public static void resort(XmlNode initMapperNode) {
+        System.out.println(initMapperNode);
+        List<XmlNode> nodes = initMapperNode.getNodes();
+        if (CollectionUtils.isEmpty(nodes)) return;
+        for (XmlNode node : nodes) {
+            if ("resultMap".equals(node.getTag())) {
+                List<XmlNode> t = node.getNodes();
+                if (CollectionUtils.isEmpty(nodes)) break;
+                List<XmlNode> newNodeList = new LinkedList<>();
+                List<XmlNode> idList = t.stream().filter(n -> "id".equals(n.getTag())).collect(Collectors.toList());;
+                List<XmlNode> noIdList = t.stream().filter(n -> !"id".equals(n.getTag())).collect(Collectors.toList());
+                newNodeList.addAll(idList);
+                newNodeList.addAll(noIdList);
+                node.setNodes(newNodeList);
+                break;
+            }
         }
     }
 
