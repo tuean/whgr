@@ -49,7 +49,6 @@ public class DbReadWriteConfig implements EnvironmentAware {
         config.setDriverClassName(environment.getProperty("spring.datasource.main.driver-class-name"));
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
-//        return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "roDB")
