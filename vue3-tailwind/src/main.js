@@ -12,13 +12,13 @@ import dayjs from 'dayjs'
 import '/@/theme/theme.less'
 import '/@/assets/font/lxgw.css'
 import tracing from './plugin/eventTracing/tracing';
-import microApp from '@micro-zoe/micro-app'
+// import microApp from '@micro-zoe/micro-app'
 import "./index.css";
 import WujieVue from "wujie-vue3";
 
 const { bus, preloadApp, destroyApp } = WujieVue;
 
-microApp.start()
+// microApp.start()
 
 const app = createApp(Main)
 app.config.globalProperties.$bus = mitt()

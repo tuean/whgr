@@ -2,11 +2,11 @@
   <WujieVue
     width="100%"
     height="100%"
-    name="vue2"
-    :url="vue2Url"
+    name="vue3"
+    :url="vue3Url"
     :props="props"
     :attrs="attrs"
-    :sync="true"
+    :sync="false"
     :fetch="fetch"
     :degrade="degrade"
     :beforeLoad="lifecycles.beforeLoad"
@@ -23,19 +23,23 @@
 <script>
 import fetch from "./wujie/fetch";
 import lifecycles from "./wujie/lifecycle";
+import { useRouter} from "vue-router";
+
 export default {
 
     setup() {
-        const jump = name => {
-            this.$router.push({ name });
+      const router = useRouter();
+        const jumpCall = name => {
+          // router.push({ name });
+          console.log('jump called: ' + name);
         }
-
-        let vue2Url = url
+        console.log('router', router)
+        let vue3Url = "http://tuean.cn"
         let attrs = process.env.NODE_ENV === "production" ? { src: url } : {}
-        let props = { jump: this.jump }
+        let props = { jump: jumpCall }
         let degrade = window.localStorage.getItem("degrade") === "true"
         return {
-            vue2Url, attrs, props, degrade, lifecycles, fetch, jump
+          vue3Url, attrs, props, degrade, lifecycles, fetch, jumpCall
         }
     }
 };

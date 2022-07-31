@@ -47,17 +47,22 @@ const daisyui = [
     {
         path: 'main',
         name: 'main',
-        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/main.vue')
+        component: () => import(/* webpackChunkName: "main" */ '../components/daisyui/main.vue')
     },
     {
         path: 'third/:id',
         name: 'third',
-        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/main.vue')
+        component: () => import(/* webpackChunkName: "main" */ '../components/daisyui/main.vue')
     },
     {
         path: 'wujiedemo',
         name: 'wujiedemo',
-        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/wujiedemo.vue')
+        component: () => import(/* webpackChunkName: "wujiedemo" */ '../components/daisyui/wujiedemo.vue')
+    },
+    {
+        path: 'app/:appId',
+        name: 'app',
+        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/app.vue')
     }
 ]
 
@@ -84,14 +89,14 @@ const routes = {
             component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue'),
             children: admins
         },
+        // {
+        //     path: '/daisyui',
+        //     name: 'daisyuiRoot',
+        //     component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
+        //     // children: daisyui
+        // },
         {
             path: '/daisyui',
-            name: 'daisyuiRoot',
-            component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
-            children: daisyui
-        },
-        {
-            path: '/daisyui/:tabId',
             name: 'daisyui',
             component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
             children: daisyui

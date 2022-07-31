@@ -35,14 +35,17 @@ export default {
                 store.commit('activeTab', nextShow)
             }
             store.commit('removeTab', tabInfo.id)
-            if (nextShow != null) router.push(nextShow.path)
+            if (nextShow != null) {
+              console.log('nextShow', nextShow.path)
+              router.push(nextShow.path)
+            }
             console.log('after close', store.state.tabList)
             tabClass.value = 'tab'
         }
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
             console.log('active tab', tabInfo)
-            router.push('/daisyui' + tabInfo.path)
+            router.push(tabInfo.path)
             tabClass.value = "tab tab-active"
         }
         

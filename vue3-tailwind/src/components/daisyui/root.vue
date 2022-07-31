@@ -176,9 +176,10 @@ export default {
     const menuClick = (m) => {
       console.log(m);
       let isThird = m.isThird || false
-      store.commit("pushTab", m);
-      store.commit("activeTab", m);
-      router.push('/daisyui' + m.path);
+      store.commit("pushTab", m)
+      store.commit("activeTab", m)
+      console.log('router push', m.path)
+      router.push(m.path);
     };
 
     const tabJump = async menu => {
