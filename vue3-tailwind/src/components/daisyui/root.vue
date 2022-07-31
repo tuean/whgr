@@ -85,7 +85,14 @@
 
       <!-- Page content here -->
       <div class="p-3">
-        <router-view />
+        <router-view v-slot="{ Component }" :key="$route.fullPath">
+            <transition name="router-fade" mode="out-in">
+                <keep-alive v-if="isRouterAlive">
+                  <component :is="Component" />
+                </keep-alive>
+            </transition>
+        </router-view>
+<!--        <router-view />-->
       </div>
     </div>
     <div class="drawer-side scrollbar scrollbar-thumb-dark-900 scrollbar-track-dark-100">
@@ -111,7 +118,7 @@
         <ul class="p-4 overflow-y-auto menu w-80 bg-base-200 text-base-content">
           <!-- Sidebar content here -->
           <li v-for="(menu, index) in menus_flat" :key="menu.id">
-            <a class="flex gap-4" @click="tabJump(menu)">{{ index + 1 }}. {{ menu.name }}</a>
+            <a class="flex gap-4" @click="menuClick(menu)">{{ index + 1 }}. {{ menu.name }}</a>
           </li>
         </ul>
       </aside>
@@ -120,14 +127,13 @@
 </template>
 
 <script>
-import { ref, reactive, inject, nextTick } from "vue";
+import { ref, reactive, inject } from "vue";
 import menus from "/@/conf/menu.js";
 import router from "/@/router/index";
 import { flatMenus } from "/@/util/index";
 import screenfull from "screenfull";
 import Tabs from "/@/components/tabs/Tabs.vue";
-import { useRouter } from "vue-router";
-import DynamicPage from '@/com/pages/daisyui/DynamicPage.vue'
+import { useStore } from 'vuex';
 // import refresh from '/@/assets/refresh.svg'
 // import full from '/@/assets/full.svg'
 
@@ -136,9 +142,10 @@ export default {
     Tabs
   },
   setup() {
-    const router = useRouter();
+    const store = useStore();
     const theme = ref("dark");
     const menus_flat = flatMenus(menus);
+    const isRouterAlive = ref(true)
     console.log(menus_flat);
 
     const state = reactive({
@@ -166,11 +173,19 @@ export default {
       state.full = !state.full;
     };
 
+    const menuClick = (m) => {
+      console.log(m);
+      let isThird = m.isThird || false
+      store.commit("pushTab", m);
+      store.commit("activeTab", m);
+      router.push('/daisyui' + m.path);
+    };
+
     const tabJump = async menu => {
       console.log(menu);
       let isThird = menu.isThird || false
       if (!isThird) { // 非三方页面
-        router.push(m.path);  
+        router.push(m.path);
       } else {  // 三方页面
         let path = 'third-' + menu.id
         router.addRoute('daisyui', {
@@ -189,9 +204,11 @@ export default {
     return {
       theme,
       menus_flat,
+      isRouterAlive,
       refresh,
       fullscreen,
-      tabJump
+      tabJump,
+      menuClick
     };
   }
 };

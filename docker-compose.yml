@@ -1,0 +1,91 @@
+version: '3'
+services:
+  redis:
+    container_name: redis1
+    image: redis:latest
+#    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./config/redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+    networks:
+      - es-net
+  mysql1:
+#    restart: always
+    image: mysql:5.7.18
+    container_name: mysql1
+    volumes:
+        - ./config/mysql/mydir:/mydir
+        - ./config/mysql/datadir:/var/lib/mysql
+        - ./config/my.cnf:/etc/my.cnf
+        # 数据库还原目录 可将需要还原的sql文件放在这里
+#        - /apps/mysql/source:/docker-entrypoint-initdb.d
+    environment:
+        - "MYSQL_ROOT_PASSWORD=root"
+        - "MYSQL_DATABASE=whgr"
+        - "TZ=Asia/Shanghai"
+    ports:
+        # 使用宿主机的3306端口映射到容器的3306端口
+        # 宿主机：容器
+        - "13303:3306"
+    networks:
+      - es-net
+  mysql2:
+    #    restart: always
+    image: mysql:5.7.18
+    container_name: mysql2
+    volumes:
+      - ./config/mysql2/mydir:/mydir
+      - ./config/mysql2/datadir:/var/lib/mysql
+      - ./config/my.cnf:/etc/my.cnf
+      # 数据库还原目录 可将需要还原的sql文件放在这里
+#      - /apps/mysql/source:/docker-entrypoint-initdb.d
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "MYSQL_DATABASE=settings"
+      - "TZ=Asia/Shanghai"
+    ports:
+      # 使用宿主机的3306端口映射到容器的3306端口
+      # 宿主机：容器
+      - "13304:3306"
+    networks:
+      - es-net
+  elasticsearch:
+    image: elasticsearch:7.1.1
+    container_name: elasticsearch1
+    restart: always
+    environment:
+      - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
+      - "discovery.type=single-node" #以单一节点模式启动
+      - "ES_JAVA_OPTS=-Xms512m -Xmx1024m" #设置使用jvm内存大小
+      - "xpack.security.enabled=false"
+    ports:
+      - "9200:9200"
+      - "13300:9300"
+    volumes:
+      - ./config/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
+      - ./config/elasticsearch/plugins:/usr/share/elasticsearch/plugins  #插件文件挂载
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml # 配置文件
+    networks:
+      - es-net
+  kibana:
+    image: kibana:7.1.1
+    container_name: kibana1
+    depends_on:
+      - elasticsearch
+    restart: "unless-stopped"
+    environment:
+#      SERVER_NAME: 127.0.0.1
+      ELASTICSEARCH_HOSTS: http://elasticsearch1:9200
+#    volumes:
+#      - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "13601:5601"
+    privileged: true    #环境变量
+    networks:
+      - es-net
+
+networks:
+  es-net:
+    driver: bridge
