@@ -48,7 +48,7 @@ export default {
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
             console.log('active tab', tabInfo)
-            router.push(tabInfo.path)
+            router.push('/daisyui' + tabInfo.path)
             tabClass.value = "tab tab-active"
         }
         

@@ -53,6 +53,11 @@ const daisyui = [
         path: 'third/:id',
         name: 'third',
         component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/main.vue')
+    },
+    {
+        path: 'wujiedemo',
+        name: 'wujiedemo',
+        component: () => import(/* webpackChunkName: "Micro" */ '../components/daisyui/wujiedemo.vue')
     }
 ]
 
@@ -61,7 +66,7 @@ const routes = {
     routes: [
         {
             path: '/',
-            redirect: '/desktop'
+            redirect: '/daisyui'
         },
         {
             path: '/login',
@@ -81,6 +86,12 @@ const routes = {
         },
         {
             path: '/daisyui',
+            name: 'daisyuiRoot',
+            component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
+            children: daisyui
+        },
+        {
+            path: '/daisyui/:tabId',
             name: 'daisyui',
             component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
             children: daisyui

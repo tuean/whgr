@@ -2,7 +2,7 @@ const menus = [
     {
         id: "0",
         name: "tuean",
-        path: "https://zoey.plus",
+        path: "/zoey.plus",
         keepAlive: true,
         isFolder: false,
         removeable: true,
@@ -117,6 +117,15 @@ const menus = [
         id: "100",
         name: "daisyui-main",
         path: "/daisyui/main",
+        keepAlive: false,
+        isFolder: false,
+        removeable: true,
+        child: []
+    },
+    {
+        id: "200",
+        name: "wujie1",
+        path: "/daisyui/wujiedemo",
         keepAlive: false,
         isFolder: false,
         removeable: true,

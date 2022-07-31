@@ -177,7 +177,7 @@ export default {
       let isThird = m.isThird || false
       store.commit("pushTab", m);
       store.commit("activeTab", m);
-      router.push(m.path);
+      router.push('/daisyui' + m.path);
     };
 
     return {

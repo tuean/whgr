@@ -14,6 +14,9 @@ import '/@/assets/font/lxgw.css'
 import tracing from './plugin/eventTracing/tracing';
 import microApp from '@micro-zoe/micro-app'
 import "./index.css";
+import WujieVue from "wujie-vue3";
+
+const { bus, preloadApp, destroyApp } = WujieVue;
 
 microApp.start()
 
@@ -27,4 +30,5 @@ app.use(tracing, {url: "http://localhost:7777/api/out"})
 app.use(router)
 app.use(store)
 app.use(ElementPlus)
+app.use(WujieVue);
 app.mount('#app')
