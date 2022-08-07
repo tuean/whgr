@@ -189,7 +189,7 @@ export default {
         router.push(m.path);
       } else {  // 三方页面
         let path = 'third-' + menu.id
-        router.addRoute('daisyui', {
+        router.addRoute('/', {
           path: path,
           name: menu.id,
           component: DynamicPage,
@@ -198,7 +198,7 @@ export default {
           }
         })
         await nextTick()
-        router.push('/daisyui/' + path);
+        router.push(path);
       }
     }
 

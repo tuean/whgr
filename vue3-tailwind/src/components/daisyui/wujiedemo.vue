@@ -6,7 +6,7 @@
     :url="vue2Url"
     :props="props"
     :attrs="attrs"
-    :sync="true"
+    :sync="false"
     :fetch="fetch"
     :degrade="degrade"
     :beforeLoad="lifecycles.beforeLoad"
@@ -28,7 +28,6 @@ export default {
     
   data() {
     const url = 'https://tuean.cn';
-    // const url = 'https://www.baidu.com'
     return {
       vue2Url: url,
       // 修正iframe的url，防止github pages csp报错

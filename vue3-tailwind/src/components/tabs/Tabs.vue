@@ -15,7 +15,6 @@ export default {
     setup(props) {
         const store = useStore()
         const { tabList } = toRefs(store.state)
-        // console.log(store.state.tabList)
         console.log(tabList)
         return {
             tabList

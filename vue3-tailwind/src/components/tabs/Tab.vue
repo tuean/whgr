@@ -1,6 +1,6 @@
 <template lang="">
-    <div :class="tabClass" @click="activeTab">
-        <span class="text-xl">{{tabInfo.name}}</span>
+    <div :class="tabClass">
+        <span class="text-xl" @click="activeTab">{{tabInfo.name}}</span>
         <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span>
     </div>
 </template>
@@ -28,11 +28,12 @@ export default {
         }
         const closeTab = () => {
             // 计算前面一个tab
-            // let nextShow = tabEqual(store.state.tabList, tabInfo.id)
             let nextShow = getNextShow(store.state.tabList, tabInfo.id)
             // 展示下一个tab
             if (nextShow != null) {
                 store.commit('activeTab', nextShow)
+            } else {
+                router.push('/')
             }
             store.commit('removeTab', tabInfo.id)
             if (nextShow != null) {

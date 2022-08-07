@@ -32,3 +32,6 @@ app.use(store)
 app.use(ElementPlus)
 app.use(WujieVue);
 app.mount('#app')
+
+preloadApp({ name: "tuean.cn", url: "http://tuean.cn", exec: true });
+preloadApp({ name: "zoey-plus", url: "http://zoey.plus/e-s/email", exec: true });

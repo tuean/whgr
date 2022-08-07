@@ -3,11 +3,11 @@
     width="100%"
     height="100%"
     name="vue3"
+    alive=true
     :url="vue3Url"
     :props="props"
     :attrs="attrs"
     :sync="false"
-    :fetch="fetch"
     :degrade="degrade"
     :beforeLoad="lifecycles.beforeLoad"
     :beforeMount="lifecycles.beforeMount"
@@ -24,22 +24,33 @@
 import fetch from "./wujie/fetch";
 import lifecycles from "./wujie/lifecycle";
 import { useRouter} from "vue-router";
+import { linkByAppId } from './appSpec';
 
 export default {
 
     setup() {
-      const router = useRouter();
+        const router = useRouter();
         const jumpCall = name => {
-          // router.push({ name });
-          console.log('jump called: ' + name);
+            // router.push({ name });
+            console.log('jump called: ' + name);
         }
-        console.log('router', router)
-        let vue3Url = "http://tuean.cn"
+        
+        let vue3Url = null;
         let attrs = process.env.NODE_ENV === "production" ? { src: url } : {}
         let props = { jump: jumpCall }
         let degrade = window.localStorage.getItem("degrade") === "true"
+
+        const init = () => {
+          const appId = router.currentRoute._rawValue.params.appId
+          let link = linkByAppId(appId);
+          vue3Url = link;
+          console.log('link: ', link)
+        }
+
+        init()
+
         return {
-          vue3Url, attrs, props, degrade, lifecycles, fetch, jumpCall
+          vue3Url, attrs, props, degrade, lifecycles, fetch, jumpCall, init
         }
     }
 };
