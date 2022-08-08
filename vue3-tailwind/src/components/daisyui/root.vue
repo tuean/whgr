@@ -87,9 +87,10 @@
       <div class="p-3">
         <router-view v-slot="{ Component }" :key="$route.fullPath">
             <transition name="router-fade" mode="out-in">
-                <keep-alive v-if="isRouterAlive">
-                  <component :is="Component" />
-                </keep-alive>
+<!--                <keep-alive v-if="isRouterAlive">-->
+<!--                  <component :is="Component" />-->
+<!--                </keep-alive>-->
+              <component :is="Component" />
             </transition>
         </router-view>
 <!--        <router-view />-->
@@ -145,7 +146,7 @@ export default {
     const store = useStore();
     const theme = ref("dark");
     const menus_flat = flatMenus(menus);
-    const isRouterAlive = ref(true)
+    const isRouterAlive = ref(false)
     console.log(menus_flat);
 
     const state = reactive({
