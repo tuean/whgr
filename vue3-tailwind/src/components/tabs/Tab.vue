@@ -1,5 +1,5 @@
 <template lang="">
-    <div :class="tabClass">
+    <div :class="tabInfo.tabClass">
         <span class="text-xl" @click="activeTab">{{tabInfo.name}}</span>
         <span class="pl-1 pr-1 can-click" @click="closeTab" v-if="tabInfo.removeable">x</span>
     </div>
@@ -20,12 +20,12 @@ export default {
         console.log('init tabInfo', tabInfo)
         const store = useStore()
         const router = useRouter()
-        const tabClass = ref('tab')
-        if (tabInfo.active) {
-            tabClass.value = 'tab active'
-        } else {
-            tabClass.value = 'tab'
-        }
+        // const tabClass = ref('tab')
+        // if (tabInfo.active) {
+        //     tabClass.value = 'tab active'
+        // } else {
+        //     tabClass.value = 'tab'
+        // }
         const closeTab = () => {
             // 计算前面一个tab
             let nextShow = getNextShow(store.state.tabList, tabInfo.id)
@@ -41,20 +41,17 @@ export default {
               router.push(nextShow.path)
             }
             console.log('after close', store.state.tabList)
-            tabClass.value = 'tab'
         }
         const activeTab = () => {
             store.commit('activeTab', tabInfo)
             console.log('active tab', tabInfo)
             router.push(tabInfo.path)
-            tabClass.value = "tab tab-active"
         }
         
         return {
             tabInfo,
             closeTab,
-            activeTab,
-            tabClass
+            activeTab
         }
     }
 }

@@ -25,6 +25,7 @@ const store = createStore({
         activeTab(state, tabInfo) {
             for (let x = 0; state.tabList.length > x; x++) {
                 state.tabList[x].active = state.tabList[x].id === tabInfo.id
+                state.tabList[x].tabClass = state.tabList[x].active ? "tab tab-active" : "tab"
             }
         },
         pushTab(state, tab) {
