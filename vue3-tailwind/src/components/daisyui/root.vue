@@ -137,6 +137,7 @@ import Tabs from "/@/components/tabs/Tabs.vue";
 import { useStore } from 'vuex';
 // import refresh from '/@/assets/refresh.svg'
 // import full from '/@/assets/full.svg'
+import MyWorker from './worker/heartbeat?worker'
 
 export default {
   components: {
@@ -203,6 +204,8 @@ export default {
       }
     }
 
+    const worker = new MyWorker()
+
     return {
       theme,
       menus_flat,
@@ -210,7 +213,8 @@ export default {
       refresh,
       fullscreen,
       tabJump,
-      menuClick
+      menuClick,
+      worker
     };
   }
 };
