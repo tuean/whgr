@@ -62,10 +62,10 @@ public class MethodProxyServerConfiguration implements ImportBeanDefinitionRegis
         try {
             ImportBeanDefinitionRegistrar.super.registerBeanDefinitions(importingClassMetadata, registry);
             // 获取Class的扫描器
-            ClassPathScanningCandidateComponentProvider scanner = getScanner();
+            ClassPathScanningCandidateComponentProvider scanner = Util.getScanner(environment);
             scanner.setResourceLoader(this.resourceLoader);
 
-            // 指定只扫描标注了@MethodProxy注解的接口
+            // 指定只扫描标注了@MethodProxyApi注解的接口
             AnnotationTypeFilter annotationTypeFilter = new AnnotationTypeFilter(MethodProxyApi.class);
             scanner.addIncludeFilter(annotationTypeFilter);
 
@@ -95,17 +95,7 @@ public class MethodProxyServerConfiguration implements ImportBeanDefinitionRegis
         }
     }
 
-    protected ClassPathScanningCandidateComponentProvider getScanner() {
-        return new ClassPathScanningCandidateComponentProvider(false, this.environment) {
-            @Override
-            protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-                if (beanDefinition.getMetadata().isInterface()) {
-                    return !beanDefinition.getMetadata().isAnnotation();
-                }
-                return false;
-            }
-        };
-    }
+
 
     private void registerHttpClient(BeanDefinitionRegistry registry, AnnotationMetadata annotationMetadata, Map<String, Object> attributes, Map<String, String> beanMap) {
         String className = annotationMetadata.getClassName();
