@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ServerTestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ClientTestApplication.class, args);
+        SpringApplication.run(ServerTestApplication.class, args);
     }
 
 }

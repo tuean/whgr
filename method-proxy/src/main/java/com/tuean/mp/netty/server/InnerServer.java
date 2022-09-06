@@ -34,13 +34,17 @@ public class InnerServer implements Runnable{
         this.serverConfig = serverConfig;
     }
 
+    ServerBootstrap b = new ServerBootstrap();
+    EventLoopGroup bossGroup;
+    EventLoopGroup workerGroup;
+
     @Override
     public void run() {
         serverConfig.check();
-        EventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBossThreadNum(), new DefaultThreadFactory(serverConfig.getBossThreadName(), Thread.MAX_PRIORITY));
-        EventLoopGroup workerGroup = new NioEventLoopGroup(serverConfig.getWorkerThreadNum(), new DefaultThreadFactory(serverConfig.getWorkerThreadName(), Thread.MAX_PRIORITY));
+        bossGroup = new NioEventLoopGroup(serverConfig.getBossThreadNum(), new DefaultThreadFactory(serverConfig.getBossThreadName(), Thread.MAX_PRIORITY));
+        workerGroup = new NioEventLoopGroup(serverConfig.getWorkerThreadNum(), new DefaultThreadFactory(serverConfig.getWorkerThreadName(), Thread.MAX_PRIORITY));
+
         try {
-            ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channelFactory((ChannelFactory) () -> new NioServerSocketChannel(SelectorProvider.provider()))
                     .option(ChannelOption.SO_BACKLOG, 20)
@@ -50,12 +54,14 @@ public class InnerServer implements Runnable{
             Integer port = serverConfig.getPort();
             Channel ch = b.bind(port).sync().channel();
             logger.info("InnerServer started on port {}", port);
-            ch.closeFuture().sync();
+//            ch.closeFuture().sync();
         } catch (Exception var) {
             logger.error("", var);
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
         }
+    }
+
+    public void shutdown() throws Exception {
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
     }
 }

@@ -15,13 +15,14 @@ import java.util.List;
 
 public class MethodRequestDecoder extends ByteToMessageDecoder {
 
-    private Gson gson = new GsonBuilder().serializeNulls().create();
+//    private Gson gson = new GsonBuilder().serializeNulls().create();
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         InputStream byteBufInputStream = new ByteBufInputStream(byteBuf);
         Reader reader = new InputStreamReader(byteBufInputStream);
-        MethodRequest methodRequest = gson.fromJson(reader, MethodRequest.class);
+//        MethodRequest methodRequest = gson.fromJson(reader, MethodRequest.class);
+
         list.add(methodRequest);
     }
 }

@@ -1,5 +1,7 @@
 package com.tuean.mp.netty;
 
+import com.tuean.mp.netty.serialize.AbstractSerializer;
+
 public class ServerConfig {
 
     private Integer port;
@@ -12,11 +14,32 @@ public class ServerConfig {
 
     private String workerThreadName;
 
+    private Class<? extends AbstractSerializer> serializer;
+
 
     public void check() {
 
     }
 
+    public ServerConfig() {
+    }
+
+    public ServerConfig(Integer port, Integer bossThreadNum, String bossThreadName, Integer workerThreadNum, String workerThreadName, Class<? extends AbstractSerializer> serializer) {
+        this.port = port;
+        this.bossThreadNum = bossThreadNum;
+        this.bossThreadName = bossThreadName;
+        this.workerThreadNum = workerThreadNum;
+        this.workerThreadName = workerThreadName;
+        this.serializer = serializer;
+    }
+
+    public Class<? extends AbstractSerializer> getSerializer() {
+        return serializer;
+    }
+
+    public void setSerializer(Class<? extends AbstractSerializer> serializer) {
+        this.serializer = serializer;
+    }
 
     public Integer getBossThreadNum() {
         return bossThreadNum;
