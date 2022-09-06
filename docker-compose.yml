@@ -20,6 +20,7 @@ services:
         - ./config/mysql/datadir:/var/lib/mysql
         - ./config/my.cnf:/etc/my.cnf
         # 数据库还原目录 可将需要还原的sql文件放在这里
+        - ./sql:/docker-entrypoint-initdb.d
 #        - /apps/mysql/source:/docker-entrypoint-initdb.d
     environment:
         - "MYSQL_ROOT_PASSWORD=root"
@@ -39,8 +40,7 @@ services:
       - ./config/mysql2/mydir:/mydir
       - ./config/mysql2/datadir:/var/lib/mysql
       - ./config/my.cnf:/etc/my.cnf
-      # 数据库还原目录 可将需要还原的sql文件放在这里
-#      - /apps/mysql/source:/docker-entrypoint-initdb.d
+      - ./sql2:/docker-entrypoint-initdb.d
     environment:
       - "MYSQL_ROOT_PASSWORD=root"
       - "MYSQL_DATABASE=settings"
@@ -85,7 +85,38 @@ services:
     privileged: true    #环境变量
     networks:
       - es-net
-
+  td-1:
+    image: tdengine/tdengine:3.0.0.0
+    environment:
+      TAOS_FQDN: "td-1"
+      TAOS_FIRST_EP: "td-1"
+    volumes:
+      - taosdata-td1:/var/lib/taos/
+      - taoslog-td1:/var/log/taos/
+  td-2:
+    image: tdengine/tdengine:3.0.0.0
+    environment:
+      TAOS_FQDN: "td-2"
+      TAOS_FIRST_EP: "td-1"
+    volumes:
+      - taosdata-td2:/var/lib/taos/
+      - taoslog-td2:/var/log/taos/
+  td-3:
+    image: tdengine/tdengine:3.0.0.0
+    environment:
+      TAOS_FQDN: "td-3"
+      TAOS_FIRST_EP: "td-1"
+    volumes:
+      - taosdata-td3:/var/lib/taos/
+      - taoslog-td3:/var/log/taos/
 networks:
   es-net:
     driver: bridge
+
+volumes:
+  taosdata-td1:
+  taoslog-td1:
+  taosdata-td2:
+  taoslog-td2:
+  taosdata-td3:
+  taoslog-td3:

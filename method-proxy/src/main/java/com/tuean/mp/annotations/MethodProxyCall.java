@@ -9,6 +9,8 @@ public @interface MethodProxyCall {
 
     String methodName() default "";
 
+    String target() default "";
+
     boolean proxyAll() default true;
 
 }

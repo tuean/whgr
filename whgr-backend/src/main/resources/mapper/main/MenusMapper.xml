@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tuean.whgr.dao.MenusMapper" >
+  <resultMap id="BaseResultMap" type="com.tuean.whgr.entity.db.Menus" >
+    <id jdbcType="BIGINT" column="id" property="id" />
+    <result jdbcType="VARCHAR" column="menu_name" property="menuName" />
+    <result jdbcType="INTEGER" column="menu_type" property="menuType" />
+    <result jdbcType="VARCHAR" column="menu_url" property="menuUrl" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, menu_name, menu_type, menu_url
+  </sql>
+
+  <insert id="insert" parameterType="com.tuean.whgr.entity.db.Menus" >
+    insert into menus(id,menu_name,menu_type,menu_url) values (#{id, jdbcType=BIGINT}, 
+    #{menuName, jdbcType=VARCHAR}, #{menuType, jdbcType=INTEGER}, 
+    #{menuUrl, jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> 
+    from menus
+    where id = #{id, jdbcType=BIGINT}
+  </select>
+
+  <update id="updateByPrimaryKey" parameterType="com.tuean.whgr.entity.db.Menus" keyProperty="id" useGeneratedKeys="true" >
+    update menus
+    set
+      menu_name = #{menuName, jdbcType=VARCHAR},
+      menu_type = #{menuType, jdbcType=INTEGER},
+      menu_url = #{menuUrl, jdbcType=VARCHAR}
+    where id = #{id, jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.tuean.whgr.entity.db.Menus" keyProperty="id" useGeneratedKeys="true" >
+    update menus
+    <set>
+      <if test ="menuName != null">
+        menu_name = #{menuName, jdbcType=VARCHAR},
+      </if>
+      <if test ="menuType != null">
+        menu_type = #{menuType, jdbcType=INTEGER},
+      </if>
+      <if test ="menuUrl != null">
+        menu_url = #{menuUrl, jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id, jdbcType=BIGINT}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from menus
+    where id = #{id, jdbcType=BIGINT}
+  </delete>
+
+</mapper>
