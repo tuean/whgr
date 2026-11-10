@@ -1,6 +1,5 @@
 package com.tuean.whgr.util;
 
-import com.alibaba.excel.EasyExcel;
 import com.tuean.whgr.http.SpringResponseWrapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;

@@ -57,6 +57,13 @@ public class WebLogFilter implements Filter {
             return;
         }
 
+        // 流式响应（SSE）不能包 wrapper，否则事件全被缓到连接结束才发出
+        if (httpServletRequest.getRequestURI().contains("/ai/chat")
+                || String.valueOf(httpServletRequest.getHeader("Accept")).contains("text/event-stream")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         String ip = IpUtils.getLocalIp(httpServletRequest);
 
         String requestUrl = httpServletRequest.getRequestURI();

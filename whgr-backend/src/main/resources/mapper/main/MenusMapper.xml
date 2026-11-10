@@ -6,10 +6,11 @@
     <result jdbcType="VARCHAR" column="menu_name" property="menuName" />
     <result jdbcType="INTEGER" column="menu_type" property="menuType" />
     <result jdbcType="VARCHAR" column="menu_url" property="menuUrl" />
+    <result jdbcType="INTEGER" column="role" property="role" />
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, menu_name, menu_type, menu_url
+    id, menu_name, menu_type, menu_url, role
   </sql>
 
   <insert id="insert" parameterType="com.tuean.whgr.entity.db.Menus" >
@@ -53,5 +54,12 @@
     delete from menus
     where id = #{id, jdbcType=BIGINT}
   </delete>
+
+  <select id="selectByRole" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from menus
+    where role = 0 or role &gt;= #{role, jdbcType=INTEGER}
+    order by id
+  </select>
 
 </mapper>

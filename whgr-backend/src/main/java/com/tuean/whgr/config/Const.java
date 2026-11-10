@@ -4,8 +4,6 @@ public class Const {
 
     public static final String ERROR_PARAM = "参数异常";
 
-    public static final String DB_MAIN = "main";
-
     public static final Integer TOKEN_LENGTH = 32;
 
     public static Integer NO_PAGE_SIGN = -1;

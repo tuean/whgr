@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuean.whgr.dao.AiLogMapper">
+
+  <resultMap id="BaseResultMap" type="com.tuean.whgr.entity.db.AiLog">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="admin_id" jdbcType="BIGINT" property="adminId"/>
+    <result column="message" jdbcType="VARCHAR" property="message"/>
+    <result column="reply" jdbcType="VARCHAR" property="reply"/>
+    <result column="actions" jdbcType="VARCHAR" property="actions"/>
+    <result column="trace" jdbcType="VARCHAR" property="trace"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+  </resultMap>
+
+  <insert id="insert" parameterType="com.tuean.whgr.entity.db.AiLog" useGeneratedKeys="true" keyProperty="id">
+    insert into ai_log (admin_id, message, reply, actions, trace, create_time)
+    values (#{adminId,jdbcType=BIGINT}, #{message,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR},
+            #{actions,jdbcType=VARCHAR}, #{trace,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <select id="selectById" resultMap="BaseResultMap">
+    select id, admin_id, message, reply, actions, trace, create_time
+    from ai_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="countByAdmin" resultType="int">
+    select count(1) from ai_log where admin_id = #{adminId,jdbcType=BIGINT}
+  </select>
+
+  <!-- 列表不带 trace，避免把整段轨迹拉进列表 -->
+  <select id="selectByAdmin" resultMap="BaseResultMap">
+    select id, admin_id, message, reply, create_time
+    from ai_log
+    where admin_id = #{adminId,jdbcType=BIGINT}
+    order by id desc
+    limit #{startRow,jdbcType=INTEGER}, #{endRow,jdbcType=INTEGER}
+  </select>
+
+</mapper>

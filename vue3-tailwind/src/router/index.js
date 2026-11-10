@@ -1,152 +1,68 @@
-import {createRouter, createWebHashHistory} from "vue-router"
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { getToken } from '/@/api/request'
 
-// const admins = [
-//     {
-//         path: 'pageNotFound',
-//         name: 'pageNotFound',
-//         component: () => import(/* webpackChunkName: "404" */ '@/com/pages/pageNotFound.vue')
-//     },
-//     {
-//         path: 'vuexDemo',
-//         name: 'vuexDemo',
-//         component: () => import(/* webpackChunkName: "vuexDemo" */ '@/com/pages/VuexDemo.vue')
-//     },
-//     {
-//         path: 'lotteryDemo',
-//         name: 'lotteryDemo',
-//         component: () => import(/* webpackChunkName: "Lottery" */ '@/com/pages/Lottery.vue')
-//     }, 
-//     {
-//         path: 'tableDemo',
-//         name: 'tableDemo',
-//         component: () => import(/* webpackChunkName: "TableDemo" */ '@/com/pages/admin/TableDemo.vue')
-//     }, 
-//     {
-//         path: 'goods',
-//         name: 'goods',
-//         component: () => import(/* webpackChunkName: "Goods" */ '@/com/pages/admin/Goods.vue')
-//     }, 
-//     {
-//         path: 'go1',
-//         name: 'go1',
-//         component: () => import(/* webpackChunkName: "go1" */ '@/com/pages/admin/go.vue')
-//     }, 
-//     {
-//         path: 'go2',
-//         name: 'go2',
-//         component: () => import(/* webpackChunkName: "go2" */ '@/com/pages/admin/go.vue')
-//     }, 
-//     {
-//         path: 'micro',
-//         name: 'micro',
-//         component: () => import(/* webpackChunkName: "Micro" */ '../components/pages/admin/Micro.vue')
-//     },
-// ]
-
-
-
-// const routes = {
-//     history: createWebHashHistory(),
-//     routes: [
-//         {
-//             path: '/',
-//             redirect: '/daisyui'
-//         },
-//         {
-//             path: '/login',
-//             name: 'login',
-//             component: () => import(/* webpackChunkName: "Login" */ '../components/pages/Login.vue')
-//         }, 
-//         { 
-//             path: '/desktop',
-//             name: 'desktop',
-//             component: () => import(/* webpackChunkName: "desktop" */ '../components/pages/Desktop.vue')
-//         },
-//         {
-//             path: '/admin',
-//             name: 'admin',
-//             component: () => import(/* webpackChunkName: "admin" */ '../components/pages/Admin.vue'),
-//             children: admins
-//         },
-//         // {
-//         //     path: '/daisyui',
-//         //     name: 'daisyuiRoot',
-//         //     component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
-//         //     // children: daisyui
-//         // },
-//         {
-//             path: '/daisyui',
-//             name: 'daisyui',
-//             component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
-//             children: daisyui
-//         },
-//         {
-//             path: '/404',
-//             name: '404',
-//             component: () => import(/* webpackChunkName: "404" */ '../components/pages/404.vue')
-//         },
-//         {
-//             path: '/apps',
-//             name: 'apps',
-//             component: () => import(/* webpackChunkName: "apps" */ '../components/pages/Apps.vue')
-//         },
-//         {
-//             path: '/lottery',
-//             name: 'lottery',
-//             component: () => import(/* webpackChunkName: "Lottery" */ '../components/pages/Lottery.vue')
-//         }, 
-//         {
-//             path: '/shot',
-//             name: 'shot',
-//             component: () => import(/* webpackChunkName: "Lottery" */ '../components/screenshot/shot.vue')
-//         }, 
-//         {
-//             path: '/gojs',
-//             name: 'gojs',
-//             component: () => import(/* webpackChunkName: "gojsDemo" */ '../components/go-js/gojsDemo.vue')
-//         }, 
-//         {
-//             path: '/lineTwo',
-//             name: 'lineTwo',
-//             component: () => import(/* webpackChunkName: "lineTwo" */ '../components/demo/lineTwo.vue')
-//         }, 
-//     ]
-// }
-
-const daisyui = [
-    {
-        path: 'main',
-        name: 'main',
-        component: () => import(/* webpackChunkName: "main" */ '../components/daisyui/main.vue')
-    },
-    {
-        path: 'wujiedemo',
-        name: 'wujiedemo',
-        component: () => import(/* webpackChunkName: "wujiedemo" */ '../components/daisyui/wujiedemo.vue')
-    },
-    {
-        path: 'app/:appId',
-        name: 'app',
-        component: () => import(/* webpackChunkName: "Wujie-App" */ '../components/daisyui/app.vue')
-    }
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('/@/views/login.vue'),
+    meta: { public: true }
+  },
+  {
+    path: '/',
+    component: () => import('/@/views/layout.vue'),
+    // AI 入口是主入口，登录后直接落到这
+    redirect: '/ai',
+    children: [
+      {
+        path: 'ai',
+        name: 'ai',
+        component: () => import('/@/views/ai.vue'),
+        meta: { title: 'AI 入口' }
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import('/@/views/dashboard.vue'),
+        meta: { title: '工作台' }
+      },
+      {
+        path: 'account',
+        name: 'account',
+        component: () => import('/@/views/account.vue'),
+        meta: { title: '账号管理' }
+      }
+    ]
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/ai' }
 ]
 
-const routes  = {
-    history: createWebHashHistory(),
-    routes: [
-        {
-            path: '/',
-            name: 'daisyui',
-            component: () => import(/* webpackChunkName: "daisyui" */ '@/com/daisyui/root.vue'),
-            children: daisyui
-        }
-    ]
-    
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes
+})
+
+// layout 拉到菜单后会写一份 menuPaths，这里用它兜权限：手敲 URL 也进不去没权限的页面
+function allowedPaths() {
+  try {
+    return JSON.parse(sessionStorage.getItem('menuPaths') || '[]')
+  } catch (e) {
+    return []
+  }
 }
 
+router.beforeEach((to, from, next) => {
+  const token = getToken()
+  if (!to.meta.public && !token) return next('/login')
+  if (to.path === '/login' && token) return next('/')
 
-
-
-const router = createRouter(routes)
+  const allowed = allowedPaths()
+  if (!to.meta.public && allowed.length && !allowed.includes(to.path)) {
+    ElMessage.error('没有权限访问该页面')
+    return next('/ai')
+  }
+  next()
+})
 
 export default router

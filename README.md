@@ -1,53 +1,35 @@
-## whgr
-whgr = Work Hard to Get Rich
+# whgr
 
+Work Hard to Get Rich —— 极简 B 端脚手架：**登录 → 动态菜单 → 账号增删改查 + AI 主入口**。
 
-### description
-* template for project of spring boot and vue3
+- 后端 `whgr-backend`：Spring Boot 2.7.18 + MyBatis + MySQL 8（Java 8 语法，JDK 21 运行）
+- 前端 `vue3-tailwind`：Vite 2 + Vue 3 + daisyUI（暗色主题）+ Element Plus
+- 附 `agent/`：独立的 Java 版命令行 coding agent（不参与后端构建）
 
-* provide some example codes like admin website、api templates、quick coder、etc.
+详细结构、接口、坑见 [OVERVIEW.md](OVERVIEW.md)。
 
-* some tools or plugins for programming more effectively
+## 跑起来
 
+```bash
+export JAVA_HOME=/opt/homebrew/opt/openjdk@21
 
-#### vue3-tailwind
-front project with vue3 and tailwind([daisyui](https://daisyui.com/))
+docker compose up -d              # MySQL 8 → localhost:13303，首次启动自动执行 sql/init-table.sql
+(cd whgr-backend && mvn spring-boot:run)    # http://localhost:7777/api
+(cd vue3-tailwind && npm install && npm run dev)   # http://localhost:4000
+```
 
-contains admin website（rewrite by daisyUi）
+初始账号：`admin / admin`（管理员，role=1）、`normal / normal`（普通用户，role=2）。
 
-#### whgr-backend
-back project with springboot
+AI 入口需要模型 key：`export DEEPSEEK_API_KEY=...`（或 `AI_API_KEY`），不配也能启动，只是问答返回「AI 未配置」。
 
-### method-proxy (not finished)
-provider http request to specified method without writing code 
+## 目录
 
-### tuean-maven-plugin (can use)
-a simple maven project which provider code generator like [mybatis/generator](https://github.com/mybatis/generator) but performs code merge
+```
+whgr-backend/     Spring Boot 后端（func/<模块>/ 下加业务）
+vue3-tailwind/    Vue3 前端（views/ 下加页面）
+agent/            Java 版 coding agent（独立 JDK 21 模块，java -jar）
+sql/init-table.sql 建表 + 种子数据（compose 自动执行）
+docker-compose.yml 只有 MySQL 一个服务
+```
 
-the latest version: 0.0.4
-
-useage : see [readme](./tuean-maven-plugin/README.md)
-
-#### features
-* support sql-lite
-* more menu demos
-* micro front-end
-
-### admin
-* product
-* shop
-
-
-### whgr-frontend (demo project)  no used
-~~fork from [vue3-admin](https://github.com/newbee-ltd/vue3-admin)~~
-
-### author
-[tuean](http://tuean.cn)  <tuean_z@163.com>
-
-
-
-
-
-
-
-
+MIT © tuean

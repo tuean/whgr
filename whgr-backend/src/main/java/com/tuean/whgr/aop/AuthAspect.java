@@ -2,13 +2,15 @@ package com.tuean.whgr.aop;
 
 
 import com.tuean.whgr.annotation.NoAccess;
+import com.tuean.whgr.annotation.RequireRole;
 import com.tuean.whgr.dao.AdminAccountMapper;
 import com.tuean.whgr.dao.AdminTokenMapper;
 import com.tuean.whgr.entity.db.AdminAccount;
 import com.tuean.whgr.entity.db.AdminToken;
 import com.tuean.whgr.exception.NeedLoginException;
+import com.tuean.whgr.exception.NoPermissionException;
 import com.tuean.whgr.helper.AdminAccountHelper;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -36,7 +38,17 @@ public class AuthAspect {
 
     private static Logger logger = LoggerFactory.getLogger(AuthAspect.class);
 
-    @Pointcut("execution(public * com.tuean.whgr.func.*.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    /**
+     * 所有 func 下的接口默认要登录；@GetMapping/@PostMapping 等也要覆盖，
+     * 否则用短注解写的接口会静默跳过鉴权
+     */
+    @Pointcut("execution(public * com.tuean.whgr.func.*.*.*(..)) && ("
+            + "@annotation(org.springframework.web.bind.annotation.RequestMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.GetMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.PostMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.PutMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.DeleteMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.PatchMapping))")
     private void pointcut(){}
 
     @Autowired
@@ -63,6 +75,15 @@ public class AuthAspect {
         if (adminToken == null) throw new NeedLoginException();
         Long adminId = adminToken.getAdminId();
         AdminAccount adminAccount = adminAccountMapper.selectByPrimaryKey(adminId);
+
+        RequireRole requireRole = method.getAnnotation(RequireRole.class);
+        if (requireRole != null) {
+            Integer role = adminAccount == null || adminAccount.getRole() == null ? 99 : adminAccount.getRole();
+            if (role > requireRole.value()) {
+                throw new NoPermissionException("无权限访问该功能（需要角色 " + requireRole.value() + "）");
+            }
+        }
+
         AdminAccountHelper.put(adminAccount);
 
         return point.proceed(point.getArgs());

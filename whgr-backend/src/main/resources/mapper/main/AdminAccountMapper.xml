@@ -181,6 +181,30 @@
     where account = #{userName}
   </select>
 
+  <!-- 列表不返回密码 -->
+  <sql id="List_Column_List">
+    id, account, name, mobile, open_id, role, status, create_time, creater, modify_time, modifier
+  </sql>
 
+  <select id="countBySearch" resultType="int">
+    select count(1) from admin_account
+    <where>
+      <if test="searchKey != null and searchKey != ''">
+        (account like concat('%', #{searchKey}, '%') or name like concat('%', #{searchKey}, '%'))
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBySearch" parameterType="com.tuean.whgr.entity.BaseListRequest" resultMap="BaseResultMap">
+    select <include refid="List_Column_List" />
+    from admin_account
+    <where>
+      <if test="searchKey != null and searchKey != ''">
+        (account like concat('%', #{searchKey}, '%') or name like concat('%', #{searchKey}, '%'))
+      </if>
+    </where>
+    order by id desc
+    limit #{startRow, jdbcType=INTEGER}, #{endRow, jdbcType=INTEGER}
+  </select>
 
 </mapper>

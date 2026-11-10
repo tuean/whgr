@@ -1,7 +1,10 @@
 package com.tuean.whgr.dao;
 
+import com.tuean.whgr.entity.BaseListRequest;
 import com.tuean.whgr.entity.db.AdminAccount;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AdminAccountMapper {
     int deleteByPrimaryKey(@Param("id") Long id);
@@ -17,4 +20,8 @@ public interface AdminAccountMapper {
     int updateByPrimaryKey(AdminAccount record);
 
     AdminAccount selectByUserName(@Param("userName") String userName);
+
+    int countBySearch(@Param("searchKey") String searchKey);
+
+    List<AdminAccount> selectBySearch(BaseListRequest request);
 }

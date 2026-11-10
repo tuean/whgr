@@ -37,6 +37,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(MineResp.error(NEED_LOGIN_ERROR, null), HttpStatus.OK);
     }
 
+    @ExceptionHandler(NoPermissionException.class)
+    public final ResponseEntity<MineResp> noPermissionException(Exception ex, WebRequest request) {
+        logger.warn("no permission: {}", ex.getMessage());
+        return new ResponseEntity<>(MineResp.error(403, ex.getMessage() == null ? "无权限访问该功能" : ex.getMessage()), HttpStatus.OK);
+    }
+
     @ExceptionHandler(SQLException.class)
     public final ResponseEntity<MineResp> sqlException(Exception ex, WebRequest request) {
         logger.error("", ex);
