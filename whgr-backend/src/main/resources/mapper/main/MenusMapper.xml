@@ -13,10 +13,10 @@
     id, menu_name, menu_type, menu_url, role
   </sql>
 
-  <insert id="insert" parameterType="com.tuean.whgr.entity.db.Menus" >
-    insert into menus(id,menu_name,menu_type,menu_url) values (#{id, jdbcType=BIGINT}, 
-    #{menuName, jdbcType=VARCHAR}, #{menuType, jdbcType=INTEGER}, 
-    #{menuUrl, jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.tuean.whgr.entity.db.Menus" useGeneratedKeys="true" keyProperty="id" >
+    insert into menus(menu_name, menu_type, menu_url, role) values (
+    #{menuName, jdbcType=VARCHAR}, #{menuType, jdbcType=INTEGER},
+    #{menuUrl, jdbcType=VARCHAR}, #{role, jdbcType=INTEGER})
   </insert>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap" >
@@ -25,28 +25,13 @@
     where id = #{id, jdbcType=BIGINT}
   </select>
 
-  <update id="updateByPrimaryKey" parameterType="com.tuean.whgr.entity.db.Menus" keyProperty="id" useGeneratedKeys="true" >
+  <update id="update" parameterType="com.tuean.whgr.entity.db.Menus" >
     update menus
     set
       menu_name = #{menuName, jdbcType=VARCHAR},
       menu_type = #{menuType, jdbcType=INTEGER},
-      menu_url = #{menuUrl, jdbcType=VARCHAR}
-    where id = #{id, jdbcType=BIGINT}
-  </update>
-
-  <update id="updateByPrimaryKeySelective" parameterType="com.tuean.whgr.entity.db.Menus" keyProperty="id" useGeneratedKeys="true" >
-    update menus
-    <set>
-      <if test ="menuName != null">
-        menu_name = #{menuName, jdbcType=VARCHAR},
-      </if>
-      <if test ="menuType != null">
-        menu_type = #{menuType, jdbcType=INTEGER},
-      </if>
-      <if test ="menuUrl != null">
-        menu_url = #{menuUrl, jdbcType=VARCHAR}
-      </if>
-    </set>
+      menu_url = #{menuUrl, jdbcType=VARCHAR},
+      role = #{role, jdbcType=INTEGER}
     where id = #{id, jdbcType=BIGINT}
   </update>
 
@@ -54,6 +39,12 @@
     delete from menus
     where id = #{id, jdbcType=BIGINT}
   </delete>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from menus
+    order by id
+  </select>
 
   <select id="selectByRole" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />

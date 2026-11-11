@@ -57,7 +57,28 @@ create table `menus` (
     primary key(`id`)
 ) Engine=InnoDB auto_increment=10000 default charset=utf8mb4 comment '菜单表';
 
--- 初始数据：管理员 admin / admin（role=1），普通用户 normal / normal（role=2，看不到账号管理）
+-- 角色表：level 是权限等级（越小权限越大），admin_account.role 和 menus.role 存的都是它
+-- data_scope 数据范围：1 全部数据，2 仅本人数据
+create table `admin_role` (
+    `id` bigint(20) unsigned auto_increment comment '数据id',
+    `role_name` varchar(64) not null comment '角色名称',
+    `level` int not null comment '权限等级，越小权限越大',
+    `data_scope` int not null default 1 comment '数据范围：1 全部数据 2 仅本人数据',
+    `status` int not null default 1 comment '1 启用 0 停用',
+    `remark` varchar(200) null comment '备注',
+    `create_time` datetime not null comment '创建时间',
+    `creater` varchar(64) not null comment '创建人账号',
+    `modify_time` datetime not null comment '修改时间',
+    `modifier` varchar(64) not null comment '修改人账号',
+    primary key(`id`),
+    unique key `level_index`(`level`)
+) Engine=InnoDB auto_increment=10000 default charset=utf8mb4 comment '角色表';
+
+insert into `admin_role` (role_name, level, data_scope, status, remark, create_time, creater, modify_time, modifier) values
+('管理员', 1, 1, 1, '内置角色，全部数据，可见所有菜单', now(), 'system', now(), 'system'),
+('普通用户', 2, 2, 1, '默认角色，只能看自己创建的数据', now(), 'system', now(), 'system');
+
+-- 初始数据：管理员 admin / admin（role=1），普通用户 normal / normal（role=2）
 insert into `admin_account` (account, name, pwd, mobile, role, status, create_time, creater, modify_time, modifier)
 values ('admin', '管理员', md5('admin'), '', 1, 1, now(), 'system', now(), 'system'),
        ('normal', '普通用户', md5('normal'), '', 2, 1, now(), 'system', now(), 'system');
@@ -66,7 +87,9 @@ values ('admin', '管理员', md5('admin'), '', 1, 1, now(), 'system', now(), 's
 insert into `menus` (menu_name, menu_type, menu_url, role) values
 ('AI 入口', 1, '/ai', 0),
 ('工作台', 1, '/dashboard', 0),
-('账号管理', 1, '/account', 1);
+('账号管理', 1, '/account', 0),
+('角色管理', 1, '/role', 1),
+('菜单管理', 1, '/menu', 1);
 
 -- AI 入口的问答与决策轨迹（回溯用）
 create table `ai_log` (

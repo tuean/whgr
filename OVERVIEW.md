@@ -117,9 +117,15 @@ curl -X POST http://127.0.0.1:7777/api/adminUser/login \
 | `/logout` | DELETE | 免登录 | 前端清 token 即可，服务端不注销 |
 | `/adminUser/profile` | GET | 需要 | 当前登录人 |
 | `/menu/list` | GET | 需要 | 菜单按当前账号角色过滤 |
-| `/admin/list` | POST | `@RequireRole(1)` | `{pageNum,pageSize,searchKey}` → `{total,finished,list}`，不返回 pwd |
+| `/admin/list` | POST | 登录即可 | `{pageNum,pageSize,searchKey}` → `{total,finished,list}`，不返回 pwd；按当前角色**数据范围**裁剪 |
 | `/admin/save` | POST | `@RequireRole(1)` | 无 id 新增（密码必填，md5 落库），有 id 更新（`pwd` 留空不改） |
 | `/admin/delete?id=` | POST | `@RequireRole(1)` | 不能删自己 |
+| `/role/list` | GET | 登录即可 | 角色下拉用，只读 |
+| `/role/save` | POST | `@RequireRole(1)` | 新增/编辑角色（等级唯一、等级 1 内置不可改等级） |
+| `/role/delete?id=` | POST | `@RequireRole(1)` | 等级 1 或仍有账号在用时不可删 |
+| `/menu/all` | GET | `@RequireRole(1)` | 菜单管理页：全量菜单 |
+| `/menu/save` | POST | `@RequireRole(1)` | 新增/编辑菜单（路由必须以 `/` 开头） |
+| `/menu/delete?id=` | POST | `@RequireRole(1)` | `/ai` 是主入口，不可删 |
 | `/ai/chat` | POST | 需要 | `{message}` → **SSE** 事件流 |
 | `/ai/history` | POST | 需要 | 我的问答历史 `{pageNum,pageSize}` |
 | `/ai/history/{id}` | GET | 需要 | 单条完整轨迹（自己的；管理员可看全部） |
@@ -155,11 +161,12 @@ curl -X POST http://127.0.0.1:7777/api/adminUser/login \
 
 **回溯**：每轮落 `ai_log`（`message / reply / actions / trace`），右侧列表 `POST /ai/history`，点开 `GET /ai/history/{id}` 铺回时间线并标「历史记录回放」；只能看自己的，管理员能看全部。
 
-**三层权限**
+**四层权限**（详见第 6 节）
 
 1. 菜单层：`menus.role` —— `0` 所有人，`N` 表示 `role <= N` 可见。`/menu/list` 与 AI 的 `list_menus` 用同一份过滤结果，AI 看不到无权菜单。
 2. 动作层：`navigate` 的 path 必须命中菜单白名单，否则回 `ERROR` 让模型重试。
 3. 接口层：`@RequireRole` + `AuthAspect`（403），前端路由守卫再用 `sessionStorage.menuPaths` 兜一层，手敲 URL 弹回 `/ai`。
+4. 数据层：角色的 `data_scope`（1 全部 / 2 仅本人）在 Service 里拼进 SQL，普通用户看列表只返回自己那条。
 
 **配置**（`application.properties`）：`ai.enabled / base-url / model / api-key / max-steps / timeout-seconds`，key 默认取 `AI_API_KEY` 或 `DEEPSEEK_API_KEY`；没配 key 时接口返回「AI 未配置」而不是 500。
 
@@ -167,7 +174,27 @@ curl -X POST http://127.0.0.1:7777/api/adminUser/login \
 
 ---
 
-## 6. 坑（改代码前先看）
+## 6. 角色 / 数据权限 / 菜单管理
+
+B 端三件套，都在同一个权限模型里，不额外引入一套 RBAC 表：
+
+| 概念 | 表/字段 | 说明 |
+|---|---|---|
+| 角色 | `admin_role`（`role_name` / `level` / `data_scope` / `status` / `remark`） | `level` 越小权限越大，就是账号和菜单里存的那个数字 |
+| 账号的角色 | `admin_account.role` = `admin_role.level` | 建号时从角色下拉里选 |
+| 菜单可见范围 | `menus.role` = 允许的最小等级 | `0` 所有人；`1` 只有管理员 |
+| 数据范围 | `admin_role.data_scope` | `1` 全部数据，`2` 仅本人数据；在 `AdminService.list` 里落成 SQL 条件 |
+
+**角色管理** `/role`：列表 + 新增/编辑/删除。三个约束——
+- 等级唯一（`admin_role.level` 建了唯一索引，Service 里先给出友好报错）；
+- 等级 1 是内置管理员角色，不能改等级、不能删；
+- 还有账号在用这个等级时，不能改等级也不能删。
+
+**数据权限**：`data_scope=2` 的角色，进账号管理页只能看到自己那一行，页面顶部显示「数据范围：仅本人数据，只能查看」，操作列变「只读」；后端 `/admin/list` 只放行登录（不再要求管理员），但 SQL 里被钉死成 `and id = 当前登录人`，改参数也拿不到别人。`data_scope=1` 看全部。要加别的数据维度（部门/自定义），在 `selfOnly()` 换成按部门字段拼条件即可。
+
+**菜单管理** `/menu`：全量菜单列表 + 增删改（名称、路由、可见范围）。菜单就是前端路由白名单：加一条菜单只解决「谁能看到入口」，页面本身仍要在 `views/` + `router/index.js` 里存在。`/ai` 是登录后的主入口，禁止删除。
+
+## 7. 坑（改代码前先看）
 
 - **`SseEmitter.send` 发字符串，不发 `ObjectNode`**：项目 JSON 层由 Gson 处理，序列化 Jackson 节点会输出 `_children`/`_nodeFactory`。`/ai/history/{id}` 也返回 POJO + 原样字符串，前端 `JSON.parse`。
 - **`AuthAspect` 切点必须列全 6 种 Mapping 注解**：`@annotation(RequestMapping)` 不认 `@GetMapping/@PostMapping` 这类派生注解，漏了就是接口静默裸奔。
@@ -177,9 +204,10 @@ curl -X POST http://127.0.0.1:7777/api/adminUser/login \
 - **`mapper-locations` 只扫 `mapper/main/`**：XML 放 `mapper/` 根目录不会加载。
 - **`limit #{startRow}, #{endRow}`** 是「偏移, 条数」，`endRow` 不是行号。
 - **`db` 参数 / 动态数据源已删除**：现在是单数据源，需要多库时再加 `AbstractRoutingDataSource`。
-- `menus` 只按 `role` 过滤，没有按钮级权限；任务队列、WebSocket、ES 等示例代码已全部移除。
+- `menus` 只按 `role` 过滤，没有按钮级权限（页面里靠 `role === 1` 隐藏写操作，属于展示层限定，真正的拦截在后端）。
+- 数据权限按「账号表自己这条」演示，接到业务表时要换成自己的归属字段。
 
-## 7. 已知待办
+## 8. 已知待办
 
 1. `/logout` 只清前端 token，服务端 token 不过期（`admin_token` 表没有过期清理）。
 2. AI 单轮对话，不带上文（追问「那这个页面怎么用」接不上）。
@@ -187,6 +215,7 @@ curl -X POST http://127.0.0.1:7777/api/adminUser/login \
 4. `thinking` 原样展示模型内部推理，敏感场景需要过滤。
 5. 没有自动化测试（后端 `src/test` 已清空），CI 未配。
 6. 数据库密码明文写在 `application.properties`，公网部署前必须换环境变量。
+7. 角色只有等级+数据范围，没有角色-菜单多对多关联表（菜单可见性仍是「等级 ≤ N」）。
 
 ---
 

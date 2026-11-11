@@ -10,7 +10,10 @@
         />
         <button class="btn btn-sm" @click="search">查询</button>
         <div class="flex-1"></div>
-        <button class="btn btn-sm btn-primary" @click="openCreate">新增</button>
+        <span v-if="!canWrite" class="badge badge-warning badge-sm">
+          数据范围：{{ myScopeText }}，只能查看
+        </span>
+        <button v-if="canWrite" class="btn btn-sm btn-primary" @click="openCreate">新增</button>
       </div>
 
       <table class="table table-zebra table-sm">
@@ -32,7 +35,7 @@
             <td>{{ row.account }}</td>
             <td>{{ row.name }}</td>
             <td>{{ row.mobile }}</td>
-            <td>{{ row.role === 1 ? '管理员' : '普通用户' }}</td>
+            <td>{{ roleText(row.role) }}</td>
             <td>
               <span class="badge badge-sm" :class="row.status === 1 ? 'badge-success' : 'badge-ghost'">
                 {{ row.status === 1 ? '启用' : '停用' }}
@@ -40,8 +43,11 @@
             </td>
             <td>{{ row.createTime }}</td>
             <td class="text-right whitespace-nowrap">
-              <button class="btn btn-ghost btn-xs" @click="openEdit(row)">编辑</button>
-              <button class="btn btn-ghost btn-xs text-error" @click="remove(row)">删除</button>
+              <template v-if="canWrite">
+                <button class="btn btn-ghost btn-xs" @click="openEdit(row)">编辑</button>
+                <button class="btn btn-ghost btn-xs text-error" @click="remove(row)">删除</button>
+              </template>
+              <span v-else class="text-base-content/40 text-xs">只读</span>
             </td>
           </tr>
           <tr v-if="!rows.length">
@@ -79,8 +85,7 @@
             :placeholder="form.id ? '密码（留空不修改）' : '密码'"
           />
           <select v-model.number="form.role" class="select select-bordered select-sm w-full">
-            <option :value="1">管理员</option>
-            <option :value="2">普通用户</option>
+            <option v-for="r in roles" :key="r.id" :value="r.level">{{ r.roleName }}（等级 {{ r.level }}）</option>
           </select>
           <select v-model.number="form.status" class="select select-bordered select-sm w-full">
             <option :value="1">启用</option>
@@ -99,9 +104,11 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { accountList, accountSave, accountDelete } from '/@/api'
+import { accountList, accountSave, accountDelete, roleList, profile } from '/@/api'
 
 const rows = ref([])
+const roles = ref([])
+const me = ref({})
 const total = ref(0)
 const saving = ref(false)
 const showModal = ref(false)
@@ -110,10 +117,27 @@ const form = reactive({})
 
 const maxPage = computed(() => Math.max(1, Math.ceil(total.value / query.pageSize)))
 
+// 写操作要管理员（后端 @RequireRole(1)），普通用户只能看数据权限范围内的一行
+const canWrite = computed(() => me.value.role === 1)
+const myScopeText = computed(() => {
+  const role = roles.value.find(r => r.level === me.value.role)
+  return role && role.dataScope === 2 ? '仅本人数据' : '全部数据'
+})
+const roleText = level => {
+  const hit = roles.value.find(r => r.level === level)
+  return hit ? hit.roleName : `等级 ${level}`
+}
+
 const load = async () => {
   const data = await accountList(query)
   rows.value = data.list || []
   total.value = data.total || 0
+}
+
+const loadMeta = async () => {
+  const [roleRows, mine] = await Promise.all([roleList(), profile()])
+  roles.value = roleRows || []
+  me.value = mine || {}
 }
 
 const search = () => {
@@ -157,5 +181,9 @@ const remove = async row => {
   load()
 }
 
-onMounted(load)
+onMounted(() => {
+  load()
+  // 角色表只有管理员能读，普通用户拿不到就用等级兜底显示
+  loadMeta().catch(() => {})
+})
 </script>

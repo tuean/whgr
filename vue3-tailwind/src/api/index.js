@@ -10,6 +10,14 @@ export const accountList = data => request.post('/admin/list', data)
 export const accountSave = data => request.post('/admin/save', data)
 export const accountDelete = id => request.post('/admin/delete', null, { params: { id } })
 
+export const roleList = () => request.get('/role/list')
+export const roleSave = data => request.post('/role/save', data)
+export const roleDelete = id => request.post('/role/delete', null, { params: { id } })
+
+export const menuAll = () => request.get('/menu/all')
+export const menuSave = data => request.post('/menu/save', data)
+export const menuDelete = id => request.post('/menu/delete', null, { params: { id } })
+
 // AI 入口：SSE 流式返回事件 {type:'thinking'|'tool'|'action'|'answer'|'done'|'error'}
 // 用 fetch 而不是 EventSource：要 POST + 自定义 token 头
 export function aiChatStream(message, onEvent) {

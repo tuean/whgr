@@ -1,6 +1,6 @@
 # whgr
 
-Work Hard to Get Rich —— 极简 B 端脚手架：**登录 → 动态菜单 → 账号增删改查 + AI 主入口**。
+Work Hard to Get Rich —— 极简 B 端脚手架：**登录 → 动态菜单 → 账号/角色/菜单管理 + 数据权限 + AI 主入口**。
 
 - 后端 `whgr-backend`：Spring Boot 2.7.18 + MyBatis + MySQL 8（Java 8 语法，JDK 21 运行）
 - 前端 `vue3-tailwind`：Vite 2 + Vue 3 + daisyUI（暗色主题）+ Element Plus
@@ -18,7 +18,9 @@ docker compose up -d              # MySQL 8 → localhost:13303，首次启动�
 (cd vue3-tailwind && npm install && npm run dev)   # http://localhost:4000
 ```
 
-初始账号：`admin / admin`（管理员，role=1）、`normal / normal`（普通用户，role=2）。
+初始账号：`admin / admin`（管理员，等级 1，全部数据）、`normal / normal`（普通用户，等级 2，仅本人数据）。
+
+管理台自带：账号管理（数据权限按角色裁剪）、角色管理（等级 + 数据范围）、菜单管理（路由白名单 + 可见等级）。
 
 AI 入口需要模型 key：`export DEEPSEEK_API_KEY=...`（或 `AI_API_KEY`），不配也能启动，只是问答返回「AI 未配置」。
 

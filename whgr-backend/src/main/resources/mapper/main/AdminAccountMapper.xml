@@ -192,19 +192,31 @@
       <if test="searchKey != null and searchKey != ''">
         (account like concat('%', #{searchKey}, '%') or name like concat('%', #{searchKey}, '%'))
       </if>
+      <!-- 数据权限：数据范围=仅本人时只统计自己这条 -->
+      <if test="selfId != null">
+        and id = #{selfId}
+      </if>
     </where>
   </select>
 
-  <select id="selectBySearch" parameterType="com.tuean.whgr.entity.BaseListRequest" resultMap="BaseResultMap">
+  <select id="countByRole" resultType="int">
+    select count(1) from admin_account where role = #{level}
+  </select>
+
+  <select id="selectBySearch" resultMap="BaseResultMap">
     select <include refid="List_Column_List" />
     from admin_account
     <where>
-      <if test="searchKey != null and searchKey != ''">
-        (account like concat('%', #{searchKey}, '%') or name like concat('%', #{searchKey}, '%'))
+      <if test="request.searchKey != null and request.searchKey != ''">
+        (account like concat('%', #{request.searchKey}, '%') or name like concat('%', #{request.searchKey}, '%'))
+      </if>
+      <!-- 数据权限：数据范围=仅本人时只看自己这条 -->
+      <if test="selfId != null">
+        and id = #{selfId}
       </if>
     </where>
     order by id desc
-    limit #{startRow, jdbcType=INTEGER}, #{endRow, jdbcType=INTEGER}
+    limit #{request.startRow, jdbcType=INTEGER}, #{request.endRow, jdbcType=INTEGER}
   </select>
 
 </mapper>

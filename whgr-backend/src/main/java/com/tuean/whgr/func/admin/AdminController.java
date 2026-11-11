@@ -5,7 +5,6 @@ import com.tuean.whgr.entity.BaseListRequest;
 import com.tuean.whgr.entity.MineResp;
 import com.tuean.whgr.entity.db.AdminAccount;
 import com.tuean.whgr.func.login.LoginResponse;
-import com.tuean.whgr.helper.AdminAccountHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,10 @@ public class AdminController {
 
     @RequestMapping(value = "/adminUser/profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public MineResp<LoginResponse> adminLogin() {
-        return MineResp.success(AdminAccountHelper.get());
+        return MineResp.success(adminService.getInfo());
     }
 
-    @RequireRole(1)
+    // 登录即可：普通用户靠数据权限只能看到自己
     @RequestMapping(value = "/admin/list", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public MineResp list(@RequestBody BaseListRequest request) {
         return adminService.list(request);

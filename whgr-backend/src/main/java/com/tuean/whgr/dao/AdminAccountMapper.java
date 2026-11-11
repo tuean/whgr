@@ -21,7 +21,11 @@ public interface AdminAccountMapper {
 
     AdminAccount selectByUserName(@Param("userName") String userName);
 
-    int countBySearch(@Param("searchKey") String searchKey);
+    /** selfId 非空表示数据范围=仅本人数据，只查这条记录 */
+    int countBySearch(@Param("searchKey") String searchKey, @Param("selfId") Long selfId);
 
-    List<AdminAccount> selectBySearch(BaseListRequest request);
+    List<AdminAccount> selectBySearch(@Param("request") BaseListRequest request, @Param("selfId") Long selfId);
+
+    /** 有多少账号用着这个权限等级（删角色/改等级前校验） */
+    int countByRole(@Param("level") Integer level);
 }

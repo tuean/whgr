@@ -3,10 +3,12 @@ package com.tuean.whgr.func.admin;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.tuean.whgr.dao.AdminAccountMapper;
+import com.tuean.whgr.dao.AdminRoleMapper;
 import com.tuean.whgr.entity.BaseListRequest;
 import com.tuean.whgr.entity.ListResponse;
 import com.tuean.whgr.entity.MineResp;
 import com.tuean.whgr.entity.db.AdminAccount;
+import com.tuean.whgr.entity.db.AdminRole;
 import com.tuean.whgr.helper.AdminAccountHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +22,26 @@ public class AdminService {
     @Autowired
     private AdminAccountMapper adminAccountMapper;
 
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
+
     public AdminAccount getInfo() {
-        return AdminAccountHelper.get();
+        AdminAccount current = AdminAccountHelper.get();
+        // 密码不外传
+        if (current != null) current.setPwd(null);
+        return current;
     }
 
+    /**
+     * 数据权限：当前角色 dataScope=2（仅本人数据）时只返回自己这条，1（全部数据）返回全部
+     */
     public MineResp list(BaseListRequest request) {
-        int total = adminAccountMapper.countBySearch(request.getSearchKey());
+        Long selfId = selfOnly() ? AdminAccountHelper.get().getId() : null;
+
+        int total = adminAccountMapper.countBySearch(request.getSearchKey(), selfId);
         if (total < 1) return MineResp.success(ListResponse.empty());
 
-        List<AdminAccount> list = adminAccountMapper.selectBySearch(request);
+        List<AdminAccount> list = adminAccountMapper.selectBySearch(request, selfId);
         boolean finished = request.getStartRow() + list.size() >= total;
         return MineResp.success(new ListResponse(total, finished, list));
     }
@@ -67,6 +80,14 @@ public class AdminService {
         if (current != null && current.getId().equals(id)) throw new RuntimeException("不能删除当前登录账号");
         adminAccountMapper.deleteByPrimaryKey(id);
         return MineResp.success();
+    }
+
+    /** 数据范围是不是「仅本人数据」 */
+    private boolean selfOnly() {
+        AdminAccount current = AdminAccountHelper.get();
+        if (current == null || current.getRole() == null) return false;
+        AdminRole role = adminRoleMapper.selectByLevel(current.getRole());
+        return role != null && Integer.valueOf(2).equals(role.getDataScope());
     }
 
     private String currentOperatorName() {
