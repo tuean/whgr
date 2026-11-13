@@ -36,4 +36,13 @@ public class Menus {
     public void setRole(Integer role) {
         this.role = role;
     }
+
+    /**
+     * 前端路由 / 路由守卫 / AI 跳转白名单统一认这一个 path：
+     * menu_type=2 的外部页面走 /frame/{id} 容器，其余就是菜单自己的路由。
+     */
+    public String getPath() {
+        if (menuType != null && menuType == 2) return "/frame/" + id;
+        return menuUrl;
+    }
 }

@@ -5,6 +5,7 @@ import com.tuean.whgr.entity.MineResp;
 import com.tuean.whgr.entity.db.Menus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +33,14 @@ public class MenuController {
     @RequestMapping(value = "/menu/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public MineResp all() {
         return menuService.listAllForManage();
+    }
+
+    /**
+     * iframe 容器页取外部页面地址（登录即可，Service 里再按角色校验可见性）
+     */
+    @RequestMapping(value = "/menu/frame/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public MineResp frame(@PathVariable("id") Long id) {
+        return menuService.frame(id);
     }
 
     @RequireRole(1)

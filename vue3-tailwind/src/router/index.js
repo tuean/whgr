@@ -44,6 +44,13 @@ const routes = [
         name: 'menu',
         component: () => import('/@/views/menu.vue'),
         meta: { title: '菜单管理' }
+      },
+      {
+        // 外部页面（menu_type=2）统一在这层 iframe 容器里打开，AI 跳转的 path 也是 /frame/{id}
+        path: 'frame/:id',
+        name: 'frame',
+        component: () => import('/@/views/frame.vue'),
+        meta: { title: '外部页面' }
       }
     ]
   },

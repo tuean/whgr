@@ -83,9 +83,9 @@
         <ul class="p-4 overflow-y-auto menu w-80 bg-base-200 text-base-content">
           <li v-for="item in menus" :key="item.id">
             <router-link
-              :to="item.menuUrl"
+              :to="item.path"
               class="flex gap-4"
-              :class="{ active: route.path === item.menuUrl }"
+              :class="{ active: route.path === item.path }"
             >
               {{ item.menuName }}
             </router-link>
@@ -112,7 +112,8 @@ onMounted(async () => {
   const [list, me] = await Promise.all([menuList(), profile()])
   menus.value = list || []
   // 前端跳转前用它兜一层权限：只允许跳到当前账号可见的菜单
-  sessionStorage.setItem('menuPaths', JSON.stringify(menus.value.map(m => m.menuUrl)))
+  // path 由后端算好：外部页面是 /frame/{id}，和 AI 白名单、路由守卫共用同一套
+    sessionStorage.setItem('menuPaths', JSON.stringify(menus.value.map(m => m.path)))
   Object.assign(user, me || {})
 })
 

@@ -189,7 +189,7 @@ public class AiService {
         for (Menus menu : menus) {
             ObjectNode item = array.addObject();
             item.put("name", menu.getMenuName());
-            item.put("path", menu.getMenuUrl());
+            item.put("path", menu.getPath());
         }
         return array.toString();
     }
@@ -199,7 +199,7 @@ public class AiService {
         String path = args.path("path").asText("");
         Map<String, String> allowed = new LinkedHashMap<>();
         for (Menus menu : menus) {
-            allowed.put(menu.getMenuUrl(), menu.getMenuName());
+            allowed.put(menu.getPath(), menu.getMenuName());
         }
         if (!allowed.containsKey(path)) {
             // 权限 + 存在性一起挡：不在当前用户菜单里的一律不给跳

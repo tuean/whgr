@@ -14,7 +14,8 @@
           <tr>
             <th>ID</th>
             <th>菜单名称</th>
-            <th>路由</th>
+            <th>类型</th>
+            <th>地址</th>
             <th>可见范围</th>
             <th class="text-right">操作</th>
           </tr>
@@ -25,6 +26,11 @@
             <td>
               {{ row.menuName }}
               <span v-if="row.menuUrl === '/ai'" class="badge badge-sm badge-primary ml-1">主入口</span>
+            </td>
+            <td>
+              <span :class="row.menuType === 2 ? 'badge badge-sm badge-info' : 'badge badge-sm badge-ghost'">
+                {{ row.menuType === 2 ? '外部页面' : '内部路由' }}
+              </span>
             </td>
             <td class="font-mono text-xs">{{ row.menuUrl }}</td>
             <td>{{ roleText(row.role) }}</td>
@@ -40,7 +46,7 @@
             </td>
           </tr>
           <tr v-if="!rows.length">
-            <td colspan="5" class="text-center text-base-content/50 py-8">暂无数据</td>
+            <td colspan="6" class="text-center text-base-content/50 py-8">暂无数据</td>
           </tr>
         </tbody>
       </table>
@@ -51,10 +57,18 @@
         <h3 class="font-bold mb-4">{{ form.id ? '编辑菜单' : '新增菜单' }}</h3>
         <div class="space-y-3">
           <input v-model="form.menuName" class="input input-bordered input-sm w-full" placeholder="菜单名称" />
+          <select v-model.number="form.menuType" class="select select-bordered select-sm w-full">
+            <option :value="1">内部路由（前端已有页面）</option>
+            <option :value="2">外部页面（iframe 加载，如 TBS 查询）</option>
+          </select>
           <input
             v-model="form.menuUrl"
             class="input input-bordered input-sm w-full font-mono"
-            placeholder="路由，必须以 / 开头，例如 /report"
+            :placeholder="
+              form.menuType === 2
+                ? '完整地址，例如 http://tbs.internal/tbs/query'
+                : '路由，必须以 / 开头，例如 /report'
+            "
           />
           <select v-model.number="form.role" class="select select-bordered select-sm w-full">
             <option :value="0">所有人可见</option>
@@ -63,7 +77,13 @@
             </option>
           </select>
           <p class="text-xs text-base-content/50">
-            路由要对应前端已有页面（views/&lt;xxx&gt;.vue + router 注册），新建菜单不会自动生成页面。
+            <template v-if="form.menuType === 2">
+              外部页面用 iframe 加载，AI 跳转和菜单高亮都按 /frame/{id} 走，不用改前端代码；
+              目标站点若设了 X-Frame-Options: DENY 会显示空白，需要对方放行。
+            </template>
+            <template v-else>
+              路由要对应前端已有页面（views/&lt;xxx&gt;.vue + router 注册），新建菜单不会自动生成页面。
+            </template>
           </p>
         </div>
         <div class="modal-action">
@@ -100,7 +120,7 @@ const load = async () => {
 
 const openCreate = () => {
   Object.keys(form).forEach(k => delete form[k])
-  Object.assign(form, { role: 0 })
+  Object.assign(form, { role: 0, menuType: 1 })
   showModal.value = true
 }
 

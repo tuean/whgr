@@ -15,6 +15,7 @@ export const roleSave = data => request.post('/role/save', data)
 export const roleDelete = id => request.post('/role/delete', null, { params: { id } })
 
 export const menuAll = () => request.get('/menu/all')
+export const menuFrame = id => request.get(`/menu/frame/${id}`)
 export const menuSave = data => request.post('/menu/save', data)
 export const menuDelete = id => request.post('/menu/delete', null, { params: { id } })
 

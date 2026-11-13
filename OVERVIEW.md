@@ -124,6 +124,7 @@ curl -X POST http://127.0.0.1:7777/api/adminUser/login \
 | `/role/save` | POST | `@RequireRole(1)` | 新增/编辑角色（等级唯一、等级 1 内置不可改等级） |
 | `/role/delete?id=` | POST | `@RequireRole(1)` | 等级 1 或仍有账号在用时不可删 |
 | `/menu/all` | GET | `@RequireRole(1)` | 菜单管理页：全量菜单 |
+| `/menu/frame/{id}` | GET | 登录即可 | iframe 容器页取地址，按 `menus.role` 校验可见性（越权 403） |
 | `/menu/save` | POST | `@RequireRole(1)` | 新增/编辑菜单（路由必须以 `/` 开头） |
 | `/menu/delete?id=` | POST | `@RequireRole(1)` | `/ai` 是主入口，不可删 |
 | `/ai/chat` | POST | 需要 | `{message}` → **SSE** 事件流 |
@@ -194,7 +195,27 @@ B 端三件套，都在同一个权限模型里，不额外引入一套 RBAC 表
 
 **菜单管理** `/menu`：全量菜单列表 + 增删改（名称、路由、可见范围）。菜单就是前端路由白名单：加一条菜单只解决「谁能看到入口」，页面本身仍要在 `views/` + `router/index.js` 里存在。`/ai` 是登录后的主入口，禁止删除。
 
-## 7. 坑（改代码前先看）
+## 7. iframe 外部页面菜单（menu_type=2）
+
+老系统/外部服务不用重写前端，挂个菜单用 iframe 嵌进来。三个约定打通全部链路：
+
+| 位置 | 约定 |
+|---|---|
+| `menus.menu_type` | `1` 内部路由（`menu_url` 是 `/xxx`）；`2` 外部页面（`menu_url` 是完整 `http(s)://` 地址） |
+| `Menus.getPath()` | 唯一的 path 出口：`menu_type=2` → `/frame/{id}`，其余就是 `menu_url`。侧边菜单、路由守卫 `menuPaths`、AI 的 `list_menus`/`navigate` 白名单全用它 |
+| `GET /menu/frame/{id}` | 容器页取地址：登录即可，Service 再按 `menus.role` 校验可见性（越权回 403） |
+
+新增一个外部页面菜单：菜单管理页 → 类型选「外部页面」→ 填完整地址。**前端不用改代码**：`views/frame.vue` 是通用容器，路由 `/frame/:id` 已在 router 里注册，`navigate` 的 path 也自动进白名单。
+
+AI 打通到什么程度：`list_menus` 里 TBS 查询 的 path 就是 `/frame/10009`，模型 `navigate` 过去，前端跳容器 + 加载 iframe —— 已实测（「帮我打开 TBS 查询」→ action `/frame/10009`）。**还没做的**：进到外部系统二级页（深链）、在外部系统里执行动作（工具调用）。这两步要外部系统配合加一段 postMessage SDK：子应用上报 `routes`/`tools`，主应用把路由并进 AI 白名单、把工具并进 `toolDefs()`，工具结果经 `POST /ai/tool-result` 回填 agent loop（SSE 是单向下行）。外部系统完全不改代码时，只能停在「跳首页」。
+
+三个真实坑：
+
+1. **`X-Frame-Options: DENY` / `Content-Security-Policy: frame-ancestors`** —— 对方不允许被嵌就直接白屏，只能让对端放行本域名，没有前端解法。
+2. **第三方 cookie**：iframe 里是对端站点，它的登录态 cookie 在 Chrome 里默认受限（`SameSite=None; Secure` 才行），表现为「一直要重新登录」。
+3. **`sandbox` 里同时给 `allow-scripts` + `allow-same-origin` 对同源页面等于无沙箱**：只对外部域用；容器页已按需开 `allow-popups`/`allow-downloads`（老系统常要弹窗和下载）。
+
+## 8. 坑（改代码前先看）
 
 - **`SseEmitter.send` 发字符串，不发 `ObjectNode`**：项目 JSON 层由 Gson 处理，序列化 Jackson 节点会输出 `_children`/`_nodeFactory`。`/ai/history/{id}` 也返回 POJO + 原样字符串，前端 `JSON.parse`。
 - **`AuthAspect` 切点必须列全 6 种 Mapping 注解**：`@annotation(RequestMapping)` 不认 `@GetMapping/@PostMapping` 这类派生注解，漏了就是接口静默裸奔。
@@ -207,7 +228,7 @@ B 端三件套，都在同一个权限模型里，不额外引入一套 RBAC 表
 - `menus` 只按 `role` 过滤，没有按钮级权限（页面里靠 `role === 1` 隐藏写操作，属于展示层限定，真正的拦截在后端）。
 - 数据权限按「账号表自己这条」演示，接到业务表时要换成自己的归属字段。
 
-## 8. 已知待办
+## 9. 已知待办
 
 1. `/logout` 只清前端 token，服务端 token 不过期（`admin_token` 表没有过期清理）。
 2. AI 单轮对话，不带上文（追问「那这个页面怎么用」接不上）。
@@ -216,6 +237,7 @@ B 端三件套，都在同一个权限模型里，不额外引入一套 RBAC 表
 5. 没有自动化测试（后端 `src/test` 已清空），CI 未配。
 6. 数据库密码明文写在 `application.properties`，公网部署前必须换环境变量。
 7. 角色只有等级+数据范围，没有角色-菜单多对多关联表（菜单可见性仍是「等级 ≤ N」）。
+8. iframe 菜单只到「跳首页」，深链与跨系统工具调用未实现（见 7 节）；`sandbox` 组合按老系统需要放的比较宽松，接公网站点前要收紧。
 
 ---
 

@@ -89,7 +89,9 @@ insert into `menus` (menu_name, menu_type, menu_url, role) values
 ('工作台', 1, '/dashboard', 0),
 ('账号管理', 1, '/account', 0),
 ('角色管理', 1, '/role', 1),
-('菜单管理', 1, '/menu', 1);
+('菜单管理', 1, '/menu', 1),
+-- 外部页面示例（menu_type=2，前端用 iframe 容器 /frame/{id} 加载）：地址换成自己的 TBS 查询服务即可
+('TBS 查询', 2, 'http://localhost:8088/tbs/query', 0);
 
 -- AI 入口的问答与决策轨迹（回溯用）
 create table `ai_log` (
