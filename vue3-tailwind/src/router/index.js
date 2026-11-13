@@ -77,7 +77,10 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login' && token) return next('/')
 
   const allowed = allowedPaths()
-  if (!to.meta.public && allowed.length && !allowed.includes(to.path)) {
+  // /frame/{id} 是外部页面容器：可见性由后端 /menu/frame/{id} 校验（越权 403），
+  // 前端不再拦——否则菜单刚加时旧 sessionStorage 会把人挡在外面，看起来就是「报错」
+  const framePage = to.path.startsWith('/frame/')
+  if (!to.meta.public && !framePage && allowed.length && !allowed.includes(to.path)) {
     ElMessage.error('没有权限访问该页面')
     return next('/ai')
   }
